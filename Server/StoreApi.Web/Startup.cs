@@ -8,8 +8,8 @@ namespace StoreApi.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Serilog;
     using StoreApi.Data;
-    using StoreApi.Data.Models.Users;
     using System;
 
     public class Startup
@@ -28,10 +28,6 @@ namespace StoreApi.Web
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")))
                 .AddUserStorage()
-                .AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-            services
                 .AddTokenHandler(_configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddAutoMapper(this.GetType())
@@ -41,17 +37,17 @@ namespace StoreApi.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-            
+
             app
+               .UseHttpsRedirection()
+               .UseRouting()
                .UseCors(x => x
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                )
-               .UseHttpsRedirection()
-               .UseRouting()
+               .UseSerilogRequestLogging()
                .UseAuthentication()
-               .UseIdentityServer()
                .UseAuthorization()
                .UseEndpoints(endpoints => endpoints.MapControllers())
                .UseDataSeed(services, _configuration).Wait();

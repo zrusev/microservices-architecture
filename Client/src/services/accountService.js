@@ -5,7 +5,7 @@ export class AccountService {
     constructor() {
         this.serverBaseURL = serviceBaseURL;
         this.loginURL = `${this.serverBaseURL}/users/login`;
-        this.facebookLoginUrl = `${this.serverBaseURL}/externalauth/facebook/`;
+        this.facebookLoginUrl = `${this.serverBaseURL}/externalauth/facebook`;
         this.registerURL = `${this.serverBaseURL}/users/register`;
     }
 

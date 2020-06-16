@@ -2,6 +2,8 @@
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
+    using Models.Users;
+    using StoreApi.Data.Models.Users;
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
@@ -9,12 +11,10 @@
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
-    using StoreApi.Data.Models.Users;
-    using StoreApi.Web.Models.Users;
 
     public class Tokens
     {
-        public static async Task<TokenModel> GenerateJwtToken(ApplicationUser user, UserManager<ApplicationUser> _userManager, AppSettings _appSettings)
+        public static async Task<TokenModel> GenerateJwtToken(ApplicationUser user, UserManager<ApplicationUser> userManager, AppSettings appSettings)
         {
             var claims = new List<Claim>
             {
@@ -22,17 +22,17 @@
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await userManager.GetRolesAsync(user);
             claims.AddRange(roles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Issuer = _appSettings.Issuer,
-                Audience = _appSettings.Audience,
+                Issuer = appSettings.Issuer,
+                Audience = appSettings.Audience,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(_appSettings.Expiration),
+                Expires = DateTime.UtcNow.AddDays(appSettings.Expiration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

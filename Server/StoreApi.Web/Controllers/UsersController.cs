@@ -8,11 +8,11 @@
     using Microsoft.Extensions.Options;
     using Models;
     using Models.Users;
-    using System.Threading.Tasks;
     using StoreApi.Data.Models.Users;
     using StoreApi.Services;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    [Authorize]
     public class UsersController : ApplicationController
     {
         private readonly ILogger<UsersController> _logger;
@@ -48,9 +48,9 @@
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"User '{model.Email}' created a new account with password.");
-
                 await _userManager.AddToRoleAsync(user, WebConstants.UserRole);
+
+                _logger.LogInformation($"User '{model.Email}' with role {WebConstants.UserRole} created a new account.");
 
                 await _signInManager.SignInAsync(user, false);
 
@@ -68,6 +68,8 @@
 
             if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
             {
+                _logger.LogInformation($"Invalid email or password for user '{model.Email}'.");
+
                 return BadRequest(new
                 { 
                     errors = new IdentityError[]
@@ -86,15 +88,24 @@
             if (!result.Succeeded)
                 return Unauthorized();
 
-            _logger.LogInformation($"User '{model.Email}' logged in.");
+            _logger.LogInformation($"User '{model.Email}' successfully logged in.");
 
             return Ok(await Tokens.GenerateJwtToken(user, _userManager, _appSettings));
         }
 
         [HttpGet]
-        [Authorize(Roles = WebConstants.UserRole)]
+        [Authorize(Roles = WebConstants.AdministratorRole)]
         public ActionResult GetAll()
         {
+            var claims = HttpContext.User.Claims
+                .Select(c =>
+                new 
+                {
+                    Type = c.Type,
+                    Value = c.Value
+                })
+                .ToList();
+
             var users = _userService.Users();
             
             return Ok(users);
