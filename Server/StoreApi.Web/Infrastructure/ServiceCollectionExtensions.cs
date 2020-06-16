@@ -1,13 +1,21 @@
 ﻿namespace StoreApi.Web.Infrastructure
 {
+    using Helpers;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System.Linq;
+    using Microsoft.IdentityModel.Tokens;
+    using StoreApi.Data;
+    using StoreApi.Data.Models.Users;
     using StoreApi.Services.Common;
+    using System.Linq;
+    using System.Text;
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddConventionalServices(
-            this IServiceCollection services)
+        public static IServiceCollection AddConventionalServices(this IServiceCollection services)
         {
             var serviceInterfaceType = typeof(IService);
             var singletonServiceInterfaceType = typeof(ISingletonService);
@@ -38,6 +46,55 @@
                     services.AddScoped(type.Service, type.Implementation);
                 }
             }
+
+            return services;
+        }
+
+        public static IServiceCollection AddUserStorage(this IServiceCollection services)
+        {
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddTokenHandler(this IServiceCollection services, IConfigurationSection appSettingsSection)
+        {
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddIdentityServerJwt()
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = appSettings.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = appSettings.Audience,
+                    ValidateLifetime = true
+                };
+            });
 
             return services;
         }
