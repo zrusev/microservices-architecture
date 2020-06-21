@@ -1,7 +1,7 @@
 ﻿namespace Customer.Services
 {
-    using StoreApi.Services;
     using Models;
+    using StoreApi.Services;
     using System.Collections.Generic;
 
     public interface IProductService: IScopedService

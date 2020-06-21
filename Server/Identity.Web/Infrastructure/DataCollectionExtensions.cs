@@ -11,10 +11,12 @@
 
     public static class DataCollectionExtensions
     {
-        public static async Task UseDataSeed(this IApplicationBuilder app, IServiceProvider serviceProvider, IConfiguration configuration)
+        public static async Task UseDataSeed(this IApplicationBuilder app,
+            IServiceProvider serviceProvider,
+            IConfiguration configuration)
         {
-            var _roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var _userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             var roles = new[]
             {
@@ -26,17 +28,17 @@
             IdentityResult roleResult;
             foreach (var role in roles)
             {
-                var roleCheck = await _roleManager.RoleExistsAsync(role);
+                var roleCheck = await roleManager.RoleExistsAsync(role);
                 if (!roleCheck)
                 {
-                    roleResult = await _roleManager.CreateAsync(new IdentityRole(role));
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
 
             var adminEmail = configuration.GetValue<string>("AdminCredentials:Email");
             var adminPassword = configuration.GetValue<string>("AdminCredentials:Password");
 
-            var adminUser = await _userManager.FindByEmailAsync(adminEmail);
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)
             {
@@ -46,13 +48,10 @@
                     UserName = adminEmail
                 };
 
-                await _userManager.CreateAsync(adminUser, adminPassword);
+                await userManager.CreateAsync(adminUser, adminPassword);
 
-                await _userManager.AddToRolesAsync(adminUser, new[]
-                    {
-                        WebConstants.UserRole,
-                        WebConstants.AdministratorRole
-                    });
+                await userManager.AddToRolesAsync(adminUser,
+                    new[] { WebConstants.UserRole, WebConstants.AdministratorRole });
             }
         }
     }

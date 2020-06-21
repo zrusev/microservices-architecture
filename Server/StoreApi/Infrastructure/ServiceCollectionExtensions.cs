@@ -30,15 +30,15 @@
 
             foreach (var type in types)
             {
-                if(serviceInterfaceType.IsAssignableFrom(type.Service))
+                if (serviceInterfaceType.IsAssignableFrom(type.Service))
                 {
                     services.AddTransient(type.Service, type.Implementation);
                 }
-                else if(singletonServiceInterfaceType.IsAssignableFrom(type.Service))
+                else if (singletonServiceInterfaceType.IsAssignableFrom(type.Service))
                 {
                     services.AddSingleton(type.Service, type.Implementation);
                 }
-                else if(scopedServiceInterfaceType.IsAssignableFrom(type.Service))
+                else if (scopedServiceInterfaceType.IsAssignableFrom(type.Service))
                 {
                     services.AddScoped(type.Service, type.Implementation);
                 }

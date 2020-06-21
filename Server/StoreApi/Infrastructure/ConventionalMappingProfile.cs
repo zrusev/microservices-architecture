@@ -18,7 +18,7 @@
             var modelRegistrations = AppDomain
                  .CurrentDomain
                  .GetAssemblies()
-                 .Where(a => a.GetName().Name.StartsWith(projectName.Replace("Web", String.Empty)))
+                 .Where(a => a.GetName().Name.StartsWith(projectName.Replace("Web", string.Empty)))
                  .SelectMany(a => a.GetExportedTypes())
                  .Where(t => t.IsClass && !t.IsAbstract)
                  .Select(t => new
@@ -34,18 +34,17 @@
 
             foreach (var modelRegistration in modelRegistrations)
             {
-                if(modelRegistration.MapFrom != null)
+                if (modelRegistration.MapFrom != null)
                 {
                     this.CreateMap(modelRegistration.MapFrom, modelRegistration.Type);
                 }
 
-                if(modelRegistration.MapTo != null)
+                if (modelRegistration.MapTo != null)
                 {
                     this.CreateMap(modelRegistration.Type, modelRegistration.MapTo);
                 }
 
                 modelRegistration.ExplicitMap?.RegisterMappings(this);
-
             }
         }
 

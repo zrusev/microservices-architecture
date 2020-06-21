@@ -18,8 +18,7 @@
                    .UseCors(x => x
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                   )
+                        .AllowAnyHeader())
                    .UseAuthentication()
                    .UseAuthorization()
                    .UseEndpoints(endpoints => endpoints.MapControllers());
@@ -27,12 +26,14 @@
 
         public static IApplicationBuilder Initialize(this IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.CreateScope();
-            var serviceProvider = serviceScope.ServiceProvider;
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            { 
+                var serviceProvider = serviceScope.ServiceProvider;
 
-            var db = serviceProvider.GetRequiredService<DbContext>();
+                var db = serviceProvider.GetRequiredService<DbContext>();
 
-            db.Database.Migrate();
+                db.Database.Migrate();
+            }
 
             return app;
         }

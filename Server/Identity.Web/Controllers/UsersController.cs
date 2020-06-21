@@ -2,7 +2,6 @@
 {
     using Data.Models.Users;
     using Helpers;
-    using Identity.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -10,6 +9,7 @@
     using Microsoft.Extensions.Options;
     using Models;
     using Models.Users;
+    using Services.Contracts.User;
     using StoreApi;
     using StoreApi.Models;
     using System.Linq;
@@ -17,11 +17,11 @@
 
     public class UsersController : ApplicationController
     {
-        private readonly ILogger<UsersController> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AppSettings _appSettings;
-        private readonly IUserService _userService;
+        private readonly ILogger<UsersController> logger;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly AppSettings appSettings;
+        private readonly IUserService userService;
 
         public UsersController(ILogger<UsersController> logger,
                                UserManager<ApplicationUser> userManager, 
@@ -29,11 +29,11 @@
                                IOptions<AppSettings> appSettings,
                                IUserService userService)
         {
-            _logger = logger;
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _appSettings = appSettings.Value;
-            _userService = userService;
+            this.logger = logger;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.appSettings = appSettings.Value;
+            this.userService = userService;
         }
 
         [AllowAnonymous]
@@ -46,17 +46,17 @@
                 Email = model.Email,
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await this.userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, WebConstants.UserRole);
+                await this.userManager.AddToRoleAsync(user, WebConstants.UserRole);
 
-                _logger.LogInformation($"User '{model.Email}' with role {WebConstants.UserRole} created a new account.");
+                this.logger.LogInformation($"User '{model.Email}' with role {WebConstants.UserRole} created a new account.");
 
-                await _signInManager.SignInAsync(user, false);
+                await this.signInManager.SignInAsync(user, false);
 
-                return Ok(await Tokens.GenerateJwtToken(user, _userManager, _appSettings));
+                return Ok(await Tokens.GenerateJwtToken(user, this.userManager, this.appSettings));
             }
 
             return BadRequest(result);
@@ -66,11 +66,11 @@
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await this.userManager.FindByEmailAsync(model.Email);
 
-            if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
+            if (user == null || !(await this.userManager.CheckPasswordAsync(user, model.Password)))
             {
-                _logger.LogInformation($"Invalid email or password for user '{model.Email}'.");
+                this.logger.LogInformation($"Invalid email or password for user '{model.Email}'.");
 
                 return BadRequest(new
                 { 
@@ -85,14 +85,14 @@
                 });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+            var result = await this.signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
             if (!result.Succeeded)
                 return Unauthorized();
 
-            _logger.LogInformation($"User '{model.Email}' successfully logged in.");
+            this.logger.LogInformation($"User '{model.Email}' successfully logged in.");
 
-            return Ok(await Tokens.GenerateJwtToken(user, _userManager, _appSettings));
+            return Ok(await Tokens.GenerateJwtToken(user, this.userManager, this.appSettings));
         }
 
         [HttpGet]
@@ -108,7 +108,7 @@
                 })
                 .ToList();
 
-            var users = _userService.Users();
+            var users = this.userService.Users();
             
             return Ok(users);
         }

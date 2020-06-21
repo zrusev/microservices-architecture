@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
+    using Models.Facebook.ApiResponses;
     using Models.Users;
     using Newtonsoft.Json;
     using StoreApi.Models;
@@ -16,21 +17,21 @@
 
     public class ExternalAuthController : ApplicationController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly AppSettings _appSettings;
         private static readonly HttpClient Client = new HttpClient();
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly AppSettings appSettings;
 
         public ExternalAuthController(UserManager<ApplicationUser> userManager,
                                       IOptions<AppSettings> appSettings)
         {
-            _userManager = userManager;
-            _appSettings = appSettings.Value;
+            this.userManager = userManager;
+            this.appSettings = appSettings.Value;
         }
 
         [HttpPost("facebook")]
         public async Task<ActionResult> Facebook(FacebookAuthViewModel model)
         {
-            var appAccessTokenResponse = await Client.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={_appSettings.FbAppId}&client_secret={_appSettings.FbAppSecret}&grant_type=client_credentials");
+            var appAccessTokenResponse = await Client.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={this.appSettings.FbAppId}&client_secret={this.appSettings.FbAppSecret}&grant_type=client_credentials");
             var appAccessToken = JsonConvert.DeserializeObject<FacebookAppAccessToken>(appAccessTokenResponse);
 
             var userAccessTokenValidationResponse = await Client.GetStringAsync($"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
@@ -44,7 +45,7 @@
             var userInfoResponse = await Client.GetStringAsync($"https://graph.facebook.com/v5.0/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={model.AccessToken}");
             var userInfo = JsonConvert.DeserializeObject<FacebookUserData>(userInfoResponse);
 
-            var user = await _userManager.FindByEmailAsync(userInfo.Email);
+            var user = await this.userManager.FindByEmailAsync(userInfo.Email);
 
             if (user == null)
             {
@@ -54,11 +55,12 @@
                     UserName = userInfo.Email,
                 };
 
-                var result = await _userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
+                var result = await this.userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
                 
                 if (!result.Succeeded) return new BadRequestObjectResult(result);
                 
-                await _userManager.AddClaimsAsync(appUser, new List<Claim>()
+                await this.userManager.AddClaimsAsync(appUser,
+                    new List<Claim>()
                 {
                     new Claim("FirstName", userInfo.FirstName),
                     new Claim("LastName", userInfo.LastName),
@@ -70,14 +72,14 @@
                 //await _appDbContext.SaveChangesAsync();
             }
 
-            var localUser = await _userManager.FindByEmailAsync(userInfo.Email);
+            var localUser = await this.userManager.FindByEmailAsync(userInfo.Email);
 
             if (localUser == null)
             {
                 return BadRequest("Failed to create local user account.");
             }
 
-            var jwt = await Tokens.GenerateJwtToken(localUser, _userManager, _appSettings);
+            var jwt = await Tokens.GenerateJwtToken(localUser, this.userManager, this.appSettings);
 
             return new OkObjectResult(jwt);
         }

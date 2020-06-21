@@ -1,5 +1,6 @@
-﻿namespace Identity.Services
+﻿namespace Identity.Services.Implementations.User
 {
+    using Contracts.User;
     using Data;
     using Models.User;
     using System.Collections.Generic;
@@ -7,20 +8,20 @@
 
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext db;
+
         public UserService(ApplicationDbContext db)
         {
-            _db = db;
+            this.db = db;
         }
 
         public IEnumerable<UserServiceModel> Users()
-            => _db
+            => this.db
                 .Users
                 .Select(u => new UserServiceModel
                 {
                     Email = u.Email
                 })
                 .ToList();
-        
     }
 }

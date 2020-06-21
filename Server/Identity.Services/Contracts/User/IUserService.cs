@@ -1,4 +1,4 @@
-﻿namespace Identity.Services
+﻿namespace Identity.Services.Contracts.User
 {
     using Models.User;
     using StoreApi.Services;

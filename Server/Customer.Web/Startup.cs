@@ -13,19 +13,19 @@ namespace Customer.Web
 
     public class Startup
     {
-        private IConfiguration _configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            this.Configuration = configuration;
         }
+
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddCors()
-                .AddDatabase<CustomerDbContext>(_configuration)
-                .AddTokenHandler(_configuration.GetSection("AppSettings"))
+                .AddDatabase<CustomerDbContext>(this.Configuration)
+                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddAutoMapper(this.GetType())
                 .AddControllers();

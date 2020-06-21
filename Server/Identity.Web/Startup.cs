@@ -14,20 +14,20 @@ namespace Identity.Web
 
     public class Startup
     {
-        private IConfiguration _configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            this.Configuration = configuration;
         }
+     
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddCors()
-                .AddDatabase<ApplicationDbContext>(_configuration)
+                .AddDatabase<ApplicationDbContext>(this.Configuration)
                 .AddUserStorage()
-                .AddTokenHandler(_configuration.GetSection("AppSettings"))
+                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddAutoMapper(this.GetType())
                 .AddControllers();
@@ -41,7 +41,7 @@ namespace Identity.Web
                .UseWebService(env)
                .UseSerilogRequestLogging()
                .Initialize()
-               .UseDataSeed(services, _configuration).Wait();
+               .UseDataSeed(services, this.Configuration).Wait();
         }
     }
 }

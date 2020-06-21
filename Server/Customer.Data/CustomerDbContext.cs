@@ -1,8 +1,8 @@
 ﻿namespace Customer.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using Models.Customers;
     using Models.Products;
-    using Microsoft.EntityFrameworkCore;
 
     public class CustomerDbContext : DbContext
     {

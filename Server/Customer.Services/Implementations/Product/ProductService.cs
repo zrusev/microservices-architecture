@@ -7,15 +7,15 @@
 
     public class ProductService : IProductService
     {
-        private readonly CustomerDbContext _db;
+        private readonly CustomerDbContext db;
 
         public ProductService(CustomerDbContext db)
         {
-            _db = db;
+            this.db = db;
         }
 
         IEnumerable<ProductServiceModel> IProductService.Products()
-            => _db
+            => this.db
                 .Products
                 .Select(u => new ProductServiceModel
                 {
