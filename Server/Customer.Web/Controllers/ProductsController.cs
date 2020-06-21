@@ -1,6 +1,6 @@
 ﻿namespace Customer.Web.Controllers
 {
-    public class ProductsController : CustomerController
+    public class ProductsController : CustomersController
     {
     }
 }

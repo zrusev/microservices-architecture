@@ -2,6 +2,7 @@
 {
 
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
@@ -46,6 +47,13 @@
 
             return services;
         }
+
+        public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+            where TDbContext : DbContext
+                => services
+                    .AddScoped<DbContext, TDbContext>()
+                    .AddDbContext<TDbContext>(options => options
+                        .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, IConfigurationSection appSettingsSection)
         {

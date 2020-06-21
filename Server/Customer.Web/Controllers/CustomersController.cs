@@ -4,7 +4,7 @@
 
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomersController : ControllerBase
     {
     }
 }

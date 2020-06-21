@@ -5,7 +5,6 @@ namespace Identity.Web
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -26,8 +25,7 @@ namespace Identity.Web
         {
             services
                 .AddCors()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")))
+                .AddDatabase<ApplicationDbContext>(_configuration)
                 .AddUserStorage()
                 .AddTokenHandler(_configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
@@ -40,17 +38,9 @@ namespace Identity.Web
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app
-               .UseHttpsRedirection()
-               .UseRouting()
-               .UseCors(x => x
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-               )
+               .UseWebService(env)
                .UseSerilogRequestLogging()
-               .UseAuthentication()
-               .UseAuthorization()
-               .UseEndpoints(endpoints => endpoints.MapControllers())
+               .Initialize()
                .UseDataSeed(services, _configuration).Wait();
         }
     }
