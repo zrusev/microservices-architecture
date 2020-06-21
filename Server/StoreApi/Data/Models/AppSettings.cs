@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Helpers
+﻿namespace StoreApi.Models
 {
     public class AppSettings
     {

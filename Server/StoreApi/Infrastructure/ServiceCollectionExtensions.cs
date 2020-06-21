@@ -1,13 +1,12 @@
 ﻿namespace StoreApi.Infrastructure
 {
-
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Services;
-    using StoreApi.Helpers;
+    using StoreApi.Models;
     using System.Linq;
     using System.Text;
 

@@ -1,9 +1,9 @@
-﻿namespace StoreApi.Helpers
+﻿namespace Identity.Web.Helpers
 {
+    using Identity.Data.Models.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
-    using Models.Users;
-    using Identity.Data.Models.Users;
+    using StoreApi.Models;
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;

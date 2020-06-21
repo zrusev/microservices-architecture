@@ -1,6 +1,7 @@
 ﻿namespace Identity.Web.Controllers
 {
     using Data.Models.Users;
+    using Helpers;
     using Identity.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@
     using Models;
     using Models.Users;
     using StoreApi;
-    using StoreApi.Helpers;
+    using StoreApi.Models;
     using System.Linq;
     using System.Threading.Tasks;
 

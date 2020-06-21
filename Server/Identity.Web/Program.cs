@@ -1,47 +1,18 @@
 namespace Identity.Web
 {
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
-    using Serilog;
-    using System;
+    using StoreApi.Helpers;
 
     public class Program
     {
         public static void Main(string[] args)
-        {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile($"serilogsettings.{env}.json")
-                .Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-
-            try
-            {
-                Log.Information($"Application started up in {env} environment.");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "The application failed to start correctly.");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
+            => Logger.Register(CreateHostBuilder(args));
 
         public static IHostBuilder CreateHostBuilder(string[] args)
             => Host
                 .CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .UseLogger()
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
     }
 }

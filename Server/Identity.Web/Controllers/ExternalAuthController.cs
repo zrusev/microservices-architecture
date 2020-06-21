@@ -1,12 +1,13 @@
 ﻿namespace Identity.Web.Controllers
 {
     using Data.Models.Users;
+    using Helpers;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
     using Models.Users;
     using Newtonsoft.Json;
-    using StoreApi.Helpers;
+    using StoreApi.Models;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
