@@ -9,7 +9,7 @@ namespace Identity.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Serilog;
-    using StoreApi.Infrastructure;
+    using StoreApi.Web.Infrastructure;
     using System;
 
     public class Startup

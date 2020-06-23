@@ -1,5 +1,6 @@
-﻿namespace Customer.Services
+﻿namespace Customer.Services.Implementations
 {
+    using Contracts;
     using Customer.Data;
     using Models;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Infrastructure
+﻿namespace StoreApi.Web.Infrastructure
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;

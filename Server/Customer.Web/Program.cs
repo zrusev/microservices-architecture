@@ -2,7 +2,7 @@ namespace Customer.Web
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
-    using StoreApi.Helpers;
+    using StoreApi.Services.Helpers;
 
     public class Program
     {

@@ -1,7 +1,7 @@
-﻿namespace Identity.Web.Infrastructure
+﻿namespace StoreApi.Web.Infrastructure
 {
-    using Identity.Services.Helpers;
     using Microsoft.AspNetCore.Mvc;
+    using Services.Helpers;
 
     public static class QueryResultExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Infrastructure
+﻿namespace StoreApi.Web.Infrastructure
 {
     using AutoMapper;
     using StoreApi.Services.Contracts.Mapping;

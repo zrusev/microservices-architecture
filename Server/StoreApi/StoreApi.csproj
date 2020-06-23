@@ -17,5 +17,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Identity.Data\Identity.Data.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Services\Helpers\QueryResult.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+      <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>
+    </Compile>
+  </ItemGroup>
   
 </Project>

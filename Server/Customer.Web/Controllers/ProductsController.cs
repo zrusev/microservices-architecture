@@ -1,6 +1,8 @@
 ﻿namespace Customer.Web.Controllers
 {
-    public class ProductsController : CustomersController
+    using StoreApi.Web.Controllers;
+
+    public class ProductsController : ApplicationController
     {
     }
 }

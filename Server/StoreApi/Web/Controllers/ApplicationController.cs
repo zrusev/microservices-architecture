@@ -1,4 +1,4 @@
-﻿namespace Identity.Web.Controllers
+﻿namespace StoreApi.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

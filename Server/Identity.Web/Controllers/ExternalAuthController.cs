@@ -2,9 +2,10 @@
 {
     using Identity.Services.Contracts.User;
     using Identity.Services.Models.Facebook;
-    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using StoreApi.Web.Controllers;
+    using StoreApi.Web.Infrastructure;
     using System.Threading.Tasks;
 
     public class ExternalAuthController : ApplicationController

@@ -1,9 +1,9 @@
 ﻿namespace Identity.Services.Contracts.User
 {
-    using Helpers;
     using Models.Facebook;
     using Models.User;
     using StoreApi.Services.Contracts.Services;
+    using StoreApi.Services.Helpers;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

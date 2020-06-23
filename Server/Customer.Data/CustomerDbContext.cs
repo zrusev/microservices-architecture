@@ -1,8 +1,8 @@
 ﻿namespace Customer.Data
 {
     using Microsoft.EntityFrameworkCore;
-    using Models.Customers;
-    using Models.Products;
+    using Models;
+    using System.Reflection;
 
     public class CustomerDbContext : DbContext
     {
@@ -17,6 +17,8 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
             base.OnModelCreating(builder);
         }
     }

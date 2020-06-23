@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Helpers
+﻿namespace StoreApi.Services.Helpers
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;

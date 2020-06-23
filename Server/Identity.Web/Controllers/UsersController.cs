@@ -2,7 +2,6 @@
 {
     using Data.Models.Users;
     using Identity.Services.Models.User;
-    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -10,6 +9,8 @@
     using Services.Contracts.User;
     using StoreApi;
     using StoreApi.Models;
+    using StoreApi.Web.Controllers;
+    using StoreApi.Web.Infrastructure;
     using System.Linq;
     using System.Threading.Tasks;
 

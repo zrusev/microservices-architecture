@@ -9,11 +9,4 @@
     <ProjectReference Include="..\StoreApi\StoreApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Helpers\QueryResult.cs">
-      <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-  </ItemGroup>
-
 </Project>
