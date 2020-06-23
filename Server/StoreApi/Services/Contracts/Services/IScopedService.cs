@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Services
+﻿namespace StoreApi.Services.Contracts.Services
 {
     public interface IScopedService
     {

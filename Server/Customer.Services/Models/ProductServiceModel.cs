@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Data.Models.Products;
-    using StoreApi.Mapping;
+    using StoreApi.Services.Contracts.Mapping;
 
     public class ProductServiceModel: IMapFrom<Product>, IMapExplicitly
     {

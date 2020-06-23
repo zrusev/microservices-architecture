@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Mapping
+﻿namespace StoreApi.Services.Contracts.Mapping
 {
     using AutoMapper;
 

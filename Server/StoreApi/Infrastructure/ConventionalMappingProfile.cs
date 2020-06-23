@@ -1,7 +1,7 @@
-﻿namespace Customer.Web.Infrastructure
+﻿namespace StoreApi.Infrastructure
 {
     using AutoMapper;
-    using StoreApi.Mapping;
+    using StoreApi.Services.Contracts.Mapping;
     using System;
     using System.Linq;
     using System.Reflection;

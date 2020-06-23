@@ -1,87 +1,25 @@
 ﻿namespace Identity.Web.Controllers
 {
-    using Data.Models.Users;
-    using Helpers;
-    using Microsoft.AspNetCore.Identity;
+    using Identity.Services.Contracts.User;
+    using Identity.Services.Models.Facebook;
+    using Infrastructure;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Options;
-    using Models.Facebook.ApiResponses;
-    using Models.Users;
-    using Newtonsoft.Json;
-    using StoreApi.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class ExternalAuthController : ApplicationController
     {
-        private static readonly HttpClient Client = new HttpClient();
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly AppSettings appSettings;
+        private readonly IUserService userService;
 
-        public ExternalAuthController(UserManager<ApplicationUser> userManager,
-                                      IOptions<AppSettings> appSettings)
+        public ExternalAuthController(IUserService userService)
         {
-            this.userManager = userManager;
-            this.appSettings = appSettings.Value;
+            this.userService = userService;
         }
 
-        [HttpPost("facebook")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route(nameof(Facebook))]
         public async Task<ActionResult> Facebook(FacebookAuthViewModel model)
-        {
-            var appAccessTokenResponse = await Client.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={this.appSettings.FbAppId}&client_secret={this.appSettings.FbAppSecret}&grant_type=client_credentials");
-            var appAccessToken = JsonConvert.DeserializeObject<FacebookAppAccessToken>(appAccessTokenResponse);
-
-            var userAccessTokenValidationResponse = await Client.GetStringAsync($"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
-            var userAccessTokenValidation = JsonConvert.DeserializeObject<FacebookUserAccessTokenValidation>(userAccessTokenValidationResponse);
-
-            if (!userAccessTokenValidation.Data.IsValid)
-            {
-                return BadRequest("Invalid facebook token.");
-            }
-
-            var userInfoResponse = await Client.GetStringAsync($"https://graph.facebook.com/v5.0/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={model.AccessToken}");
-            var userInfo = JsonConvert.DeserializeObject<FacebookUserData>(userInfoResponse);
-
-            var user = await this.userManager.FindByEmailAsync(userInfo.Email);
-
-            if (user == null)
-            {
-                var appUser = new ApplicationUser
-                {
-                    Email = userInfo.Email,
-                    UserName = userInfo.Email,
-                };
-
-                var result = await this.userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
-                
-                if (!result.Succeeded) return new BadRequestObjectResult(result);
-                
-                await this.userManager.AddClaimsAsync(appUser,
-                    new List<Claim>()
-                {
-                    new Claim("FirstName", userInfo.FirstName),
-                    new Claim("LastName", userInfo.LastName),
-                    new Claim("FacebookId", userInfo.Id.ToString()),
-                    new Claim("PictureUrl1", userInfo.Picture.Data.Url)
-                });
-                
-                //await _appDbContext.Customers.AddAsync(new Customer { IdentityId = appUser.Id, Location = "", Locale = userInfo.Locale, Gender = userInfo.Gender });
-                //await _appDbContext.SaveChangesAsync();
-            }
-
-            var localUser = await this.userManager.FindByEmailAsync(userInfo.Email);
-
-            if (localUser == null)
-            {
-                return BadRequest("Failed to create local user account.");
-            }
-
-            var jwt = await Tokens.GenerateJwtToken(localUser, this.userManager, this.appSettings);
-
-            return new OkObjectResult(jwt);
-        }
+            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.LoginWithFacebook(model));
     }
 }

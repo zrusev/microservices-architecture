@@ -1,14 +1,12 @@
 ﻿namespace Identity.Web.Controllers
 {
     using Data.Models.Users;
-    using Helpers;
+    using Identity.Services.Models.User;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Models;
-    using Models.Users;
     using Services.Contracts.User;
     using StoreApi;
     using StoreApi.Models;
@@ -17,19 +15,16 @@
 
     public class UsersController : ApplicationController
     {
-        private readonly ILogger<UsersController> logger;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly AppSettings appSettings;
         private readonly IUserService userService;
 
-        public UsersController(ILogger<UsersController> logger,
-                               UserManager<ApplicationUser> userManager, 
+        public UsersController(UserManager<ApplicationUser> userManager, 
                                SignInManager<ApplicationUser> signInManager,
                                IOptions<AppSettings> appSettings,
                                IUserService userService)
         {
-            this.logger = logger;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.appSettings = appSettings.Value;
@@ -37,63 +32,16 @@
         }
 
         [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterModel model)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-            };
-
-            var result = await this.userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                await this.userManager.AddToRoleAsync(user, WebConstants.UserRole);
-
-                this.logger.LogInformation($"User '{model.Email}' with role {WebConstants.UserRole} created a new account.");
-
-                await this.signInManager.SignInAsync(user, false);
-
-                return Ok(await Tokens.GenerateJwtToken(user, this.userManager, this.appSettings));
-            }
-
-            return BadRequest(result);
-        }
+        [HttpPost]
+        [Route(nameof(Register))]
+        public async Task<IActionResult> Register(UserInputModel model)
+            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.Register(model));
 
         [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginModel model)
-        {
-            var user = await this.userManager.FindByEmailAsync(model.Email);
-
-            if (user == null || !(await this.userManager.CheckPasswordAsync(user, model.Password)))
-            {
-                this.logger.LogInformation($"Invalid email or password for user '{model.Email}'.");
-
-                return BadRequest(new
-                { 
-                    errors = new IdentityError[]
-                    {
-                        new IdentityError()
-                        {
-                            Code = "CredentialsError",
-                            Description = "Invalid email or password"
-                        },
-                    }               
-                });
-            }
-
-            var result = await this.signInManager.PasswordSignInAsync(user, model.Password, true, false);
-
-            if (!result.Succeeded)
-                return Unauthorized();
-
-            this.logger.LogInformation($"User '{model.Email}' successfully logged in.");
-
-            return Ok(await Tokens.GenerateJwtToken(user, this.userManager, this.appSettings));
-        }
+        [HttpPost]
+        [Route(nameof(Login))]
+        public async Task<IActionResult> Login(UserInputModel model)
+            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.Login(model));
 
         [HttpGet]
         [Authorize(Roles = WebConstants.AdministratorRole)]

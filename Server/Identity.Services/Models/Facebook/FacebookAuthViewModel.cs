@@ -1,4 +1,4 @@
-﻿namespace Identity.Web.Models.Users
+﻿namespace Identity.Services.Models.Facebook
 {
     public class FacebookAuthViewModel
     {

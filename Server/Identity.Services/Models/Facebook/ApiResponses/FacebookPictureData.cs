@@ -1,4 +1,4 @@
-﻿namespace Identity.Web.Models.Facebook.ApiResponses
+﻿namespace Identity.Services.Models.Facebook.ApiResponses
 {
     public class FacebookPictureData
     {

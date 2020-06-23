@@ -1,4 +1,4 @@
-﻿namespace Identity.Web.Helpers
+﻿namespace Identity.Services.Helpers
 {
     using Identity.Data.Models.Users;
     using Microsoft.AspNetCore.Identity;

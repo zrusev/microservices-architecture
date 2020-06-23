@@ -1,11 +1,12 @@
-﻿namespace Identity.Web.Models
+﻿namespace Identity.Services.Models.User
 {
     using System.ComponentModel.DataAnnotations;
-
-    public class AuthenticateModel
+    
+    public class UserInputModel
     {
         [Required]
-        public string Username { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public string Password { get; set; }

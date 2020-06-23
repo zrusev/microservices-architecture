@@ -1,7 +1,7 @@
 ﻿namespace Identity.Services.Models.User
 {
     using Data.Models.Users;
-    using StoreApi.Mapping;
+    using StoreApi.Services.Contracts.Mapping;
 
     public class UserServiceModel: IMapFrom<ApplicationUser>
     {

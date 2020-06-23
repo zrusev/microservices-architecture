@@ -5,9 +5,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using Services;
-    using StoreApi.Models;
+    using Models;
+    using StoreApi.Services.Contracts.Services;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     public static class ServiceCollectionExtensions
@@ -18,15 +19,28 @@
             var singletonServiceInterfaceType = typeof(ISingletonService);
             var scopedServiceInterfaceType = typeof(IScopedService);
 
-            var types = serviceInterfaceType
-                .Assembly
+            var callingAsseblyDomainName = Assembly
+                .GetCallingAssembly()
+                .GetName()
+                .Name
+                .Replace("Web", string.Empty);
+
+            var serviceAssemblyName = Assembly
+                .GetCallingAssembly()
+                .GetReferencedAssemblies()
+                .Where(a => a.FullName.Contains(callingAsseblyDomainName + "Services"))
+                .FirstOrDefault();
+
+            var types = Assembly
+                .Load(serviceAssemblyName)
                 .GetExportedTypes()
                 .Where(t => t.IsClass && !t.IsAbstract)
                 .Select(t => new
                 {
                     Service = t.GetInterface($"I{t.Name}"),
                     Implementation = t
-                });
+                })
+                .Where(t => t.Service != null);
 
             foreach (var type in types)
             {
