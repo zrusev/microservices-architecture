@@ -22,8 +22,13 @@
 
                 var db = serviceProvider.GetRequiredService<CustomerDbContext>();
 
-                SeedProducts products = ReadData();
+                if (!File.Exists(DATAPATH))
+                {
+                    return app;
+                }
 
+                SeedProducts products = ReadData();
+                
                 if (!db.Categories.Any())
                 {
                     foreach (var category in GetCategories(products))
