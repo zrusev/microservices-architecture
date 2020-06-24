@@ -40,7 +40,7 @@ namespace Identity.Web
             app
                .UseWebService(env)
                .UseSerilogRequestLogging()
-               .Initialize()
+               .UseInitializer()
                .UseDataSeed(services, this.Configuration).Wait();
         }
     }

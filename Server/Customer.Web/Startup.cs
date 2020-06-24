@@ -2,6 +2,7 @@ namespace Customer.Web
 {
     using AutoMapper;
     using Customer.Data;
+    using Customer.Web.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -38,7 +39,8 @@ namespace Customer.Web
             app
                .UseWebService(env)
                .UseSerilogRequestLogging()
-               .Initialize();
+               .UseInitializer()
+               .UseDataSeed();
         }
     }
 }

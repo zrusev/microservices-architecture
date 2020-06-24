@@ -23,6 +23,8 @@
         [Route(nameof(Create))]
         public async Task<IActionResult> Create(CreateCustomerInputModel model)
             => QueryResultExtensions.ToActionResult(
-                await this.customerService.CreateCustomer(model, User.GetNameIdentifier()));
+                await this.customerService.CreateCustomer(model,
+                    User.GetNameIdentifier(),
+                    User.GetEmail()));
     }
 }

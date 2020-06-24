@@ -22,7 +22,7 @@
             builder
                 .Property(p => p.Description)
                 .IsRequired()
-                .HasMaxLength(MaxModelLength);
+                .HasColumnType("text");
 
             builder
                 .Property(c => c.Url)

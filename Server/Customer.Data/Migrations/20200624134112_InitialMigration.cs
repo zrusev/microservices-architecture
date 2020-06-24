@@ -2,23 +2,23 @@
 namespace Customer.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
-
+    
     public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: false),
-                    Description = table.Column<string>(maxLength: 1000, nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -27,10 +27,11 @@ namespace Customer.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(maxLength: 20, nullable: false),
-                    LastName = table.Column<string>(maxLength: 20, nullable: false),
-                    Address1 = table.Column<string>(maxLength: 50, nullable: true),
-                    Address2 = table.Column<string>(maxLength: 50, nullable: true),
+                    Email = table.Column<string>(maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(maxLength: 100, nullable: false),
+                    Address1 = table.Column<string>(maxLength: 100, nullable: true),
+                    Address2 = table.Column<string>(maxLength: 100, nullable: true),
                     PhoneNumber = table.Column<string>(maxLength: 20, nullable: false),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -40,16 +41,16 @@ namespace Customer.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Manufacturer",
+                name: "Manufacturers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Manufacturer", x => x.Id);
+                    table.PrimaryKey("PK_Manufacturers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,8 +59,8 @@ namespace Customer.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: false),
-                    Description = table.Column<string>(maxLength: 20, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Url = table.Column<string>(maxLength: 2048, nullable: false),
                     Image_url = table.Column<string>(maxLength: 2048, nullable: false),
@@ -70,15 +71,15 @@ namespace Customer.Data.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Category_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Products_Manufacturer_ManufacturerId",
+                        name: "FK_Products_Manufacturers_ManufacturerId",
                         column: x => x.ManufacturerId,
-                        principalTable: "Manufacturer",
+                        principalTable: "Manufacturers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -103,10 +104,10 @@ namespace Customer.Data.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Manufacturer");
+                name: "Manufacturers");
         }
     }
 }

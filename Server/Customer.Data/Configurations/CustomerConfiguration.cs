@@ -15,6 +15,11 @@
                 .HasKey(i => i.Id);
 
             builder
+                .Property(n => n.Email)
+                .IsRequired()
+                .HasMaxLength(MaxEmailLength);
+
+            builder
                 .Property(n => n.FirstName)
                 .IsRequired()
                 .HasMaxLength(MaxNameLength);

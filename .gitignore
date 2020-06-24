@@ -310,3 +310,6 @@ client/.env
 
 #serilog log files
 **/Logs
+
+#data seeders
+/Server/Customer.Data/products.xml

@@ -7,6 +7,6 @@
 
     public interface ICustomerService : IService
     {
-        Task<QueryResult> CreateCustomer(CreateCustomerInputModel model, string userId);
+        Task<QueryResult> CreateCustomer(CreateCustomerInputModel model, string userId, string email);
     }
 }

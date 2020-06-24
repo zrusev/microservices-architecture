@@ -24,7 +24,7 @@
                    .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
-        public static IApplicationBuilder Initialize(this IApplicationBuilder app)
+        public static IApplicationBuilder UseInitializer(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             { 

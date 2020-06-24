@@ -22,7 +22,7 @@
             builder
                 .Property(c => c.Description)
                 .IsRequired()
-                .HasMaxLength(MaxDescriptionLength);
+                .HasColumnType("text");
         }
     }
 }

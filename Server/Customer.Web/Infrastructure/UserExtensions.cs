@@ -22,5 +22,11 @@
             var claim = ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.StreetAddress);
             return claim == null ? null : claim.Value;
         }
+
+        public static string GetEmail(this IPrincipal user)
+        {
+            var claim = ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.Email);
+            return claim == null ? null : claim.Value;
+        }
     }
 }
