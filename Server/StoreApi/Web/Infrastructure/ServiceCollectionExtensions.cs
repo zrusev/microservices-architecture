@@ -19,20 +19,22 @@
             var singletonServiceInterfaceType = typeof(ISingletonService);
             var scopedServiceInterfaceType = typeof(IScopedService);
 
-            var callingAsseblyDomainName = Assembly
+            var callingAssebly = Assembly
                 .GetCallingAssembly()
-                .GetName()
-                .Name
-                .Replace("Web", string.Empty);
+                .GetName();
 
-            var serviceAssemblyName = Assembly
+            var serviceAssembly = Assembly
                 .GetCallingAssembly()
                 .GetReferencedAssemblies()
-                .Where(a => a.FullName.Contains(callingAsseblyDomainName + "Services"))
+                .Where(a => a.FullName.Contains(
+                    callingAssebly.Name.Replace("Web", string.Empty) 
+                    + "Services"))
                 .FirstOrDefault();
 
             var types = Assembly
-                .Load(serviceAssemblyName)
+                .Load(serviceAssembly != null 
+                    ? serviceAssembly 
+                    : callingAssebly)
                 .GetExportedTypes()
                 .Where(t => t.IsClass && !t.IsAbstract)
                 .Select(t => new
@@ -63,10 +65,14 @@
 
         public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
             where TDbContext : DbContext
-                => services
+        {
+            var r = configuration.GetConnectionString("DefaultConnection");
+
+            return services
                     .AddScoped<DbContext, TDbContext>()
                     .AddDbContext<TDbContext>(options => options
                         .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        }
 
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, IConfigurationSection appSettingsSection)
         {

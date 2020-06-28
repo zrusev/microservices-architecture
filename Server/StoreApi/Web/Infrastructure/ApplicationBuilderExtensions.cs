@@ -24,8 +24,10 @@
                    .UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
-        public static IApplicationBuilder UseInitializer(this IApplicationBuilder app)
+        public static IApplicationBuilder UseInitializer(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
             using (var serviceScope = app.ApplicationServices.CreateScope())
             { 
                 var serviceProvider = serviceScope.ServiceProvider;

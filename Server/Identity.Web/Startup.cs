@@ -7,23 +7,18 @@ namespace Identity.Web
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Serilog;
     using StoreApi.Web.Infrastructure;
     using System;
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => this.Configuration = configuration;
      
         private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            services
+            => services
                 .AddCors()
                 .AddDatabase<ApplicationDbContext>(this.Configuration)
                 .AddUserStorage()
@@ -31,17 +26,12 @@ namespace Identity.Web
                 .AddConventionalServices()
                 .AddAutoMapper(this.GetType())
                 .AddControllers();
-        }
-
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-        {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
-            app
+            => app
                .UseWebService(env)
                .UseSerilogRequestLogging()
-               .UseInitializer()
-               .UseDataSeed(services, this.Configuration).Wait();
-        }
+               .UseInitializer(env)
+               .UseDataSeed(services, this.Configuration).GetAwaiter().GetResult();
     }
 }

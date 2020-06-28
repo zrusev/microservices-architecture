@@ -18,14 +18,15 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="appsettings.Production.json" />
   </ItemGroup>
-  
+ 
   <ItemGroup>
-    <ProjectReference Include="..\Customer.Data\Customer.Data.csproj" />
-    <ProjectReference Include="..\Customer.Services\Customer.Services.csproj" />
+    <ProjectReference Include="..\Statistics.Data\Statistics.Data.csproj" />
+    <ProjectReference Include="..\Statistics.Services\Statistics.Services.csproj" />
     <ProjectReference Include="..\StoreApi\StoreApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Logs\" />
   </ItemGroup>
 
@@ -46,5 +47,5 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-  
+
 </Project>
