@@ -21,10 +21,16 @@
 
         [HttpPost]
         [Route(nameof(Create))]
-        public async Task<IActionResult> Create(CreateCustomerInputModel model)
+        public async Task<IActionResult> Create(CustomerCreateInputModel model)
             => QueryResultExtensions.ToActionResult(
                 await this.customerService.CreateCustomer(model,
                     User.GetNameIdentifier(),
                     User.GetEmail()));
+
+        [HttpGet]
+        [Route(Id)]
+        public async Task<ActionResult<CustomerOutputModel>> Get([FromQuery] string id)
+            => QueryResultExtensions.ToActionResult<CustomerOutputModel>(
+                (dynamic)await this.customerService.GetById(id));
     }
 }

@@ -5,7 +5,7 @@
     using static Data.DataConstants.Common;
     using static Data.DataConstants.Customers;
 
-    public class CreateCustomerInputModel
+    public class CustomerCreateInputModel
     {
         [Required]
         [MinLength(MinNameLength)]

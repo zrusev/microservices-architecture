@@ -8,5 +8,6 @@
     [Route("api/v1/[controller]")]
     public class ApplicationController : ControllerBase
     {
+        public const string Id = "{id}";
     }
 }

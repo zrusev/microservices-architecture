@@ -4,9 +4,12 @@
     using Contracts;
     using Customer.Data;
     using Customer.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
     using StoreApi.Services.Helpers;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class CustomerService: ICustomerService
@@ -24,7 +27,7 @@
             this.mapper = mapper;
         }
 
-        public async Task<QueryResult> CreateCustomer(CreateCustomerInputModel model, string userId, string email)
+        public async Task<QueryResult> CreateCustomer(CustomerCreateInputModel model, string userId, string email)
         {
             var customer = new Customer
             {
@@ -42,6 +45,31 @@
             await this.db.SaveChangesAsync();
             
             return QueryResult.Success;
+        }
+
+        public async Task<QueryResult> GetById(string id)
+        {
+            var customer = await this.mapper
+                    .ProjectTo<CustomerOutputModel>(this.db
+                        .Customers
+                        .Where(v => v.UserId == id))
+                    .FirstOrDefaultAsync();
+
+            if (customer == null)
+            {
+                IdentityError[] errors = new IdentityError[]
+                {
+                    new IdentityError()
+                    {
+                        Code = "InvalidUserId",
+                        Description = "Invalid user id"
+                    }
+                };
+
+                return QueryResult.Failed(errors);
+            }
+
+            return QueryResult<CustomerOutputModel>.Suceeded(customer);
         }
     }
 }
