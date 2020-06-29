@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Statistics.Data\Statistics.Data.csproj" />
+    <ProjectReference Include="..\StoreApi\StoreApi.csproj" />
+  </ItemGroup>
+
 </Project>
