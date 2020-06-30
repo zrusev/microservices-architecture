@@ -5,7 +5,6 @@
     using Customer.Data;
     using Customer.Data.Models;
     using Customer.Services.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using StoreApi.Services.Helpers;
@@ -56,16 +55,7 @@
 
             if (result == null)
             {
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "MissingProduct",
-                        Description = "This product is missing"
-                    }
-                };
-
-                return QueryResult.Failed(errors);
+                return QueryResult.Failed(Errors.Log("MissingProduct", "This product is missing"));
             }
 
             return QueryResult<ProductOutputModel>.Suceeded(result);

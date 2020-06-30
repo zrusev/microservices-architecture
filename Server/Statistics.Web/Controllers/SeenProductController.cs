@@ -14,7 +14,7 @@
             => this.seenProductService = seenProductService;
 
         [HttpGet]
-        [Route("{id}")]
+        [Route(Id)]
         public async Task<IActionResult> TotalViews(int id)
             => QueryResultExtensions.ToActionResult(
                 await this.seenProductService.GetTotalVisits(id));

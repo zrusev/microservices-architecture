@@ -48,17 +48,8 @@
             if (user == null || !(await this.userManager.CheckPasswordAsync(user, model.Password)))
             {
                 this.logger.LogInformation($"Invalid email or password for user '{model.Email}'.");
-
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "CredentialsError",
-                        Description = "Invalid email or password"
-                    },
-                };
                 
-                return QueryResult.Failed(errors);
+                return QueryResult.Failed(Errors.Log("CredentialsError", "Invalid email or password"));
             }
 
             this.logger.LogInformation($"User '{model.Email}' successfully logged in.");
@@ -100,29 +91,27 @@
 
         public async Task<QueryResult> LoginWithFacebook(FacebookAuthViewModel model)
         {
-            var appAccessTokenResponse = await Client.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={this.appSettings.FbAppId}&client_secret={this.appSettings.FbAppSecret}&grant_type=client_credentials");
+            var appAccessTokenResponse = await Client.GetStringAsync(
+                $"https://graph.facebook.com/oauth/access_token?client_id={this.appSettings.FbAppId}&client_secret={this.appSettings.FbAppSecret}&grant_type=client_credentials");
+            
             var appAccessToken = JsonConvert.DeserializeObject<FacebookAppAccessToken>(appAccessTokenResponse);
 
-            var userAccessTokenValidationResponse = await Client.GetStringAsync($"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
-            var userAccessTokenValidation = JsonConvert.DeserializeObject<FacebookUserAccessTokenValidation>(userAccessTokenValidationResponse);
+            var userAccessTokenValidationResponse = await Client.GetStringAsync(
+                $"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
+            
+            var userAccessTokenValidation = JsonConvert.DeserializeObject<FacebookUserAccessTokenValidation>(
+                userAccessTokenValidationResponse);
 
             if (!userAccessTokenValidation.Data.IsValid)
             {
                 this.logger.LogInformation("Invalid facebook token for.");
 
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "InvalidToken",
-                        Description = "Invalid facebook token"
-                    },
-                };
-
-                return QueryResult.Failed(errors);
+                return QueryResult.Failed(Errors.Log("InvalidToken", "Invalid facebook token"));
             }
 
-            var userInfoResponse = await Client.GetStringAsync($"https://graph.facebook.com/v5.0/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={model.AccessToken}");
+            var userInfoResponse = await Client.GetStringAsync(
+                $"https://graph.facebook.com/v5.0/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={model.AccessToken}");
+            
             var userInfo = JsonConvert.DeserializeObject<FacebookUserData>(userInfoResponse);
 
             var user = await this.userManager.FindByEmailAsync(userInfo.Email);
@@ -155,8 +144,8 @@
 
                 this.logger.LogInformation($"User '{appUser.Email}' with role {WebConstants.UserRole} created a new account.");
 
-                //await this.appDbContext.Customers.AddAsync(new Customer { IdentityId = appUser.Id, Location = "", Locale = userInfo.Locale, Gender = userInfo.Gender });
-                //await this.appDbContext.SaveChangesAsync();
+                //await this.db.Customers.AddAsync(new Customer { IdentityId = appUser.Id, Location = "", Locale = userInfo.Locale, Gender = userInfo.Gender });
+                //await this.db.SaveChangesAsync();
             }
 
             var localUser = await this.userManager.FindByEmailAsync(userInfo.Email);
@@ -165,16 +154,7 @@
             {
                 this.logger.LogInformation("Failed to create local user account.");
 
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "LocalAccountCreationFailed",
-                        Description = "Failed to create local user account"
-                    },
-                };
-
-                return QueryResult.Failed(errors);
+                return QueryResult.Failed(Errors.Log("LocalAccountCreationFailed", "Failed to create local user account"));
             }
 
             var token = await Tokens.GenerateJwtToken(user, this.userManager, this.appSettings);

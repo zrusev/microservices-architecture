@@ -4,7 +4,6 @@
     using Contracts;
     using Customer.Data;
     using Customer.Data.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
@@ -57,16 +56,9 @@
 
             if (customer == null)
             {
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "InvalidUserId",
-                        Description = "Invalid user id"
-                    }
-                };
+                this.logger.LogInformation("Invalid User ID");
 
-                return QueryResult.Failed(errors);
+                return QueryResult.Failed(Errors.Log("InvalidUserId", "Invalid User ID"));
             }
 
             return QueryResult<CustomerOutputModel>.Suceeded(customer);

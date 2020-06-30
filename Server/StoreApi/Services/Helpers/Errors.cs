@@ -25,5 +25,15 @@
             modelState.TryAddModelError(code, description);
             return modelState;
         }
+
+        public static IdentityError[] Log(string code, string description)
+            => new IdentityError[]
+            {
+                new IdentityError() 
+                { 
+                    Code = code,
+                    Description = description 
+                }
+            };
     }
 }

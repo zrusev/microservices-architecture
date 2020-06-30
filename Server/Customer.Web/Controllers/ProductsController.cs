@@ -2,8 +2,8 @@
 {
     using Customer.Services.Contracts;
     using Customer.Services.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using StoreApi.Services.Helpers;
     using StoreApi.Web.Controllers;
     using StoreApi.Web.Infrastructure;
@@ -11,16 +11,19 @@
 
     public class ProductsController : ApplicationController
     {
+        private readonly ILogger<ProductsController> logger;
         private readonly IProductService productService;
         private readonly ICustomerService customerService;
         private readonly ICategoryService categoryService;
         private readonly IManufacturerService manufacturerService;
 
-        public ProductsController(IProductService productService,
+        public ProductsController(ILogger<ProductsController> logger,
+            IProductService productService,
             ICustomerService customerService,
             ICategoryService categoryService,
             IManufacturerService manufacturerService)
         {
+            this.logger = logger;
             this.productService = productService;
             this.customerService = customerService;
             this.categoryService = categoryService;
@@ -56,34 +59,20 @@
 
             if (category == null)
             {
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "InvalidCategory",
-                        Description = "Category does not exist"
-                    }
-                };
+                this.logger.LogInformation($"Category with ID:{model.CategoryId} does not exist.");
 
                 return QueryResultExtensions.ToActionResult(
-                    QueryResult.Failed(errors));
+                    QueryResult.Failed(Errors.Log("InvalidCategory", "Category does not exist")));
             }
 
             var manufacturer = await this.manufacturerService.Find(model.ManufacturerId);
 
             if (manufacturer == null)
             {
-                IdentityError[] errors = new IdentityError[]
-                {
-                    new IdentityError()
-                    {
-                        Code = "InvalidManufacturer",
-                        Description = "Manufacturer does not exist"
-                    }
-                };
-
+                this.logger.LogInformation($"Manufacturer with ID:{model.ManufacturerId} does not exist.");
+                
                 return QueryResultExtensions.ToActionResult(
-                    QueryResult.Failed(errors));
+                    QueryResult.Failed(Errors.Log("InvalidManufacturer", "Manufacturer does not exist")));
             }
 
             model.CategoryId = category.Id;
@@ -111,7 +100,8 @@
 
             await this.productService.SaveToDb();
 
-            return QueryResultExtensions.ToActionResult(QueryResult.Success);
+            return QueryResultExtensions.ToActionResult(
+                QueryResult.Success);
         }
 
         [HttpDelete]
