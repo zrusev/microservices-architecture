@@ -3,6 +3,7 @@
     using AutoMapper;
     using Contracts;
     using Customer.Data;
+    using Customer.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
@@ -24,12 +25,11 @@
             this.mapper = mapper;
         }
 
-        public async Task<ManufacturerOutputModel> Find(int id)
-            => await this.mapper
-                .ProjectTo<ManufacturerOutputModel>(this.db
-                    .Manufacturers
-                    .Where(v => v.Id == id)
-                    .Select(m => m))
-               .FirstOrDefaultAsync();
+        public async Task<Manufacturer> Find(int manufacturerId)
+            => await this.db
+                .Manufacturers
+                .Where(v => v.Id == manufacturerId)
+                .Select(m => m)
+                .FirstOrDefaultAsync();
     }
 }

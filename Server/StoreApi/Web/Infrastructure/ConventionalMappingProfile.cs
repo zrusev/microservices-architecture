@@ -13,7 +13,8 @@
             var mapFromType = typeof(IMapFrom<>);
             var mapToType = typeof(IMapTo<>);
             var explicitMapType = typeof(IMapExplicitly);
-            var projectName = Assembly.GetCallingAssembly().GetName().Name;
+
+            var projectName = Assembly.GetEntryAssembly().GetName().Name;
 
             var modelRegistrations = AppDomain
                  .CurrentDomain

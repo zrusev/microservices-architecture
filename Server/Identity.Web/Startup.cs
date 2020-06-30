@@ -1,6 +1,5 @@
 namespace Identity.Web
 {
-    using AutoMapper;
     using Identity.Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -24,7 +23,7 @@ namespace Identity.Web
                 .AddUserStorage()
                 .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
-                .AddAutoMapper(this.GetType())
+                .AddMappingServices()
                 .AddControllers();
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)

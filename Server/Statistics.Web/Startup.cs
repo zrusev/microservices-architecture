@@ -1,6 +1,5 @@
 namespace Statistics.Web
 {
-    using AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -18,18 +17,18 @@ namespace Statistics.Web
 
         public void ConfigureServices(IServiceCollection services)
             => services
-                  .AddCors()
-                  .AddDatabase<StatisticsDbContext>(this.Configuration)
-                  .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
-                  .AddConventionalServices()
-                  .AddAutoMapper(this.GetType())
-                  .AddControllers();
+                .AddCors()
+                .AddDatabase<StatisticsDbContext>(this.Configuration)
+                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddConventionalServices()
+                .AddMappingServices()
+                .AddControllers();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
-               .UseWebService(env)
-               .UseSerilogRequestLogging()
-               .UseInitializer(env)
-               .UseDataSeed().GetAwaiter().GetResult();
+                .UseWebService(env)
+                .UseSerilogRequestLogging()
+                .UseInitializer(env)
+                .UseDataSeed().GetAwaiter().GetResult();
     }
 }

@@ -1,6 +1,5 @@
 namespace Customer.Web
 {
-    using AutoMapper;
     using Customer.Data;
     using Customer.Web.Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -22,7 +21,7 @@ namespace Customer.Web
                 .AddDatabase<CustomerDbContext>(this.Configuration)
                 .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
-                .AddAutoMapper(this.GetType())
+                .AddMappingServices()
                 .AddControllers();
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

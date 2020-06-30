@@ -1,5 +1,6 @@
 ﻿namespace StoreApi.Web.Infrastructure
 {
+    using AutoMapper;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@
     using Microsoft.IdentityModel.Tokens;
     using Models;
     using StoreApi.Services.Contracts.Services;
+    using System;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -19,22 +21,10 @@
             var singletonServiceInterfaceType = typeof(ISingletonService);
             var scopedServiceInterfaceType = typeof(IScopedService);
 
-            var callingAssebly = Assembly
-                .GetCallingAssembly()
-                .GetName();
-
-            var serviceAssembly = Assembly
-                .GetCallingAssembly()
-                .GetReferencedAssemblies()
-                .Where(a => a.FullName.Contains(
-                    callingAssebly.Name.Replace("Web", string.Empty) 
-                    + "Services"))
-                .FirstOrDefault();
+            var entryAssembly = Assembly.GetEntryAssembly().GetName();
 
             var types = Assembly
-                .Load(serviceAssembly != null 
-                    ? serviceAssembly 
-                    : callingAssebly)
+                .Load(entryAssembly.Name.Replace("Web", "Services"))
                 .GetExportedTypes()
                 .Where(t => t.IsClass && !t.IsAbstract)
                 .Select(t => new
@@ -63,6 +53,12 @@
             return services;
         }
 
+        public static IServiceCollection AddMappingServices(this IServiceCollection services)
+            => services
+                .AddAutoMapper((_, config) => config
+                                    .AddProfile(new ConventionalMappingProfile()),
+                                Array.Empty<Assembly>());
+        
         public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
             where TDbContext : DbContext
         {

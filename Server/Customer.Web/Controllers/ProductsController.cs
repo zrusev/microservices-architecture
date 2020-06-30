@@ -53,6 +53,8 @@
             => QueryResultExtensions.ToActionResult(
                 await (dynamic)this.productService.GetDetails(id));
 
+        [HttpPost]
+        [Route(nameof(Create))]
         public async Task<IActionResult> Create(ProductInputModel model)
         {
             var category = await this.categoryService.Find(model.CategoryId);
