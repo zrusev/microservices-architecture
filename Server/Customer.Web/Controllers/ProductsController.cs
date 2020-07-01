@@ -31,34 +31,33 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductSearchOutputModel>> Search([FromQuery] int page)
+        public async Task<IActionResult> Search([FromQuery] int page)
         {
-            var totalPages = await this.productService.Total();
+            var totalProducts = await this.productService.Total();
 
             var products = await this.productService.GetListings(page);
 
-            return QueryResultExtensions.ToActionResult<ProductSearchOutputModel>(
-                    (dynamic)QueryResult<ProductSearchOutputModel>.Suceeded(
+            return QueryResultExtensions.ToActionResult(
+                    QueryResult<ProductSearchOutputModel>.Suceeded(
                         new ProductSearchOutputModel 
                         { 
                             Page = page,
-                            TotalPages = totalPages,
+                            TotalProducts = totalProducts,
                             Products = products
                         }));
         }
 
         [HttpGet]
         [Route(Id)]
-        public async Task<ActionResult<ProductOutputModel>> Details(int id)
+        public async Task<IActionResult> Details(int id)
             => QueryResultExtensions.ToActionResult(
-                await (dynamic)this.productService.GetDetails(id));
+                await this.productService.GetDetails(id));
 
         [HttpPost]
         [Route(nameof(Create))]
         public async Task<IActionResult> Create(ProductInputModel model)
         {
             var category = await this.categoryService.Find(model.CategoryId);
-
             if (category == null)
             {
                 this.logger.LogInformation($"Category with ID:{model.CategoryId} does not exist.");
@@ -68,7 +67,6 @@
             }
 
             var manufacturer = await this.manufacturerService.Find(model.ManufacturerId);
-
             if (manufacturer == null)
             {
                 this.logger.LogInformation($"Manufacturer with ID:{model.ManufacturerId} does not exist.");
@@ -100,7 +98,7 @@
             product.CategoryId = model.CategoryId;
             product.ManufacturerId = model.ManufacturerId;
 
-            await this.productService.SaveToDb();
+            await this.productService.SaveToDb(product);
 
             return QueryResultExtensions.ToActionResult(
                 QueryResult.Success);

@@ -1,5 +1,6 @@
 ﻿namespace Customer.Services.Contracts
 {
+    using Customer.Data.Models;
     using Models;
     using StoreApi.Services.Contracts.Services;
     using StoreApi.Services.Helpers;
@@ -8,13 +9,13 @@
 
     public interface IProductService: IService
     {
-        Task<ProductOutputModel> Find(int id);
+        Task<Product> Find(int id);
 
         Task<bool> Delete(int id);
 
         Task<int> Total();
 
-        Task SaveToDb();
+        Task SaveToDb(Product product);
 
         Task<IEnumerable<ProductOutputModel>> GetListings(int page);
 

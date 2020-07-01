@@ -28,6 +28,18 @@
 
         public async Task<QueryResult> CreateCustomer(CustomerCreateInputModel model, string userId, string email)
         {
+            var exists = await this.db
+                    .Customers
+                    .Where(v => v.UserId == userId)
+                    .AnyAsync();
+
+            if (exists)
+            {
+                this.logger.LogInformation($"Customer with UserID: {userId} has already been created.");
+
+                return QueryResult.Failed(Errors.Log("ExistingUser", "Customer has already been created."));
+            }
+
             var customer = new Customer
             {
                 FirstName = model.FirstName,
@@ -51,7 +63,8 @@
             var customer = await this.mapper
                     .ProjectTo<CustomerOutputModel>(this.db
                         .Customers
-                        .Where(v => v.UserId == id))
+                        .Where(v => v.UserId == id)
+                        .Select(u => u))
                     .FirstOrDefaultAsync();
 
             if (customer == null)

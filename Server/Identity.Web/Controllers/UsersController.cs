@@ -36,13 +36,15 @@
         [HttpPost]
         [Route(nameof(Register))]
         public async Task<IActionResult> Register(UserInputModel model)
-            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.Register(model));
+            => QueryResultExtensions.ToActionResult(
+                await this.userService.Register(model));
 
         [AllowAnonymous]
         [HttpPost]
         [Route(nameof(Login))]
         public async Task<IActionResult> Login(UserInputModel model)
-            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.Login(model));
+            => QueryResultExtensions.ToActionResult(
+                await this.userService.Login(model));
 
         [HttpGet]
         [Authorize(Roles = WebConstants.AdministratorRole)]

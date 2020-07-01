@@ -7,6 +7,12 @@
     {
         public static IActionResult ToActionResult(this QueryResult result)
         {
+            //Template specialization is not allowed in C#
+            if (result.GetType().IsGenericType)
+            {
+                return QueryResultExtensions.ToActionResult((dynamic)result);
+            }
+
             if (result.Succeeded)
             {
                 return new OkResult();
@@ -20,7 +26,7 @@
             return new BadRequestResult();
         }
 
-        public static IActionResult ToActionResult<T>(QueryResult<T> result)
+        public static IActionResult ToActionResult<T>(this QueryResult<T> result)
             where T : class
         {
             if (result.Succeeded)

@@ -101,9 +101,15 @@
             return true;
         }
 
-        public async Task SaveToDb()
-            => await this.db
+        public async Task SaveToDb(Product product)
+        {
+            this.db
+                  .Products
+                  .Update(product);
+
+            await this.db
                 .SaveChangesAsync();
+        }
 
         IEnumerable<ProductServiceModel> IProductService.Products()
             => this.db
@@ -114,14 +120,13 @@
                 })
                 .ToList();
 
-        public async Task<ProductOutputModel> Find(int id)
-            => await this.mapper
-                .ProjectTo<ProductOutputModel>(this.db
-                    .Products
-                    .Include(c => c.Category)
-                    .Include(m => m.Manufacturer)
-                    .Where(p => p.Id == id)
-                    .Select(p => p))
-              .FirstOrDefaultAsync();
+        public async Task<Product> Find(int id)
+            => await this.db
+                .Products
+                .Include(c => c.Category)
+                .Include(m => m.Manufacturer)
+                .Where(p => p.Id == id)
+                .Select(p => p)
+                .FirstOrDefaultAsync();
     }
 }

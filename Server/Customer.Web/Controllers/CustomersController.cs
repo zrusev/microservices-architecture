@@ -15,9 +15,7 @@
         private readonly ICustomerService customerService;
 
         public CustomersController(ICustomerService customerService)
-        {
-            this.customerService = customerService;
-        }
+            => this.customerService = customerService;
 
         [HttpPost]
         [Route(nameof(Create))]
@@ -29,8 +27,8 @@
 
         [HttpGet]
         [Route(Id)]
-        public async Task<ActionResult<CustomerOutputModel>> Get([FromQuery] string id)
-            => QueryResultExtensions.ToActionResult<CustomerOutputModel>(
-                (dynamic)await this.customerService.GetById(id));
+        public async Task<IActionResult> Get([FromQuery] string id)
+            => QueryResultExtensions.ToActionResult(
+                await this.customerService.GetById(id));
     }
 }

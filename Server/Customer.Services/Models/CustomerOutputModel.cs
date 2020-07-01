@@ -1,6 +1,9 @@
 ﻿namespace Customer.Services.Models
 {
-    public class CustomerOutputModel
+    using Customer.Data.Models;
+    using StoreApi.Services.Contracts.Mapping;
+
+    public class CustomerOutputModel : IMapFrom<Customer>
     {
         public int Id { get; set; }
 
