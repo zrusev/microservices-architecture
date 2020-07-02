@@ -27,7 +27,7 @@ const App = () => {
         </div>
         <div className="col-sm-8 col-sm-offset-2">
           <Router history={history}>
-            <Navigation />
+            {/* <Navigation /> */}
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/login" component={LoginPage} />
