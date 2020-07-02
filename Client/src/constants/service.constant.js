@@ -1,1 +1,3 @@
-export const serviceBaseURL =  process.env.REACT_APP_SERVICE_BASE_URL;
+export const identityServiceBaseURL = process.env.REACT_APP_IDENTITY_SERVICE_BASE_URL;
+export const customerServiceBaseURL = process.env.REACT_APP_CUSTOMER_SERVICE_BASE_URL;
+export const statisticsServiceBaseURL = process.env.REACT_APP_STATISTICS_SERVICE_BASE_URL;

@@ -20,7 +20,8 @@
         [AllowAnonymous]
         [HttpPost]
         [Route(nameof(Facebook))]
-        public async Task<ActionResult> Facebook(FacebookAuthViewModel model)
-            => QueryResultExtensions.ToActionResult(await (dynamic)this.userService.LoginWithFacebook(model));
+        public async Task<IActionResult> Facebook(FacebookAuthViewModel model)
+            => QueryResultExtensions.ToActionResult(
+                await this.userService.LoginWithFacebook(model));
     }
 }

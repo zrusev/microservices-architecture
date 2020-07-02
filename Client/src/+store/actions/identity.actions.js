@@ -1,14 +1,14 @@
-import { userConstants } from '../../constants';
-import { AccountService } from '../../services';
+import { identityConstants } from '../../constants';
+import { IdentityService } from '../../services';
 import { alertActions } from './alert.actions';
 
-const service = new AccountService();
+const service = new IdentityService();
 
-export const userActions = {
+export const identityActions = {
     loginWithFacebook: accessToken => {
-        const request = user => ({ type: userConstants.LOGIN_FACEBOOK_REQUEST, user }); 
-        const success = user => ({ type: userConstants.LOGIN_FACEBOOK_SUCCESS, user });
-        const failure = error => ({ type: userConstants.LOGIN_FACEBOOK_FAILURE, error });
+        const request = user => ({ type: identityConstants.LOGIN_FACEBOOK_REQUEST, user }); 
+        const success = user => ({ type: identityConstants.LOGIN_FACEBOOK_SUCCESS, user });
+        const failure = error => ({ type: identityConstants.LOGIN_FACEBOOK_FAILURE, error });
 
         return dispatch => {
             dispatch(request(accessToken));
@@ -30,9 +30,9 @@ export const userActions = {
         }
     },
     login: (email, password) => {
-        const request = user => ({ type: userConstants.LOGIN_REQUEST, user }); 
-        const success = user => ({ type: userConstants.LOGIN_SUCCESS, user });
-        const failure = error => ({ type: userConstants.LOGIN_FAILURE, error });
+        const request = user => ({ type: identityConstants.LOGIN_REQUEST, user }); 
+        const success = user => ({ type: identityConstants.LOGIN_SUCCESS, user });
+        const failure = error => ({ type: identityConstants.LOGIN_FAILURE, error });
 
         return dispatch => {
             dispatch(request({ email }));
@@ -56,12 +56,12 @@ export const userActions = {
     logout: () => {
         service.logout();
 
-        return { type: userConstants.LOGOUT };
+        return { type: identityConstants.LOGOUT };
     },
     register: (email, password) => {
-        const request = user => ({ type: userConstants.REGISTER_REQUEST, user }); 
-        const success = user => ({ type: userConstants.REGISTER_SUCCESS, user });
-        const failure = error => ({ type: userConstants.REGISTER_FAILURE, error });
+        const request = user => ({ type: identityConstants.REGISTER_REQUEST, user }); 
+        const success = user => ({ type: identityConstants.REGISTER_SUCCESS, user });
+        const failure = error => ({ type: identityConstants.REGISTER_FAILURE, error });
         
         return dispatch => {
             dispatch(request({ email }));

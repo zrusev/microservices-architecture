@@ -2,7 +2,7 @@ import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { history } from '../../../helpers';
 import { useDispatch } from 'react-redux';
-import { userActions, alertActions } from '../../../+store/actions';
+import { identityActions, alertActions } from '../../../+store/actions';
 
 export const Facebook = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export const Facebook = () => {
         const { accessToken } = response;
 
         if(accessToken)
-            dispatch(userActions.loginWithFacebook(accessToken));
+            dispatch(identityActions.loginWithFacebook(accessToken));
 
         history.push("/");
     }

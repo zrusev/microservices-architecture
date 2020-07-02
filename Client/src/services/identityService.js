@@ -1,17 +1,21 @@
 import { post } from '../helpers';
-import { serviceBaseURL } from '../constants';
+import { identityServiceBaseURL } from '../constants';
 
-export class AccountService {
+export class IdentityService {
     constructor() {
-        this.serverBaseURL = serviceBaseURL;
+        this.serverBaseURL = identityServiceBaseURL;
+        
         this.loginURL = `${this.serverBaseURL}/users/login`;
         this.facebookLoginUrl = `${this.serverBaseURL}/externalauth/facebook`;
         this.registerURL = `${this.serverBaseURL}/users/register`;
     }
 
     login(credentials) {
-        const url = credentials.facebookLoginUrl ? this.facebookLoginUrl : this.loginURL;
-        return post(url, credentials);
+        const url = credentials.facebookLoginUrl 
+            ? this.facebookLoginUrl 
+            : this.loginURL;
+        
+            return post(url, credentials);
     }
 
     register(credentials) {

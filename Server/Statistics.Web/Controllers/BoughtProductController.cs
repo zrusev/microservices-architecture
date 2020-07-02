@@ -13,6 +13,8 @@
         public BoughtProductController(IBoughtProductService boughtProductService)
             => this.boughtProductService = boughtProductService;
 
+        [HttpGet]
+        [Route(Id)]
         public async Task<IActionResult> BoughtProducts(int userId)
             => QueryResultExtensions.ToActionResult(
                 await this.boughtProductService.GetBoughtProducts(userId));

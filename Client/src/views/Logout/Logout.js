@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../+store/actions';
+import { identityActions } from '../../+store/actions';
 import { history } from '../../helpers';
 
 export const LogOutPage = () => {
     const dispatch = useDispatch();
 
     const logOutUser = () => {
-        dispatch(userActions.logout());
+        dispatch(identityActions.logout());
     
         history.push("/");
     };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { userActions } from '../../+store/actions';
+import { identityActions } from '../../+store/actions';
 import { history } from '../../helpers';
 import { Facebook } from '../../components/Logins/External/Facebook';
 
@@ -11,7 +11,7 @@ export const LoginPage = () => {
     const [state, setState] = useState(initialState);
     
     useEffect(() => {
-      dispatch(userActions.logout());
+      dispatch(identityActions.logout());
     }, [dispatch]);
 
     const handleInputChange = event => {
@@ -31,7 +31,7 @@ export const LoginPage = () => {
         const { email, password } = state;
 
         if (email && password) {
-          dispatch(userActions.login(email, password));
+          dispatch(identityActions.login(email, password));
 
           history.push("/");
         }
