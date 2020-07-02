@@ -6,7 +6,7 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <NavLink color="inherit" to="/">MyStore</NavLink>
+      <NavLink color="inherit" to="/">My Store</NavLink>
       {' '}
       {new Date().getFullYear()}
       {'.'}

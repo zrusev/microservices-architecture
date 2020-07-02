@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SidePanel from './SidePanel';
 import SearchBar from './SearchBar';
+import SectionMobile from './SectionMobile';
 import { NavLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import useStyles from '../../style/Home/header';
@@ -34,28 +35,29 @@ export default function Header() {
             <CssBaseline />
             <div className={classes.grow}>
                 <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        onClick={toggleDrawer(true)}
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon 
-                            style={{color: "white"}} 
-                            className={classes.icon} />
-                    </IconButton>
-                    <Link component={LinkBehavior}>
-                        <Typography 
-                            className={classes.title} 
-                            variant="h6" 
-                            noWrap>
-                            Logo
-                        </Typography>
-                    </Link>
-                    <SearchBar />
-                </Toolbar>
+                    <Toolbar>
+                        <IconButton
+                            onClick={toggleDrawer(true)}
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="open drawer"
+                        >
+                            <MenuIcon 
+                                style={{color: "white"}} 
+                                className={classes.icon} />
+                        </IconButton>
+                        <Link component={LinkBehavior} style={{ marginRight: "16px" }}>
+                            <Typography 
+                                className={classes.title} 
+                                variant="h6" 
+                                noWrap>
+                                Logo
+                            </Typography>
+                        </Link>
+                        <SearchBar />
+                        <SectionMobile />
+                    </Toolbar>
                 </AppBar>
             </div>
         </React.Fragment>
