@@ -26,8 +26,8 @@ export default function Main() {
               <div className={classes.heroButtons}>
                 <Grid container spacing={1} justify="center">
                   <Grid item>
-                    <Button variant="contained"  size="large"  color="primary">
-                      EXPLORE
+                    <Button variant="contained" size="large" color="primary">
+                      Explore
                     </Button>
                   </Grid>
                 </Grid>
