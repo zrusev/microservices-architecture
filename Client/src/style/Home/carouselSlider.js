@@ -6,17 +6,12 @@ const useStyles = makeStyles(({ breakpoints }) => ({
     },
     media: {
         minHeight: 300,
-        minWidth: 450,
-
-        [breakpoints.down('sm')]: {
-            minHeight: 300,
-            minWidth: 300,    
-          },
+        minWidth: 300,
     },
     overlay: {
         position: 'absolute',
         bottom: '20px',
-        fontSize: '1.5em',
+        fontSize: '1.2em',
         fontWeight: 'bold',
         width: '90%',
         textAlign: 'center',

@@ -6,6 +6,17 @@ const useStyles = makeStyles((theme) => ({
     },
     heroContent: {
       backgroundColor: theme.palette.background.paper,
+      backgroundImage: 'linear-gradient(to top, darkgrey, white)',
+      padding: theme.spacing(8, 0, 6),
+    },
+    heroContentBottom: {
+      backgroundColor: theme.palette.background.paper,
+      backgroundImage: 'linear-gradient(to bottom, darkgrey, white)',
+      padding: theme.spacing(8, 0, 6),
+    },
+    darkContent: {
+      backgroundColor: theme.palette.background.paper,
+      backgroundImage: 'none',
       padding: theme.spacing(8, 0, 6),
     },
     heroButtons: {

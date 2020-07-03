@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../style/contexts/EnhancedThemeProvider';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import CarouselSlider from './CarouselSlider';
+import Category from './Category';
+import Manufacturer from './Manufacturer';
 import useStyles from '../../style/Home/style';
 
 export default function Main() {
     const classes = useStyles();
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const { darkState } = useContext(ThemeContext);
+
     const items = [
     {
         Name: "Home Appliances",
@@ -64,7 +64,7 @@ export default function Main() {
 
     return (
         <main>
-          <div className={classes.heroContent}>
+          <div className={darkState ? classes.darkContent : classes.heroContent} style={{minHeight: '90vh'}}>
             <Container maxWidth="sm">
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 MY STORE
@@ -82,52 +82,48 @@ export default function Main() {
                 </Grid>
               </div>
             </Container>
+
+            <Container>
+              <Grid container spacing={1} justify="center" height="100%">
+                <Grid item style={{marginTop: '2em'}}>
+                  <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
+                    BEST SELLING PRODUCTS:
+                  </Typography>              
+                </Grid>
+                <Grid item>
+                  <CarouselSlider items={items} />
+                </Grid>
+              </Grid>
+            </Container>
           </div>
 
-          <Container>
-            <Grid container spacing={1} justify="center">
-              <Grid item>
-                <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
-                  BEST SELLING PRODUCTS:
-                </Typography>              
-              </Grid>
-              <Grid item>
-                <CarouselSlider items={items}/>
-              </Grid>
+          <Container className={classes.cardGrid} maxWidth="md" style={{minHeight: '80vh'}}>
+            <Grid container spacing={1} justify="center" height="100%">
+                <Grid item style={{marginTop: '2em'}}>
+                  <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
+                  What Are You Looking For?
+                  </Typography>              
+                </Grid>
+                <Grid item>
+                  <Category />
+                </Grid>
             </Grid>
           </Container>
 
-          <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card className={classes.card}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
-                      title="Image title"
-                    />
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Heading
-                      </Typography>
-                      <Typography>
-                        This is a media card. You can use this section to describe the content.
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" color="primary">
-                        View
-                      </Button>
-                      <Button size="small" color="primary">
-                        Edit
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+          <div className={darkState ? classes.darkContent : classes.heroContentBottom} style={{minHeight: '80vh'}}>
+            <Container className={classes.cardGrid}>
+              <Grid container spacing={1} justify="center" height="100%">
+                  <Grid item style={{marginTop: '2em'}}>
+                    <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
+                    Look At Our Top Manufacturers
+                    </Typography>              
+                  </Grid>
+                  <Grid item>
+                    <Manufacturer />
+                  </Grid>
+              </Grid>
+            </Container>
+          </div>
       </main>
     )
 }
