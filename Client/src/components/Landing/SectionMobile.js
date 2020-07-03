@@ -15,7 +15,8 @@ export default function SectionMobile() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  
+    const [dialog, setDialog] = React.useState(false);
+
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
@@ -29,6 +30,7 @@ export default function SectionMobile() {
   
     const handleMenuClose = () => {
       setAnchorEl(null);
+      setDialog(true);
       handleMobileMenuClose();
     };
   

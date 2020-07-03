@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -7,8 +7,11 @@ ThemeContext.displayName = 'ThemeContext';
 
 export default function EnhancedThemeProvider({ children }) {
     const [darkState, setDarkState] = useState(false);
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)') || darkState;
+    useEffect(() => {
+      setDarkState(prefersDarkMode);
+    }, [prefersDarkMode]);
     
     const toggleTheme = () => {
       setDarkState(!darkState);
@@ -18,10 +21,10 @@ export default function EnhancedThemeProvider({ children }) {
       () =>
         createMuiTheme({
           palette: {
-            type: prefersDarkMode ? 'dark' : 'light',
+            type: darkState ? 'dark' : 'light',
           },
         }),
-      [prefersDarkMode],
+      [darkState],
     );
 
     return (

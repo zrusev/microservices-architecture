@@ -85,9 +85,9 @@ export default function Main() {
 
             <Container>
               <Grid container spacing={1} justify="center" height="100%">
-                <Grid item style={{marginTop: '2em'}}>
+                <Grid item style={{marginTop: '5em'}}>
                   <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
-                    BEST SELLING PRODUCTS:
+                    Best Selling Products
                   </Typography>              
                 </Grid>
                 <Grid item>

@@ -7,6 +7,8 @@ import { history } from './helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { alertActions } from './+store/actions';
 import EnhancedThemeProvider from './style/contexts/EnhancedThemeProvider';
+import Header from './components/Landing/Header';
+import Footer from './components/Landing/Footer';
 
 const App = () => {
   const alert = useSelector(state => state.alert);
@@ -30,13 +32,14 @@ const App = () => {
         <CssBaseline />
         <EnhancedThemeProvider>
           <Router history={history}>
-            {/* <Navigation /> */}
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/register" component={RegisterPage} />
-              <ProtectedRoute path="/dashboard" component={DashboardPage} />
-            </Switch>
+            <Header />
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/register" component={RegisterPage} />
+                <ProtectedRoute path="/dashboard" component={DashboardPage} />
+              </Switch>
+            <Footer />
           </Router>
         </EnhancedThemeProvider>
     </React.Fragment>
