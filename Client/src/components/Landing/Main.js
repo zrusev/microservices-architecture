@@ -7,11 +7,60 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import CarouselSlider from './CarouselSlider';
 import useStyles from '../../style/Home/style';
 
 export default function Main() {
     const classes = useStyles();
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const items = [
+    {
+        Name: "Home Appliances",
+        Caption: "Say no to manual home labour!",
+        contentPosition: "middle",
+        Items: [
+            {
+                Name: "Macbook Pro",
+                Image: "https://source.unsplash.com/featured/?macbook"
+            },
+            {
+                Name: "Washing Machine WX9102",
+                Image: "https://source.unsplash.com/featured/?washingmachine"
+            },
+            {
+                Name: "Learus Vacuum Cleaner",
+                Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
+            },
+            {
+              Name: "Washing Machine WX9102",
+              Image: "https://source.unsplash.com/featured/?washingmachine"
+            },
+        ]
+    },
+    {
+        Name: "Decoratives",
+        Caption: "Give style and color to your living room!",
+        contentPosition: "right",
+        Items: [
+            {
+                Name: "iPhone",
+                Image: "https://source.unsplash.com/featured/?iphone"
+            },
+            {
+                Name: "Living Room Lamp",
+                Image: "https://source.unsplash.com/featured/?lamp"
+            },
+            {
+                Name: "Floral Vase",
+                Image: "https://source.unsplash.com/featured/?vase"
+            },
+            {
+              Name: "Living Room Lamp",
+              Image: "https://source.unsplash.com/featured/?lamp"
+            },
+        ]
+    }
+  ]
 
     return (
         <main>
@@ -34,6 +83,19 @@ export default function Main() {
               </div>
             </Container>
           </div>
+
+          <Container>
+            <Grid container spacing={1} justify="center">
+              <Grid item>
+                <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
+                  BEST SELLING PRODUCTS:
+                </Typography>              
+              </Grid>
+              <Grid item>
+                <CarouselSlider items={items}/>
+              </Grid>
+            </Grid>
+          </Container>
 
           <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>

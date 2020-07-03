@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -68,7 +69,15 @@ export default function SectionMobile() {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <p>Messages</p>
+          <p>Cart</p>
+        </MenuItem>
+        <MenuItem>
+          <IconButton aria-label="show 1 new notifications" color="inherit">
+            <Badge badgeContent={1} color="secondary">
+                <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <p>Notifications</p>
         </MenuItem>
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
@@ -80,6 +89,13 @@ export default function SectionMobile() {
             <AccountCircle />
           </IconButton>
           <p>Profile</p>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <IconButton aria-label="theme switch" color="inherit">
+            <ThemeSwitch />
+          </IconButton>
+          <p>Dark mode</p>
         </MenuItem>
       </Menu>
     );

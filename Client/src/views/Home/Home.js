@@ -13,7 +13,7 @@ export const HomePage = () => {
     return (
       <React.Fragment>
         <Header />
-        <Main />
+          <Main />
         <Footer />
     </React.Fragment>
     )
