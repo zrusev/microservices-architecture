@@ -3,8 +3,10 @@ import FacebookLogin from 'react-facebook-login';
 import { history } from '../../../helpers';
 import { useDispatch } from 'react-redux';
 import { identityActions, alertActions } from '../../../+store/actions';
+import useStyles from '../../../style/Login/External/facebook';
 
 export const Facebook = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
 
     const handleResFailure = () => {
@@ -28,14 +30,16 @@ export const Facebook = () => {
     }
 
     return (
-        <FacebookLogin
-            appId={process.env.REACT_APP_FB_APP_ID}
-            callback={handleResSuccess}
-            onFailure={handleResFailure}
-            size='small'
-            textButton='Continue with Facebook'
-            scope='email'
-            cssClass='btn btn-primary'
-        />
+        <div className={classes.btn}>
+            <FacebookLogin
+                appId={process.env.REACT_APP_FB_APP_ID}
+                callback={handleResSuccess}
+                onFailure={handleResFailure}
+                size='small'
+                textButton='Continue with Facebook'
+                scope='email'
+                cssClass='kep-login-facebook'
+            />
+        </div>
     )
 };

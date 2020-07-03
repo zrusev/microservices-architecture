@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
@@ -15,7 +17,6 @@ export default function SectionMobile() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [dialog, setDialog] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -30,7 +31,6 @@ export default function SectionMobile() {
   
     const handleMenuClose = () => {
       setAnchorEl(null);
-      setDialog(true);
       handleMobileMenuClose();
     };
   
@@ -49,8 +49,12 @@ export default function SectionMobile() {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <Link color="textPrimary" component={NavLink} to="/login">
+          <MenuItem onClick={handleMenuClose}>Login</MenuItem>
+        </Link>
+        <Link color="textPrimary" component={NavLink} to="/register">
+          <MenuItem onClick={handleMenuClose}>Register</MenuItem>
+        </Link>
       </Menu>
     );
   

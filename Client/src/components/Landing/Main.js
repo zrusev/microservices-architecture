@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import CarouselSlider from './CarouselSlider';
 import Category from './Category';
 import Manufacturer from './Manufacturer';
-import useStyles from '../../style/Home/style';
+import useStyles from '../../style/Home/main';
 
 export default function Main() {
     const classes = useStyles();
