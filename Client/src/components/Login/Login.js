@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from '../../style/Login/login';
 
-export default function Login() {
+export default function Login({email, password, handleInputChange, handleSubmit}) {
     const classes = useStyles();
 
     return (
@@ -25,7 +26,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate name="form" onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -36,7 +37,10 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-              />
+                onChange={handleInputChange}
+              >
+                {email}
+              </TextField>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -47,10 +51,14 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
+                onChange={handleInputChange}
+              >
+                {password}
+              </TextField>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
+                onChange={handleInputChange}
               />
               <Button
                 type="submit"
@@ -63,12 +71,12 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link component={NavLink} to="/register" color="textPrimary" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link component={NavLink} to="/register" color="textPrimary" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

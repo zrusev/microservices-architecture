@@ -15,6 +15,7 @@ const useStyles = makeStyles(({ breakpoints }) => ({
         fontWeight: 'bold',
         width: '90%',
         textAlign: 'center',
+        color: 'white',
     },
 }));
 

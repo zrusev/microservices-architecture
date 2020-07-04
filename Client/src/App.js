@@ -9,6 +9,7 @@ import { alertActions } from './+store/actions';
 import EnhancedThemeProvider from './style/contexts/EnhancedThemeProvider';
 import Header from './components/Landing/Header';
 import Footer from './components/Landing/Footer';
+import Handler from './helpers/error';
 
 const App = () => {
   const alert = useSelector(state => state.alert);
@@ -20,13 +21,12 @@ const App = () => {
     });
   }, [dispatch]);
 
-
   return (
     <React.Fragment>
         <div>
           {
             alert.message && 
-            alert.message.map(message => <div key={message.code} className={`alert ${alert.type}`}>{message.description}</div>)
+            <div className={`alert ${Handler(alert).type}`}>{Handler(alert).message}</div>
           }
         </div>
         <CssBaseline />

@@ -33,7 +33,7 @@ function request(method) {
                             window.location.reload(true);
                         }
             
-                        const error = (data && data.errors) || response.statusText;
+                        const error = data || response.statusText;
                         return Promise.reject(error);
                     }
 
