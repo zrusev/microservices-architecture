@@ -54,8 +54,8 @@
                 .Add(customer);
 
             await this.db.SaveChangesAsync();
-            
-            return QueryResult.Success;
+
+            return QueryResult<Customer>.Suceeded(customer);
         }
 
         public async Task<QueryResult> GetById(string id)

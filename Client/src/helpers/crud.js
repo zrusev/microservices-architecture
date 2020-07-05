@@ -32,7 +32,7 @@ function request(method) {
                             window.localStorage.removeItem('auth_token');
                             window.location.reload(true);
                         }
-            
+
                         const error = data || response.statusText;
                         return Promise.reject(error);
                     }

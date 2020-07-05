@@ -1,12 +1,13 @@
 import { identityConstants } from '../../constants';
 import { IdentityService } from '../../services';
 import { alertActions } from './alert.actions';
+import { customerActions } from './index';
 
 const service = new IdentityService();
 
 export const identityActions = {
     loginWithFacebook: accessToken => {
-        const request = user => ({ type: identityConstants.LOGIN_FACEBOOK_REQUEST, user }); 
+        const request = user => ({ type: identityConstants.LOGIN_FACEBOOK_REQUEST, user });
         const success = user => ({ type: identityConstants.LOGIN_FACEBOOK_SUCCESS, user });
         const failure = error => ({ type: identityConstants.LOGIN_FACEBOOK_FAILURE, error });
 
@@ -15,9 +16,9 @@ export const identityActions = {
 
             service.login({ accessToken, facebookLoginUrl: true })
                 .then(
-                    user => { 
+                    user => {
                         dispatch(success(user));
-    
+
                         if (user.token) {
                             window.localStorage.setItem('auth_token', user.token);
                         }
@@ -30,16 +31,16 @@ export const identityActions = {
         }
     },
     login: (email, password) => {
-        const request = user => ({ type: identityConstants.LOGIN_REQUEST, user }); 
+        const request = user => ({ type: identityConstants.LOGIN_REQUEST, user });
         const success = user => ({ type: identityConstants.LOGIN_SUCCESS, user });
         const failure = error => ({ type: identityConstants.LOGIN_FAILURE, error });
 
         return dispatch => {
             dispatch(request({ email }));
-    
+
             service.login({ email, password })
                 .then(
-                    user => { 
+                    user => {
                         dispatch(success(user));
 
                         if (user.token) {
@@ -58,22 +59,24 @@ export const identityActions = {
 
         return { type: identityConstants.LOGOUT };
     },
-    register: (email, password) => {
-        const request = user => ({ type: identityConstants.REGISTER_REQUEST, user }); 
+    register: (email, password, firstName, lastName, address1, address2, phoneNumber) => {
+        const request = user => ({ type: identityConstants.REGISTER_REQUEST, user });
         const success = user => ({ type: identityConstants.REGISTER_SUCCESS, user });
         const failure = error => ({ type: identityConstants.REGISTER_FAILURE, error });
-        
+
         return dispatch => {
             dispatch(request({ email }));
-    
+
             service.register({ email, password })
                 .then(
-                    user => { 
+                    user => {
                         dispatch(success(user));
 
                         if (user.token) {
                             window.localStorage.setItem('auth_token', user.token);
                         }
+
+                        dispatch(customerActions.create(firstName, lastName, address1, address2, phoneNumber));
                     },
                     error => {
                         dispatch(failure(error));

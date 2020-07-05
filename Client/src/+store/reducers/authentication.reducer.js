@@ -2,7 +2,7 @@ import { identityConstants } from '../../constants';
 
 let auth_token = localStorage.getItem('auth_token');
 
-const initialState = auth_token ? { 
+const initialState = auth_token ? {
         loggedIn: true,
         auth_token,
     } : {
@@ -22,7 +22,7 @@ export const authentication = (state = initialState, action) => {
       };
     case identityConstants.LOGIN_SUCCESS:
     case identityConstants.LOGIN_FACEBOOK_SUCCESS:
-    case identityConstants.REGISTER_SUCCESS:      
+    case identityConstants.REGISTER_SUCCESS:
       return {
         ...state,
         loggingIn: false,

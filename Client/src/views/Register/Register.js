@@ -7,7 +7,15 @@ import Register from '../../components/Register/Register';
 export const RegisterPage = props => {
     const dispatch = useDispatch();
 
-    const initialState = { email: '', password: ''};
+    const initialState = {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      phoneNumber: '',
+    };
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
@@ -16,10 +24,10 @@ export const RegisterPage = props => {
 
     const handleInputChange = event => {
       event.persist();
-        
+
       setState(inputs => ({
-          ...inputs, 
-          [event.target.name]: event.target.value 
+          ...inputs,
+          [event.target.name]: event.target.value
       }));
     };
 
@@ -28,23 +36,23 @@ export const RegisterPage = props => {
         event.preventDefault();
       }
 
-      const { email, password } = state;
+      const { email, password, firstName, lastName, address1, address2, phoneNumber } = state;
 
-      if (email && password) {
-        dispatch(identityActions.register(email, password));
+      if (email && password && firstName && lastName && phoneNumber) {
+        dispatch(identityActions.register(email, password, firstName, lastName, address1, address2, phoneNumber));
 
         history.push("/");
       }
     };
-    
+
     const { email, password } = state;
-     
+
     return (
       <div style={{minHeight: '90vh'}}>
-        <Register 
-          email={email} 
-          password={password} 
-          handleInputChange={handleInputChange} 
+        <Register
+          email={email}
+          password={password}
+          handleInputChange={handleInputChange}
           handleSubmit={handleSubmit} />
       </div>
     );
