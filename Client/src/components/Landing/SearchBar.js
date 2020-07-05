@@ -1,9 +1,9 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
+import { InputBase } from '@material-ui/core';
 import useStyles from '../../style/Home/search';
 
-export default function SearchBar() {
+export const SearchBar = () => {
     const classes = useStyles();
 
     return (

@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../style/contexts/EnhancedThemeProvider';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import CarouselSlider from './CarouselSlider';
-import Category from './Category';
-import Manufacturer from './Manufacturer';
+import {
+  Button,
+  Grid,
+  Typography,
+  Container,
+} from '@material-ui/core';
+import { CarouselSlider, Category, Manufacturer } from '../index';
 import useStyles from '../../style/Home/main';
 
-export default function Main() {
+export const Main = () => {
     const classes = useStyles();
     const { darkState } = useContext(ThemeContext);
 
@@ -88,7 +88,7 @@ export default function Main() {
                 <Grid item style={{marginTop: '5em'}}>
                   <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
                     Best Selling Products
-                  </Typography>              
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <CarouselSlider items={items} />
@@ -102,7 +102,7 @@ export default function Main() {
                 <Grid item style={{marginTop: '2em'}}>
                   <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
                   What Are You Looking For?
-                  </Typography>              
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <Category />
@@ -116,7 +116,7 @@ export default function Main() {
                   <Grid item style={{marginTop: '2em'}}>
                     <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
                     Look At Our Top Manufacturers
-                    </Typography>              
+                    </Typography>
                   </Grid>
                   <Grid item>
                     <Manufacturer />

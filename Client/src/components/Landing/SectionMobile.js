@@ -1,109 +1,58 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
+import { Badge } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ThemeSwitch from './ThemeSwitch';
+import { CustomMenu, CustomMenuMobile, ThemeSwitch} from '../index';
 import useStyles from '../../style/Home/sectionMobile';
 
-export default function SectionMobile() {
+export const SectionMobile = () => {
     const classes = useStyles();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  
+
     const handleProfileMenuOpen = (event) => {
       setAnchorEl(event.currentTarget);
     };
-  
+
     const handleMobileMenuClose = () => {
       setMobileMoreAnchorEl(null);
     };
-  
+
     const handleMenuClose = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
     };
-  
+
     const handleMobileMenuOpen = (event) => {
       setMobileMoreAnchorEl(event.currentTarget);
     };
-  
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-      <Menu
+      <CustomMenu
+        menuId={menuId}
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
-      >
-        <Link color="textPrimary" component={NavLink} to="/login">
-          <MenuItem onClick={handleMenuClose}>Login</MenuItem>
-        </Link>
-        <Link color="textPrimary" component={NavLink} to="/register">
-          <MenuItem onClick={handleMenuClose}>Register</MenuItem>
-        </Link>
-      </Menu>
+        isMenuOpen={isMenuOpen}
+        handleMenuClose={handleMenuClose}
+      />
     );
-  
+
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={mobileMenuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={handleMobileMenuClose}
-      >
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
-          <p>Cart</p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton aria-label="show 1 new notifications" color="inherit">
-            <Badge badgeContent={1} color="secondary">
-                <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={handleProfileMenuOpen}>
-          <IconButton
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <IconButton aria-label="theme switch" color="inherit">
-            <ThemeSwitch />
-          </IconButton>
-          <p>Dark mode</p>
-        </MenuItem>
-      </Menu>
+      <CustomMenuMobile
+        mobileMoreAnchorEl={mobileMoreAnchorEl}
+        mobileMenuId={mobileMenuId}
+        isMobileMenuOpen={isMobileMenuOpen}
+        handleMobileMenuClose={handleMobileMenuClose}
+        handleProfileMenuOpen={handleProfileMenuOpen}
+      />
     );
 
     return (

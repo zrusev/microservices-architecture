@@ -4,7 +4,7 @@ const initialState = {
         customer: null,
     };
 
-export const customerCreation = (state = initialState, action) => {
+export const customer = (state = initialState, action) => {
   switch (action.type) {
     case customerConstants.CREATE_REQUEST:
     case customerConstants.GET_REQUEST:

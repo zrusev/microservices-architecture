@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Carousel from 'react-material-ui-carousel'
 import {
     Card,
     CardMedia,
@@ -8,6 +7,7 @@ import {
     Grid,
     Link,
 } from '@material-ui/core';
+import Carousel from 'react-material-ui-carousel'
 import useStyles from '../../style/Home/carouselSlider';
 
 const Item = ({itemsSet}) => {
@@ -18,7 +18,7 @@ const Item = ({itemsSet}) => {
         <Card raised={true} className={classes.card}>
             <Grid container length={12} spacing={1} justify="center">
             {
-                itemsSet.map((item, i) => 
+                itemsSet.map((item, i) =>
                     <Grid item md={12 / totalItems} key={`${item.Name}-${i}`}>
                         <Link component={NavLink} to="/" color="textPrimary">
                             <CardActionArea>
@@ -33,14 +33,14 @@ const Item = ({itemsSet}) => {
                             </CardActionArea>
                         </Link>
                     </Grid>
-                )    
-            }         
+                )
+            }
             </Grid>
         </Card>
     )
 }
 
-export default function CarouselSlider({items}) {
+export const CarouselSlider = ({items}) => {
     return (
         <Carousel
             className="Example"
@@ -52,7 +52,7 @@ export default function CarouselSlider({items}) {
             navButtonsAlwaysVisible={false}
         >
             {
-                items.map((item, i) => 
+                items.map((item, i) =>
                     <Item key={`${item.Name}-${i}`} itemsSet={item.Items} /> )
             }
         </Carousel>

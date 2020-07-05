@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import Switch from "@material-ui/core/Switch";
+import { Switch } from "@material-ui/core";
 import { ThemeContext } from '../../style/contexts/EnhancedThemeProvider';
 
-export default function ThemeSwitch() {
+export const ThemeSwitch = () => {
     const { toggleTheme, darkState } = useContext(ThemeContext);
 
     return (

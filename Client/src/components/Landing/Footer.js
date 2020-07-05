@@ -1,9 +1,9 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Copyright from './Copyright';
+import { Typography } from '@material-ui/core';
+import { Copyright } from '../index';
 import useStyles from '../../style/Home/main';
 
-export default function Footer() {
+export const Footer = () => {
     const classes = useStyles();
 
     return (

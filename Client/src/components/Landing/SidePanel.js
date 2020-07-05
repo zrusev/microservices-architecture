@@ -1,17 +1,19 @@
 import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import {
+  Drawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import useStyles from '../../style/Home/drawer';
 
-export default function SidePanel({toggleDrawer, open}) {
+export const SidePanel = ({toggleDrawer, open}) => {
     const classes = useStyles();
-    
+
     const list = (anchor) => (
         <div className={classes.list}
           role="presentation"
@@ -37,7 +39,7 @@ export default function SidePanel({toggleDrawer, open}) {
           </List>
         </div>
     );
-      
+
     return (
         <div> {['left'].map((anchor) => (
             <React.Fragment key={anchor}>

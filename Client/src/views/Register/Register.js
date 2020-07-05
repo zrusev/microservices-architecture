@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { identityActions } from '../../+store/actions';
 import { history } from '../../helpers';
-import Register from '../../components/Register/Register';
+import { Register } from '../../components/index';
 
 export const RegisterPage = props => {
     const dispatch = useDispatch();

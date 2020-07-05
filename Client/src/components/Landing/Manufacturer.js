@@ -1,9 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import {
+    Link,
+    Paper,
+    Typography,
+    Divider,
+} from '@material-ui/core';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import useStyles from '../../style/Home/manufacturer';
 
@@ -29,9 +31,9 @@ const Item = ({item}) => {
             <Paper elevation={3} className={classes.paper}>
                 <LocationCityIcon className={classes.icon} />
                 <Divider />
-                <Typography 
-                    className={classes.title} 
-                    variant="h6" 
+                <Typography
+                    className={classes.title}
+                    variant="h6"
                     noWrap>
                     {item}
                 </Typography>
@@ -40,7 +42,7 @@ const Item = ({item}) => {
     )
 }
 
-export default function Manufacturer() {
+export const Manufacturer = () => {
     const classes = useStyles();
 
     return (

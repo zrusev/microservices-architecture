@@ -1,14 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import {
+    Link,
+    Paper,
+    Typography,
+    Divider,
+} from '@material-ui/core';
 import CategoryIcon from '@material-ui/icons/Category';
 import useStyles from '../../style/Home/category';
 
 const categories = [
-    'За дома' 
+    'За дома'
     ,'Тяло'
     ,'Серуми за лице'
     ,'Benecos'
@@ -27,9 +29,9 @@ const Item = ({item}) => {
             <Paper elevation={3} className={classes.paper}>
                 <CategoryIcon className={classes.icon} />
                 <Divider />
-                <Typography 
-                    className={classes.title} 
-                    variant="h6" 
+                <Typography
+                    className={classes.title}
+                    variant="h6"
                     noWrap>
                     {item}
                 </Typography>
@@ -38,7 +40,7 @@ const Item = ({item}) => {
     )
 }
 
-export default function Category() {
+export const Category = () => {
     const classes = useStyles();
 
     return (

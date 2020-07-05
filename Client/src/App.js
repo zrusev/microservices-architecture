@@ -7,8 +7,10 @@ import { history } from './helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { alertActions } from './+store/actions';
 import EnhancedThemeProvider from './style/contexts/EnhancedThemeProvider';
-import Header from './components/Landing/Header';
-import Footer from './components/Landing/Footer';
+import {
+  Header,
+  Footer,
+} from './components/index';
 import Handler from './helpers/error';
 
 const App = () => {
@@ -25,7 +27,7 @@ const App = () => {
     <React.Fragment>
         <div>
           {
-            alert.message && 
+            alert.message &&
             <div className={`alert ${Handler(alert).type}`}>{Handler(alert).message}</div>
           }
         </div>
