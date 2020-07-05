@@ -52,6 +52,7 @@ export const SectionMobile = () => {
         isMobileMenuOpen={isMobileMenuOpen}
         handleMobileMenuClose={handleMobileMenuClose}
         handleProfileMenuOpen={handleProfileMenuOpen}
+        handleMenuClose={handleMenuClose}
       />
     );
 

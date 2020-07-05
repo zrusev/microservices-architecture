@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { HomePage, LoginPage, RegisterPage, DashboardPage } from './views';
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  DashboardPage,
+  Profile,
+} from './views';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { history } from './helpers';
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,6 +45,7 @@ const App = () => {
                 <Route exact path="/" component={HomePage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
+                <ProtectedRoute path="/profile" component={Profile} />
                 <ProtectedRoute path="/dashboard" component={DashboardPage} />
               </Switch>
             <Footer />
