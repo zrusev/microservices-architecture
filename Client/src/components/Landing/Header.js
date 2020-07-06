@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { SidePanel, SearchBar, SectionMobile } from '../index';
 import { NavLink } from 'react-router-dom';
-import useStyles from '../../style/Home/header';
+import useStyles from '../../style/Landing/header';
 
 export const Header = () => {
     const classes = useStyles();

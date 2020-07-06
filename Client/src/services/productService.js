@@ -4,8 +4,8 @@ import { customerServiceBaseURL } from '../constants';
 export class ProductService {
     constructor() {
         this.serverBaseURL = customerServiceBaseURL;
-        
-        this.searchProductsURL = `${this.serverBaseURL}/products/search`;
+
+        this.searchProductsURL = `${this.serverBaseURL}/products`;
         this.detailsProductURL = `${this.serverBaseURL}/products`;
         this.createProductURL = `${this.serverBaseURL}/products/create`;
         this.editProductURL = `${this.serverBaseURL}/products/edit`;

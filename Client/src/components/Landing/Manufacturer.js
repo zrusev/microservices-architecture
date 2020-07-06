@@ -7,7 +7,7 @@ import {
     Divider,
 } from '@material-ui/core';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
-import useStyles from '../../style/Home/manufacturer';
+import useStyles from '../../style/Landing/manufacturer';
 
 const manufacturers = [
     'Laidbare'

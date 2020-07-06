@@ -33,9 +33,13 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
       paddingTop: '56.25%', // 16:9
+      backgroundColor: 'lightgrey',
     },
     cardContent: {
       flexGrow: 1,
+    },
+    cardProduct_description: {
+      fontSize: '0.75rem',
     },
     footer: {
       backgroundColor: theme.palette.background.paper,

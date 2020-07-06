@@ -1,4 +1,5 @@
 import React from 'react';
+import parse from 'html-react-parser';
 import {
     Button,
     Card,
@@ -8,36 +9,41 @@ import {
     Grid,
     Typography,
 } from '@material-ui/core';
-import useStyles from '../../style/Home/main';
+import useStyles from '../../style/Landing/main';
 
-export const Product = () => {
+export const ProductCard = ({ cards: { products }}) => {
     const classes = useStyles();
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const handleImageError = (e) => {
+        debugger
+        e.target.onerror = null;
+        e.target.src = "https://via.placeholder.com/150";
+    }
 
     return (
         <Grid container spacing={4}>
-            {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
+            {products.map((card, i) => (
+                <Grid item key={i} xs={12} sm={6} md={4}>
                     <Card className={classes.card}>
                     <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
-                        title="Image title"
+                        image={card.image_url}
+                        title={`${card.name}-${i}`}
+                        onError={handleImageError}
                     />
                     <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                        Heading
+                        <Typography gutterBottom variant="h5" component="div">
+                            {card.name}
                         </Typography>
-                        <Typography>
-                        This is a media card. You can use this section to describe the content.
+                        <Typography className={classes.cardProduct_description} component="div">
+                            {parse(card.description)}
                         </Typography>
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary">
-                        View
+                            View
                         </Button>
                         <Button size="small" color="primary">
-                        Edit
+                            Edit
                         </Button>
                     </CardActions>
                     </Card>

@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../style/contexts/EnhancedThemeProvider';
 import {
   Button,
   Grid,
   Typography,
   Container,
+  Link,
 } from '@material-ui/core';
 import { CarouselSlider, Category, Manufacturer } from '../index';
-import useStyles from '../../style/Home/main';
+import useStyles from '../../style/Landing/main';
 
 export const Main = () => {
     const classes = useStyles();
@@ -63,7 +65,7 @@ export const Main = () => {
   ]
 
     return (
-        <main>
+        <React.Fragment>
           <div className={darkState ? classes.darkContent : classes.heroContent} style={{minHeight: '90vh'}}>
             <Container maxWidth="sm">
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -75,9 +77,11 @@ export const Main = () => {
               <div className={classes.heroButtons}>
                 <Grid container spacing={1} justify="center">
                   <Grid item>
-                    <Button variant="contained" size="large" color="primary">
-                      Explore
-                    </Button>
+                    <Link component={NavLink} to="/products/pages/1">
+                      <Button variant="contained" size="large" color="primary">
+                        Explore
+                      </Button>
+                    </Link>
                   </Grid>
                 </Grid>
               </div>
@@ -124,6 +128,6 @@ export const Main = () => {
               </Grid>
             </Container>
           </div>
-      </main>
+      </React.Fragment>
     )
 }

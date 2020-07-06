@@ -4,3 +4,4 @@ export * from './Login/Login';
 export * from '../components/Landing/Logout';
 export * from './Register/Register';
 export * from './Profile/Profile';
+export * from './Products/Products';

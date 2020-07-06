@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Copyright } from '../index';
-import useStyles from '../../style/Home/main';
+import useStyles from '../../style/Landing/main';
 
 export const Footer = () => {
     const classes = useStyles();

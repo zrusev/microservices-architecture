@@ -5,8 +5,8 @@ import {
   HomePage,
   LoginPage,
   RegisterPage,
-  DashboardPage,
   Profile,
+  Products,
 } from './views';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { history } from './helpers';
@@ -41,13 +41,15 @@ const App = () => {
         <EnhancedThemeProvider>
           <Router history={history}>
             <Header />
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/login" component={LoginPage} />
-                <Route path="/register" component={RegisterPage} />
-                <ProtectedRoute path="/profile" component={Profile} />
-                <ProtectedRoute path="/dashboard" component={DashboardPage} />
-              </Switch>
+              <main>
+                <Switch>
+                  <Route exact path="/" component={HomePage} />
+                  <Route path="/login" component={LoginPage} />
+                  <Route path="/register" component={RegisterPage} />
+                  <Route path="/products/pages/:page" component={Products} />
+                  <ProtectedRoute path="/profile" component={Profile} />
+                </Switch>
+              </main>
             <Footer />
           </Router>
         </EnhancedThemeProvider>

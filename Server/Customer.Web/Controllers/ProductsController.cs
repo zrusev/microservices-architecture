@@ -2,6 +2,7 @@
 {
     using Customer.Services.Contracts;
     using Customer.Services.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using StoreApi.Services.Helpers;
@@ -31,6 +32,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Search([FromQuery] int page)
         {
             var totalProducts = await this.productService.Total();

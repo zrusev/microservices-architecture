@@ -7,7 +7,7 @@ import {
     Divider,
 } from '@material-ui/core';
 import CategoryIcon from '@material-ui/icons/Category';
-import useStyles from '../../style/Home/category';
+import useStyles from '../../style/Landing/category';
 
 const categories = [
     'За дома'

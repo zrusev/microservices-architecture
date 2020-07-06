@@ -8,7 +8,7 @@ import {
     Link,
 } from '@material-ui/core';
 import Carousel from 'react-material-ui-carousel'
-import useStyles from '../../style/Home/carouselSlider';
+import useStyles from '../../style/Landing/carouselSlider';
 
 const Item = ({itemsSet}) => {
     const classes = useStyles();

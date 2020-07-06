@@ -6,7 +6,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { CustomMenu, CustomMenuMobile, ThemeSwitch} from '../index';
-import useStyles from '../../style/Home/sectionMobile';
+import useStyles from '../../style/Landing/sectionMobile';
 
 export const SectionMobile = () => {
     const classes = useStyles();
