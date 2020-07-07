@@ -61,6 +61,38 @@
             return QueryResult<ProductOutputModel>.Suceeded(result);
         }
 
+        public async Task<IEnumerable<ProductOutputListModel>> GetDetails(int[] ids)
+        {
+            var products = await this.mapper
+                    .ProjectTo<ProductOutputModel>(this.db
+                        .Products
+                        .Include(c => c.Category)
+                        .Include(m => m.Manufacturer)
+                        .Where(p => ids.Contains(p.Id))
+                        .Select(p => p))
+                    .ToListAsync();
+
+            var result = products
+                .GroupBy(c => c.Category)
+                .Where(c => c.Count() >= 4)
+                .Select(x => new ProductOutputListModel
+                {
+                    Category = x.Key,
+                    Products = x.Select(p => new ProductOutputModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Category = p.Category,
+                        Manufacturer = p.Manufacturer,
+                        Image_url = p.Image_url
+                    }).Take(4)
+                })
+                .ToList();
+
+            return result;
+        }
+
         public async Task<QueryResult> Create(ProductInputModel model)
         {
             this.db

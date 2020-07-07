@@ -12,7 +12,7 @@ export * from './Landing/Header';
 export * from './Landing/Logout';
 export * from './Landing/Main';
 export * from './Landing/Manufacturer';
-export * from './Landing/ProductCard';
+export * from './Products/ProductCard';
 export * from './Landing/SearchBar';
 export * from './Landing/SectionMobile';
 export * from './Landing/SidePanel';

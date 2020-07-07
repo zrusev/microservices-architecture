@@ -21,6 +21,8 @@
 
         Task<QueryResult> GetDetails(int id);
 
+        Task<IEnumerable<ProductOutputListModel>> GetDetails(int[] ids);
+
         Task<QueryResult> Create(ProductInputModel model);
 
         public IEnumerable<ProductServiceModel> Products();

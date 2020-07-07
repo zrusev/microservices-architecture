@@ -8,6 +8,7 @@
     using StoreApi.Services.Helpers;
     using StoreApi.Web.Controllers;
     using StoreApi.Web.Infrastructure;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class ProductsController : ApplicationController
@@ -54,6 +55,15 @@
         public async Task<IActionResult> Details(int id)
             => QueryResultExtensions.ToActionResult(
                 await this.productService.GetDetails(id));
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route(nameof(Details))]
+        public async Task<IActionResult> Details([FromQuery] int[] ids)
+            => QueryResultExtensions.ToActionResult(
+                QueryResult<IEnumerable<ProductOutputListModel>>.Suceeded(
+                    await this.productService.GetDetails(ids)
+                ));
 
         [HttpPost]
         [Route(nameof(Create))]

@@ -23,7 +23,7 @@ export const Products = ({ match: { params } }) => {
 
     const handleChange = (event, value) => {
       setPageNumber(value);
-      history.push(`/products/${value}`);
+      history.push(`/products/pages/${value}`);
     };
 
     if(cards.length === 0) {

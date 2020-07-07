@@ -19,16 +19,16 @@ const Item = ({itemsSet}) => {
             <Grid container length={12} spacing={1} justify="center">
             {
                 itemsSet.map((item, i) =>
-                    <Grid item md={12 / totalItems} key={`${item.Name}-${i}`}>
+                    <Grid item md={12 / totalItems} key={`${item.name}-${i}`}>
                         <Link component={NavLink} to="/" color="textPrimary">
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image={item.Image}
-                                    title={item.Name}
+                                    image={item.image_url}
+                                    title={item.name}
                                 />
                                 <div className={classes.overlay}>
-                                    {item.Name}
+                                    {item.name}
                                 </div>
                             </CardActionArea>
                         </Link>
@@ -45,15 +45,15 @@ export const CarouselSlider = ({items}) => {
         <Carousel
             className="Example"
             autoPlay={true}
-            interval={5000}
-            animation={"slide"}
+            interval={3000}
+            animation={"fade"}
             indicators={false}
             timeout={500}
             navButtonsAlwaysVisible={false}
         >
             {
                 items.map((item, i) =>
-                    <Item key={`${item.Name}-${i}`} itemsSet={item.Items} /> )
+                    <Item key={`${item.category}-${i}`} itemsSet={item.products} /> )
             }
         </Carousel>
     );

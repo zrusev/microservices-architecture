@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { customerGatewayActions } from '../../+store/actions';
 import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../style/contexts/EnhancedThemeProvider';
 import {
@@ -13,56 +15,18 @@ import useStyles from '../../style/Landing/main';
 
 export const Main = () => {
     const classes = useStyles();
-    const { darkState } = useContext(ThemeContext);
+    const dispatch = useDispatch();
 
-    const items = [
-    {
-        Name: "Home Appliances",
-        Caption: "Say no to manual home labour!",
-        contentPosition: "middle",
-        Items: [
-            {
-                Name: "Macbook Pro",
-                Image: "https://source.unsplash.com/featured/?macbook"
-            },
-            {
-                Name: "Washing Machine WX9102",
-                Image: "https://source.unsplash.com/featured/?washingmachine"
-            },
-            {
-                Name: "Learus Vacuum Cleaner",
-                Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
-            },
-            {
-              Name: "Washing Machine WX9102",
-              Image: "https://source.unsplash.com/featured/?washingmachine"
-            },
-        ]
-    },
-    {
-        Name: "Decoratives",
-        Caption: "Give style and color to your living room!",
-        contentPosition: "right",
-        Items: [
-            {
-                Name: "iPhone",
-                Image: "https://source.unsplash.com/featured/?iphone"
-            },
-            {
-                Name: "Living Room Lamp",
-                Image: "https://source.unsplash.com/featured/?lamp"
-            },
-            {
-                Name: "Floral Vase",
-                Image: "https://source.unsplash.com/featured/?vase"
-            },
-            {
-              Name: "Living Room Lamp",
-              Image: "https://source.unsplash.com/featured/?lamp"
-            },
-        ]
+    const { darkState } = useContext(ThemeContext);
+    const topProducts = useSelector(state => state.topProducts.products);
+
+    useEffect(() => {
+      dispatch(customerGatewayActions.topProducts());
+    }, [dispatch]);
+
+    if(topProducts.length === 0) {
+      return null;
     }
-  ]
 
     return (
         <React.Fragment>
@@ -91,11 +55,11 @@ export const Main = () => {
               <Grid container spacing={1} justify="center" height="100%">
                 <Grid item style={{marginTop: '5em'}}>
                   <Typography component="h4" variant="h5" align="center" color="textPrimary" gutterBottom>
-                    Best Selling Products
+                  Best Selling Products Per Category
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <CarouselSlider items={items} />
+                  <CarouselSlider items={topProducts} />
                 </Grid>
               </Grid>
             </Container>

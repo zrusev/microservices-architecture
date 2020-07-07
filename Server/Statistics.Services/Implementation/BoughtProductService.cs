@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Logging;
     using Models;
     using Statistics.Data;
+    using Statistics.Data.Models;
     using StoreApi.Services.Helpers;
     using System.Collections.Generic;
     using System.Linq;
@@ -33,5 +34,18 @@
                         .BoughtProducts
                         .Where(v => v.UserId == userId))
                     .ToListAsync());
+
+        public async Task<IEnumerable<BoughtProductOutputModel>> TopBoughtProducts()
+        => await this.db
+                    .BoughtProducts
+                    .GroupBy(p => p.ProductId)
+                    .Select(c => new BoughtProductOutputModel
+                    {
+                        ProductId = c.Key,
+                        Count = c.Count()
+                    })
+                    .OrderBy(p => p.Count)
+                    .Take(100)
+                    .ToListAsync();
     }
 }

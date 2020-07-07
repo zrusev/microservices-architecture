@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(({ breakpoints }) => ({
+const useStyles = makeStyles(({ breakpoints, palette }) => ({
     card: {
         position: 'relative',
     },
@@ -10,12 +10,13 @@ const useStyles = makeStyles(({ breakpoints }) => ({
     },
     overlay: {
         position: 'absolute',
-        bottom: '20px',
-        fontSize: '1.2em',
+        top: '20px',
+        fontSize: '1em',
         fontWeight: 'bold',
         width: '90%',
-        textAlign: 'center',
-        color: 'white',
+        padding: '1em',
+        textAlign: 'start',
+        color: palette.primary.main,
     },
 }));
 

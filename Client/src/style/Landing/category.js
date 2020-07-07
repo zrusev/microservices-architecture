@@ -24,22 +24,22 @@ const useStyles = makeStyles((theme) => ({
     },
     icon: {
         display: 'block',
-        fontSize: '2.9em',
-        margin: '0.2em auto',
+        fontSize: '4.5em',
+        margin: 'auto',
     },
     item: {
       transition: 'all 0.2s linear',
 
       '&:hover': {
         textDecoration: 'none',
-        borderRadius: '2px',
+        borderRadius: '10px',
         boxShadow: '0 0 10px 10px rgb(0, 0, 0, 0.5)',
-        marginTop: '0.2em',
+        marginTop: '0.1em',
         backgroundColor: 'lightgrey',
       },
     },
     paper: {
-      minHeight: '8em',
+      minHeight: '9em',
     },
 }));
 

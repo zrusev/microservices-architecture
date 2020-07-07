@@ -13,11 +13,6 @@ import useStyles from '../../style/Landing/main';
 
 export const ProductCard = ({ cards: { products }}) => {
     const classes = useStyles();
-    const handleImageError = (e) => {
-        debugger
-        e.target.onerror = null;
-        e.target.src = "https://via.placeholder.com/150";
-    }
 
     return (
         <Grid container spacing={4}>
@@ -28,7 +23,6 @@ export const ProductCard = ({ cards: { products }}) => {
                         className={classes.cardMedia}
                         image={card.image_url}
                         title={`${card.name}-${i}`}
-                        onError={handleImageError}
                     />
                     <CardContent className={classes.cardContent}>
                         <Typography gutterBottom variant="h5" component="div">

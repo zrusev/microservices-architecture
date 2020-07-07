@@ -1,4 +1,4 @@
-﻿namespace Statistics.Services.Models
+﻿namespace Customer.Gateway.Services.Models
 {
     public class BoughtProductOutputModel
     {
