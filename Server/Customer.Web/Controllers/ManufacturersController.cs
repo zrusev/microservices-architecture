@@ -11,16 +11,16 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class CategoriesController : ApplicationController
+    public class ManufacturersController : ApplicationController
     {
-        private readonly ILogger<CategoriesController> logger;
-        private readonly ICategoryService categoryService;
+        private readonly ILogger<ManufacturersController> logger;
+        private readonly IManufacturerService manufacturerService;
 
-        public CategoriesController(ILogger<CategoriesController> logger,
-            ICategoryService categoryService)
+        public ManufacturersController(ILogger<ManufacturersController> logger,
+            IManufacturerService manufacturerService)
         {
             this.logger = logger;
-            this.categoryService = categoryService;
+            this.manufacturerService = manufacturerService;
         }
 
         [HttpGet]
@@ -28,8 +28,8 @@
         [Route(nameof(Top))]
         public async Task<IActionResult> Top()
          => QueryResultExtensions.ToActionResult(
-             QueryResult<IEnumerable<CategoryResultOutputModel>>.Suceeded(
-                 await this.categoryService.Top()
+             QueryResult<IEnumerable<ManufacturerResultOutputModel>>.Suceeded(
+                 await this.manufacturerService.Top()
                 ));
     }
 }

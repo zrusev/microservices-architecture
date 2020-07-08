@@ -1,4 +1,4 @@
-﻿namespace StoreApi.Data.Infrastructure
+﻿namespace StoreApi.Services.Infrastructure
 {
     using System;
     using System.Linq;

@@ -7,7 +7,7 @@
     using Customer.Services.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-    using StoreApi.Data.Infrastructure;
+    using StoreApi.Services.Infrastructure;
     using StoreApi.Services.Helpers;
     using System.Collections.Generic;
     using System.Linq;

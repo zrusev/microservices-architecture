@@ -52,6 +52,5 @@
                     .OrderByDescending(p => p.Products)
                     .Take(9)
                     .ToListAsync();
-
     }
 }

@@ -11,12 +11,14 @@ import {
   Link,
 } from '@material-ui/core';
 import CategoryIcon from '@material-ui/icons/Category';
-import LabelIcon from '@material-ui/icons/Label';
+import LocationCityIcon from '@material-ui/icons/LocationCity';
 import useStyles from '../../style/Landing/drawer';
 
 export const SidePanel = ({toggleDrawer, open}) => {
     const classes = useStyles();
+
     const categories = useSelector(state => state.categories.categories);
+    const manufacturers = useSelector(state => state.manufacturers.manufacturers);
 
     const list = (anchor) => (
         <div className={classes.list}
@@ -35,7 +37,9 @@ export const SidePanel = ({toggleDrawer, open}) => {
                   }
                 >
                   <ListItem button key={`${item.name}-${index}`}>
-                    <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
+                    <ListItemIcon>
+                      <CategoryIcon />
+                    </ListItemIcon>
                     <ListItemText primary={item.name} />
                   </ListItem>
                 </Link>
@@ -44,12 +48,24 @@ export const SidePanel = ({toggleDrawer, open}) => {
           </List>
           <Divider />
           <List>
-            {['About', 'Contacts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            {
+              manufacturers.slice(0, 5).map((item, index) => (
+                <Link
+                  component={NavLink}
+                  to={{
+                    pathname: '/products',
+                    search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
+                  }
+                >
+                  <ListItem button key={`${item.name}-${index}`}>
+                    <ListItemIcon>
+                      <LocationCityIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))
+            }
           </List>
         </div>
     );

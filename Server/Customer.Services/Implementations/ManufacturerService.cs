@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -31,5 +32,18 @@
                 .Where(v => v.Id == manufacturerId)
                 .Select(m => m)
                 .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<ManufacturerResultOutputModel>> Top()
+            => await this.db
+                    .Products
+                    .GroupBy(p => p.Manufacturer.Name)
+                    .Select(c => new ManufacturerResultOutputModel
+                    {
+                        Name = c.Key,
+                        Products = c.Count()
+                    })
+                    .OrderByDescending(p => p.Products)
+                    .Take(11)
+                    .ToListAsync();
     }
 }
