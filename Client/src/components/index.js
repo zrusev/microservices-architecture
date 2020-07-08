@@ -18,3 +18,5 @@ export * from './Landing/SearchBar';
 export * from './Landing/SectionMobile';
 export * from './Landing/SidePanel';
 export * from './Landing/ThemeSwitch';
+export * from './Shared/CustomSnackbar';
+export * from './Shared/Spinner';

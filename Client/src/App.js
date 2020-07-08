@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
   HomePage,
@@ -19,6 +19,7 @@ import {
 } from './components/index';
 import Handler from './helpers/error';
 import { Details } from './views/Products/Details';
+import { CustomSnackbar } from './components/index';
 
 const App = () => {
   const alert = useSelector(state => state.alert);
@@ -35,7 +36,9 @@ const App = () => {
         <div>
           {
             alert.message &&
-            <div className={`alert ${Handler(alert).type}`}>{Handler(alert).message}</div>
+            <div className={`alert ${Handler(alert).type}`}>
+              <CustomSnackbar message={Handler(alert).message} />
+            </div>
           }
         </div>
         <CssBaseline />
@@ -50,6 +53,7 @@ const App = () => {
                   <Route path="/products/pages/:page" component={Products} />
                   <Route path="/products/details/:name" component={Details} />
                   <ProtectedRoute path="/profile" component={Profile} />
+                  <Route render={() => <Redirect to="/" />} />
                 </Switch>
               </main>
             <Footer />

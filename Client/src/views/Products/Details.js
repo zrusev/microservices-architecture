@@ -11,6 +11,7 @@ import {
     CardActions,
     Button,
 } from '@material-ui/core';
+import { Spinner } from '../../components/index';
 import useStyles from '../../style/Landing/main';
 
 export const Details = ({ match: { params } }) => {
@@ -26,7 +27,7 @@ export const Details = ({ match: { params } }) => {
     }, [dispatch, filter]);
 
     if(!card) {
-        return null;
+        return <Spinner />
     }
 
     return (
@@ -39,7 +40,7 @@ export const Details = ({ match: { params } }) => {
                     <Grid item xs={12} sm={6} md={6}>
                         <Card className={classes.card}>
                             <CardActions>
-                                <Link target="_blank" component={NavLink} to="/" color="textPrimary">
+                                <Link component={NavLink} to="/" color="textPrimary">
                                     <Button size="small" color="primary">
                                         ADD TO BASKET
                                     </Button>

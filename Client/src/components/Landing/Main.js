@@ -10,7 +10,7 @@ import {
   Container,
   Link,
 } from '@material-ui/core';
-import { CarouselSlider, Category, Manufacturer } from '../index';
+import { CarouselSlider, Category, Manufacturer, Spinner } from '../index';
 import useStyles from '../../style/Landing/main';
 
 export const Main = () => {
@@ -25,7 +25,7 @@ export const Main = () => {
     }, [dispatch]);
 
     if(topProducts.length === 0) {
-      return null;
+      return <Spinner />;
     }
 
     return (

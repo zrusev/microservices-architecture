@@ -6,6 +6,7 @@ import {
     Container,
 } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
+import { Spinner } from '../../components/index';
 import useStyles from '../../style/Products/products';
 import { history } from '../../helpers';
 
@@ -27,7 +28,7 @@ export const Products = ({ match: { params } }) => {
     };
 
     if(cards.length === 0) {
-        return null;
+        return <Spinner />
     }
 
     return (
