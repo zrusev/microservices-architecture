@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ breakpoints, palette }) => ({
         fontSize: '1em',
         fontWeight: 'bold',
         width: '90%',
-        padding: '1em',
+        padding: '0.3em 1em',
         textAlign: 'start',
         color: palette.primary.main,
     },

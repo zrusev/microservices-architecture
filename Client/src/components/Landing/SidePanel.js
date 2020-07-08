@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Drawer,
   List,
@@ -6,13 +8,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Link,
 } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import CategoryIcon from '@material-ui/icons/Category';
+import LabelIcon from '@material-ui/icons/Label';
 import useStyles from '../../style/Landing/drawer';
 
 export const SidePanel = ({toggleDrawer, open}) => {
     const classes = useStyles();
+    const categories = useSelector(state => state.categories.categories);
 
     const list = (anchor) => (
         <div className={classes.list}
@@ -21,18 +25,20 @@ export const SidePanel = ({toggleDrawer, open}) => {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {['Category1', 'Category2', 'Category3', 'Category4'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
+            {categories.map((item, index) => (
+              <Link component={NavLink} to={`/products/categories?name=${item.name.replace(/\s/g, '-').toLowerCase()}`}>
+                <ListItem button key={`${item.name}-${index}`}>
+                  <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              </Link>
             ))}
           </List>
           <Divider />
           <List>
             {['About', 'Contacts'].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}

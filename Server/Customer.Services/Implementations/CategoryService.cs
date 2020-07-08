@@ -39,5 +39,19 @@
                     .Categories
                     .Select(c => c))
                 .ToListAsync();
+
+        public async Task<IEnumerable<CategoryResultOutputModel>> Top()
+            => await this.db
+                    .Products
+                    .GroupBy(p => p.Category.Name)
+                    .Select(c => new CategoryResultOutputModel
+                    { 
+                        Name = c.Key,
+                        Products = c.Count()
+                    })
+                    .OrderByDescending(p => p.Products)
+                    .Take(9)
+                    .ToListAsync();
+
     }
 }

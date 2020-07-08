@@ -20,7 +20,7 @@ const Item = ({itemsSet}) => {
             {
                 itemsSet.map((item, i) =>
                     <Grid item md={12 / totalItems} key={`${item.name}-${i}`}>
-                        <Link component={NavLink} to="/" color="textPrimary">
+                        <Link component={NavLink} to={`/products?name=${item.name.replace(/\s/g, '-').toLowerCase()}`} color="textPrimary">
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}

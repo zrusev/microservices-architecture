@@ -11,5 +11,7 @@
         Task<Category> Find(int categoryId);
 
         Task<IEnumerable<CategoryOutputModel>> GetAll();
+
+        Task<IEnumerable<CategoryResultOutputModel>> Top();
     }
 }

@@ -3,6 +3,7 @@ import { authentication } from './authentication.reducer';
 import { customer } from './customer.reducer';
 import { products } from './products.reducer';
 import { topProducts } from './customer.gateway.reducer';
+import { categories } from './categories.reducer';
 
 import { alert } from './alert.reducer';
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     alert,
     products,
     topProducts,
+    categories,
   });
 
 export default rootReducer;

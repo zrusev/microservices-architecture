@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { categoriesActions } from '../../+store/actions';
 import { NavLink } from 'react-router-dom';
 import {
     Link,
@@ -9,23 +11,11 @@ import {
 import CategoryIcon from '@material-ui/icons/Category';
 import useStyles from '../../style/Landing/category';
 
-const categories = [
-    'За дома'
-    ,'Тяло'
-    ,'Серуми за лице'
-    ,'Benecos'
-    ,'Тоник за лице'
-    ,'Суха коса'
-    ,'Percy Nobleman'
-    ,'Apiarium'
-    ,'Dr.Craft'
-]
-
 const Item = ({item}) => {
     const classes = useStyles();
 
     return (
-        <Link component={NavLink} to="/" className={classes.item}>
+        <Link component={NavLink} to={`/products/categories?name=${item.name.replace(/\s/g, '-').toLowerCase()}`} className={classes.item}>
             <Paper elevation={3} className={classes.paper}>
                 <CategoryIcon className={classes.icon} />
                 <Divider />
@@ -33,7 +23,7 @@ const Item = ({item}) => {
                     className={classes.title}
                     variant="h6"
                     noWrap>
-                    {item}
+                    {item.name}
                 </Typography>
             </Paper>
         </Link>
@@ -42,6 +32,17 @@ const Item = ({item}) => {
 
 export const Category = () => {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.categories.categories);
+
+    useEffect(() => {
+        dispatch(categoriesActions.topCategories());
+    }, [dispatch]);
+
+    if(categories.length === 0) {
+        return null;
+    }
 
     return (
         <div className={classes.root}>

@@ -34,9 +34,22 @@ const useStyles = makeStyles((theme) => ({
     cardMedia: {
       paddingTop: '56.25%', // 16:9
       backgroundColor: 'lightgrey',
+
+      '&:hover': {
+        textDecoration: 'none',
+        borderRadius: '2px',
+        boxShadow: '0 0 10px 10px rgb(0, 0, 0, 0.5)',
+        backgroundColor: 'lightgrey',
+      },
     },
     cardContent: {
       flexGrow: 1,
+      '-webkit-touch-callout': 'none',
+      '-webkit-user-select': 'none',
+      '-khtml-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-ms-user-select': 'none',
+      userSelect: 'none',
     },
     cardProduct_description: {
       fontSize: '0.75rem',
