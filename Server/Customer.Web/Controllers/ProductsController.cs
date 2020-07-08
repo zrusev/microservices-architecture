@@ -51,15 +51,16 @@
         }
 
         [HttpGet]
-        [Route(Id)]
-        public async Task<IActionResult> Details(int id)
+        [AllowAnonymous]
+        [Route(nameof(Details))]
+        public async Task<IActionResult> Details([FromQuery] string name)
             => QueryResultExtensions.ToActionResult(
-                await this.productService.GetDetails(id));
+                await this.productService.GetDetails(name));
 
         [HttpGet]
         [AllowAnonymous]
-        [Route(nameof(Details))]
-        public async Task<IActionResult> Details([FromQuery] int[] ids)
+        [Route(nameof(ByIds))]
+        public async Task<IActionResult> ByIds([FromQuery] int[] ids)
             => QueryResultExtensions.ToActionResult(
                 QueryResult<IEnumerable<ProductOutputListModel>>.Suceeded(
                     await this.productService.GetDetails(ids)

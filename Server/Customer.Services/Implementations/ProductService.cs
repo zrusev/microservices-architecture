@@ -44,12 +44,16 @@
                     .Take(ProductsPerPage))
                 .ToListAsync();
 
-        public async Task<QueryResult> GetDetails(int id)
+        public async Task<QueryResult> GetDetails(string name)
         {
+            var match = name.Replace('-', ' ');
+
             var result = await this.mapper
                     .ProjectTo<ProductOutputModel>(this.db
                         .Products
-                        .Where(p => p.Id == id)
+                        .Include(c => c.Category)
+                        .Include(m => m.Manufacturer)
+                        .Where(p => p.Name == match)
                         .Select(p => p))
                     .FirstOrDefaultAsync();
 

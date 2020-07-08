@@ -8,7 +8,7 @@
 
     public interface IProductsService : IService
     {
-        [Get("/api/v1/Products/Details")]
+        [Get("/api/v1/Products/ByIds")]
         Task<IEnumerable<ProductOutputListModel>> GetProducts(
             [Query(CollectionFormat.Multi)] IEnumerable<int> ids);
     }

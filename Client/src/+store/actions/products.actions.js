@@ -24,5 +24,25 @@ export const productsActions = {
                     }
                 )
         };
+    },
+    getProduct: (name) => {
+        const request = product => ({ type: productsConstants.GET_DETAILS_REQUEST, product });
+        const success = product => ({ type: productsConstants.GET_DETAILS_SUCCESS, product });
+        const failure = error => ({ type: productsConstants.GET_DETAILS_FAILURE, error });
+
+        return dispatch => {
+            dispatch(request(null));
+
+            service.getProductDetails(name)
+                .then(
+                    product => {
+                        dispatch(success(product));
+                    },
+                    error => {
+                        dispatch(failure(error));
+                        dispatch(alertActions.error(error));
+                    }
+                )
+        };
     }
 };

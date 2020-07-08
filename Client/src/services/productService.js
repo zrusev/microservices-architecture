@@ -16,8 +16,8 @@ export class ProductService {
         return get(`${this.searchProductsURL}?page=${page}`);
     }
 
-    getProductDetails(id) {
-        return get(`${this.detailsProductURL}/${id}`);
+    getProductDetails(name) {
+        return get(`${this.detailsProductURL}/details?name=${name}`);
     }
 
     createProduct(data) {

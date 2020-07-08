@@ -18,6 +18,7 @@ import {
   Footer,
 } from './components/index';
 import Handler from './helpers/error';
+import { Details } from './views/Products/Details';
 
 const App = () => {
   const alert = useSelector(state => state.alert);
@@ -47,6 +48,7 @@ const App = () => {
                   <Route path="/login" component={LoginPage} />
                   <Route path="/register" component={RegisterPage} />
                   <Route path="/products/pages/:page" component={Products} />
+                  <Route path="/products/details/:name" component={Details} />
                   <ProtectedRoute path="/profile" component={Profile} />
                 </Switch>
               </main>

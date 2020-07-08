@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsActions } from '../../+store/actions';
-import { ProductCard } from '../../components/index';
+import { ProductCards } from '../../components/index';
 import {
     Container,
 } from '@material-ui/core';
@@ -33,7 +33,7 @@ export const Products = ({ match: { params } }) => {
     return (
         <div style={{minHeight: '90vh', margin: '2em'}}>
             <Container maxWidth="lg">
-                <ProductCard cards={cards} />
+                <ProductCards cards={cards} />
             </Container>
             <Container maxWidth="lg">
                 <Pagination
