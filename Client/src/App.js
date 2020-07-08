@@ -50,8 +50,8 @@ const App = () => {
                   <Route exact path="/" component={HomePage} />
                   <Route path="/login" component={LoginPage} />
                   <Route path="/register" component={RegisterPage} />
-                  <Route path="/products/pages/:page" component={Products} />
                   <Route path="/products/details/:name" component={Details} />
+                  <Route path="/products" component={Products} />
                   <ProtectedRoute path="/profile" component={Profile} />
                   <Route render={() => <Redirect to="/" />} />
                 </Switch>

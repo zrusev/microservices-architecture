@@ -25,14 +25,22 @@ export const SidePanel = ({toggleDrawer, open}) => {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {categories.map((item, index) => (
-              <Link component={NavLink} to={`/products/categories?name=${item.name.replace(/\s/g, '-').toLowerCase()}`}>
-                <ListItem button key={`${item.name}-${index}`}>
-                  <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItem>
-              </Link>
-            ))}
+            {
+              categories.map((item, index) => (
+                <Link
+                  component={NavLink}
+                  to={{
+                    pathname: '/products',
+                    search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
+                  }
+                >
+                  <ListItem button key={`${item.name}-${index}`}>
+                    <ListItemIcon>{index % 2 === 0 ? <CategoryIcon /> : <LabelIcon />}</ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))
+            }
           </List>
           <Divider />
           <List>

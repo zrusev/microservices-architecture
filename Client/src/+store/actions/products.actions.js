@@ -5,7 +5,7 @@ import { ProductService } from '../../services';
 const service = new ProductService();
 
 export const productsActions = {
-    get: (page) => {
+    get: (page, category, manufacturer) => {
         const request = products => ({ type: productsConstants.GET_REQUEST, products });
         const success = products => ({ type: productsConstants.GET_SUCCESS, products });
         const failure = error => ({ type: productsConstants.GET_FAILURE, error });
@@ -13,7 +13,7 @@ export const productsActions = {
         return dispatch => {
             dispatch(request([]));
 
-            service.getProducts(page)
+            service.getProducts(page, category, manufacturer)
                 .then(
                     products => {
                         dispatch(success(products));

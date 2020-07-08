@@ -7,6 +7,7 @@
     using Customer.Services.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+    using StoreApi.Data.Infrastructure;
     using StoreApi.Services.Helpers;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,16 +30,26 @@
             this.mapper = mapper;
         }
 
-        public async Task<int> Total()
+        public async Task<int> Total(string category, string manufacturer)
             => await this.db
                 .Products
+                .WhereIf(!string.IsNullOrWhiteSpace(category), 
+                    c => c.Category.Name.ToLower() == category.Replace('-', ' ').ToLower())
+                .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
+                    c => c.Manufacturer.Name.ToLower() == manufacturer.Replace('-', ' ').ToLower())
                 .Select(v => v.Id)
                 .CountAsync();
 
-        public async Task<IEnumerable<ProductOutputModel>> GetListings(int page)
+        public async Task<IEnumerable<ProductOutputModel>> GetListings(int page, string category, string manufacturer)
             => await this.mapper
                 .ProjectTo<ProductOutputModel>(this.db
                     .Products
+                    .Include(c => c.Category)
+                    .Include(m => m.Manufacturer)
+                    .WhereIf(!string.IsNullOrWhiteSpace(category), 
+                        c => c.Category.Name == category.Replace('-', ' ').ToLower())
+                    .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
+                        c => c.Manufacturer.Name == manufacturer.Replace('-', ' ').ToLower())
                     .Select(p => p)
                     .Skip((page - 1) * ProductsPerPage)
                     .Take(ProductsPerPage))
@@ -46,14 +57,14 @@
 
         public async Task<QueryResult> GetDetails(string name)
         {
-            var match = name.Replace('-', ' ');
+            var match = name.Replace('-', ' ').ToLower();
 
             var result = await this.mapper
                     .ProjectTo<ProductOutputModel>(this.db
                         .Products
                         .Include(c => c.Category)
                         .Include(m => m.Manufacturer)
-                        .Where(p => p.Name == match)
+                        .Where(p => p.Name.ToLower() == match)
                         .Select(p => p))
                     .FirstOrDefaultAsync();
 

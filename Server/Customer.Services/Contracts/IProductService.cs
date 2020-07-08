@@ -13,11 +13,11 @@
 
         Task<bool> Delete(int id);
 
-        Task<int> Total();
+        Task<int> Total(string category, string manufacturer);
 
         Task SaveToDb(Product product);
 
-        Task<IEnumerable<ProductOutputModel>> GetListings(int page);
+        Task<IEnumerable<ProductOutputModel>> GetListings(int page, string category, string manufacturer);
 
         Task<QueryResult> GetDetails(string name);
 

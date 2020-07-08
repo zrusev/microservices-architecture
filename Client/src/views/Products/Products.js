@@ -9,22 +9,37 @@ import Pagination from '@material-ui/lab/Pagination';
 import { Spinner } from '../../components/index';
 import useStyles from '../../style/Products/products';
 import { history } from '../../helpers';
+import queryString from 'query-string';
 
-export const Products = ({ match: { params } }) => {
+export const Products = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+
     const produtsPerPage = 10;
 
-    const [pageNumber, setPageNumber] = useState(parseInt(params.page) || 1);
+    const url = props.location.search;
+    const params = queryString.parse(url);
+    const {page, category, manufacturer} = params;
+
+    const [pageNumber, setPageNumber] = useState(parseInt(page) || 1);
+    const [categoryFilter] = useState(category);
+    const [manufacturerFilter] = useState(manufacturer);
+
     const cards = useSelector(state => state.products.products);
 
     useEffect(() => {
-        dispatch(productsActions.get(pageNumber));
-    }, [dispatch, pageNumber]);
+        dispatch(productsActions.get(pageNumber, categoryFilter, manufacturerFilter));
+    }, [dispatch, pageNumber, categoryFilter, manufacturerFilter]);
 
-    const handleChange = (event, value) => {
-      setPageNumber(value);
-      history.push(`/products/pages/${value}`);
+    const handleChange = (event, page) => {
+        setPageNumber(page);
+
+        history.push({
+            pathname: '/products',
+            search: ((page || '') && `?page=${page}`) +
+                    ((categoryFilter || '') && `&category=${categoryFilter}`) +
+                    ((manufacturerFilter || '') && `&manufacturer=${manufacturerFilter}`)
+        });
     };
 
     if(cards.length === 0) {

@@ -13,9 +13,20 @@ import useStyles from '../../style/Landing/category';
 
 const Item = ({item}) => {
     const classes = useStyles();
+    const params = {
+        page: 1,
+        category: item.name.replace(/\s/g, '-'),
+    }
 
     return (
-        <Link component={NavLink} to={`/products/categories?name=${item.name.replace(/\s/g, '-').toLowerCase()}`} className={classes.item}>
+        <Link
+            className={classes.item}
+            component={NavLink}
+            to={{
+                pathname: '/products',
+                search: `?page=${params.page}&category=${params.category.toLowerCase()}`,
+            }}
+        >
             <Paper elevation={3} className={classes.paper}>
                 <CategoryIcon className={classes.icon} />
                 <Divider />
