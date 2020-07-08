@@ -30,17 +30,19 @@
             this.mapper = mapper;
         }
 
-        public async Task<int> Total(string category, string manufacturer)
+        public async Task<int> Total(string category, string manufacturer, string name)
             => await this.db
                 .Products
                 .WhereIf(!string.IsNullOrWhiteSpace(category), 
                     c => c.Category.Name.ToLower() == category.Replace('-', ' ').ToLower())
                 .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                    c => c.Manufacturer.Name.ToLower() == manufacturer.Replace('-', ' ').ToLower())
+                    m => m.Manufacturer.Name.ToLower() == manufacturer.Replace('-', ' ').ToLower())
+                .WhereIf(!string.IsNullOrWhiteSpace(name),
+                    n => n.Name.ToLower().Contains(name.Replace('-', ' ').ToLower()))
                 .Select(v => v.Id)
                 .CountAsync();
 
-        public async Task<IEnumerable<ProductOutputModel>> GetListings(int page, string category, string manufacturer)
+        public async Task<IEnumerable<ProductOutputModel>> GetListings(int page, string category, string manufacturer, string name)
             => await this.mapper
                 .ProjectTo<ProductOutputModel>(this.db
                     .Products
@@ -49,7 +51,9 @@
                     .WhereIf(!string.IsNullOrWhiteSpace(category), 
                         c => c.Category.Name == category.Replace('-', ' ').ToLower())
                     .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                        c => c.Manufacturer.Name == manufacturer.Replace('-', ' ').ToLower())
+                        m => m.Manufacturer.Name == manufacturer.Replace('-', ' ').ToLower())
+                    .WhereIf(!string.IsNullOrWhiteSpace(name),
+                        n => n.Name.ToLower().Contains(name.Replace('-', ' ').ToLower()))
                     .Select(p => p)
                     .Skip((page - 1) * ProductsPerPage)
                     .Take(ProductsPerPage))

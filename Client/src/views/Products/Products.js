@@ -16,30 +16,31 @@ export const Products = (props) => {
     const dispatch = useDispatch();
 
     const produtsPerPage = 10;
-
     const url = props.location.search;
     const params = queryString.parse(url);
-    const {page, category, manufacturer} = params;
+    const {page, category, manufacturer, name} = params;
 
     const [pageNumber, setPageNumber] = useState(parseInt(page) || 1);
-    const [categoryFilter] = useState(category);
-    const [manufacturerFilter] = useState(manufacturer);
 
     const cards = useSelector(state => state.products.products);
 
     useEffect(() => {
-        dispatch(productsActions.get(pageNumber, categoryFilter, manufacturerFilter));
-    }, [dispatch, pageNumber, categoryFilter, manufacturerFilter]);
+        dispatch(productsActions.get(page,
+            category,
+            manufacturer,
+            name));
+    }, [dispatch, page, category, manufacturer, name]);
 
     const handleChange = (event, page) => {
-        setPageNumber(page);
-
         history.push({
             pathname: '/products',
             search: ((page || '') && `?page=${page}`) +
-                    ((categoryFilter || '') && `&category=${categoryFilter}`) +
-                    ((manufacturerFilter || '') && `&manufacturer=${manufacturerFilter}`)
+                    ((category || '') && `&category=${category}`) +
+                    ((manufacturer || '') && `&manufacturer=${manufacturer}`) +
+                    ((name || '') && `&name=${name}`)
         });
+
+        setPageNumber(page);
     };
 
     if(cards.length === 0) {

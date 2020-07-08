@@ -12,11 +12,12 @@ export class ProductService {
         this.deleteProductURL = `${this.serverBaseURL}/products/delete`;
     }
 
-    getProducts(page, category, manufacturer) {
+    getProducts(page, category, manufacturer, name) {
         const url = `${this.searchProductsURL}` +
             ((page || '') && `?page=${page}`) +
             ((category || '') && `&category=${category}`) +
-            ((manufacturer || '') && `&manufacturer=${manufacturer}`);
+            ((manufacturer || '') && `&manufacturer=${manufacturer}`) +
+            ((name || '') && `&name=${name}`);
 
         return get(url);
     }

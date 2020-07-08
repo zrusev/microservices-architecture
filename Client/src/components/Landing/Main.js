@@ -41,7 +41,7 @@ export const Main = () => {
               <div className={classes.heroButtons}>
                 <Grid container spacing={1} justify="center">
                   <Grid item>
-                    <Link component={NavLink} to="/products/pages/1">
+                    <Link component={NavLink} to="/products?page=1">
                       <Button variant="contained" size="large" color="primary">
                         Explore
                       </Button>

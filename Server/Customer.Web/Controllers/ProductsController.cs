@@ -34,11 +34,19 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Search([FromQuery] int page, string category, string manufacturer)
+        public async Task<IActionResult> Search([FromQuery] int page, 
+            string category, 
+            string manufacturer, 
+            string name)
         {
-            var totalProducts = await this.productService.Total(category, manufacturer);
+            var totalProducts = await this.productService.Total(category, 
+                manufacturer, 
+                name);
 
-            var products = await this.productService.GetListings(page, category, manufacturer);
+            var products = await this.productService.GetListings(page, 
+                category, 
+                manufacturer,
+                name);
 
             return QueryResultExtensions.ToActionResult(
                     QueryResult<ProductSearchOutputModel>.Suceeded(

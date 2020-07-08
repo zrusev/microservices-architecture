@@ -30,13 +30,14 @@ export const SidePanel = ({toggleDrawer, open}) => {
             {
               categories.map((item, index) => (
                 <Link
+                  key={`${item.name}-${index}`}
                   component={NavLink}
                   to={{
                     pathname: '/products',
                     search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
                   }
                 >
-                  <ListItem button key={`${item.name}-${index}`}>
+                  <ListItem button>
                     <ListItemIcon>
                       <CategoryIcon />
                     </ListItemIcon>
@@ -51,13 +52,14 @@ export const SidePanel = ({toggleDrawer, open}) => {
             {
               manufacturers.slice(0, 5).map((item, index) => (
                 <Link
+                  key={`${item.name}-${index}`}
                   component={NavLink}
                   to={{
                     pathname: '/products',
                     search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
                   }
                 >
-                  <ListItem button key={`${item.name}-${index}`}>
+                  <ListItem button>
                     <ListItemIcon>
                       <LocationCityIcon />
                     </ListItemIcon>
