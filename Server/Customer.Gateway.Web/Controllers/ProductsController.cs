@@ -39,9 +39,7 @@
             var products = await this.productsService.GetProducts(ids);
 
             return QueryResultExtensions.ToActionResult(
-                QueryResult<IEnumerable<ProductOutputListModel>>.Suceeded(
-                    products
-                ));
+                QueryResult<IEnumerable<ProductOutputListModel>>.Suceeded(products));
         }
     }
 }

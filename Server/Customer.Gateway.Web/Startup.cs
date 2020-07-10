@@ -37,6 +37,7 @@ namespace Customer.Gateway.Web
                 .AddRefitClient<ITopBoughtProductsService>()
                 .WithConfiguration(serviceEndpoints.Statistics);
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
             => app
                .UseWebService(env)

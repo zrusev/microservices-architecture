@@ -23,9 +23,18 @@
 
             var entryAssembly = Assembly.GetEntryAssembly().GetName();
 
-            var types = Assembly
+            var commonTypes = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .FirstOrDefault(n => n.GetName().Name == "StoreApi")
+                .GetExportedTypes();
+
+            var serviceTypes = Assembly
                 .Load(entryAssembly.Name.Replace("Web", "Services"))
-                .GetExportedTypes()
+                .GetExportedTypes();
+
+            var types = commonTypes
+                .Concat(serviceTypes)
                 .Where(t => t.IsClass && !t.IsAbstract)
                 .Select(t => new
                 {

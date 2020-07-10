@@ -29,7 +29,6 @@
         public async Task<IActionResult> Top()
          => QueryResultExtensions.ToActionResult(
              QueryResult<IEnumerable<CategoryResultOutputModel>>.Suceeded(
-                 await this.categoryService.Top()
-                ));
+                 await this.categoryService.Top()));
     }
 }

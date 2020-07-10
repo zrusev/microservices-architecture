@@ -6,11 +6,11 @@
     using StoreApi.Web.Infrastructure;
     using System.Threading.Tasks;
 
-    public class SeenProductController : ApplicationController
+    public class SeenProductsController : ApplicationController
     {
         private readonly ISeenProductService seenProductService;
 
-        public SeenProductController(ISeenProductService seenProductService) 
+        public SeenProductsController(ISeenProductService seenProductService) 
             => this.seenProductService = seenProductService;
 
         [HttpGet]

@@ -29,7 +29,6 @@
         public async Task<IActionResult> Top()
          => QueryResultExtensions.ToActionResult(
              QueryResult<IEnumerable<ManufacturerResultOutputModel>>.Suceeded(
-                 await this.manufacturerService.Top()
-                ));
+                 await this.manufacturerService.Top()));
     }
 }

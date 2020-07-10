@@ -1,6 +1,8 @@
 ﻿namespace StoreApi.Services.Contracts.Identity
 {
-    public interface ICurrentTokenService
+    using Services;
+    
+    public interface ICurrentTokenService: IService
     {
         string Get();
 

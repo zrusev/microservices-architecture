@@ -9,11 +9,11 @@
     using StoreApi.Web.Infrastructure;
     using System.Threading.Tasks;
 
-    public class BoughtProductController : ApplicationController
+    public class BoughtProductsController : ApplicationController
     {
         private readonly IBoughtProductService boughtProductService;
 
-        public BoughtProductController(IBoughtProductService boughtProductService)
+        public BoughtProductsController(IBoughtProductService boughtProductService)
             => this.boughtProductService = boughtProductService;
 
         [HttpGet]
@@ -21,7 +21,6 @@
         public async Task<IActionResult> BoughtProducts(int userId)
             => QueryResultExtensions.ToActionResult(
                 await this.boughtProductService.GetBoughtProducts(userId));
-
 
         [HttpGet]
         [AllowAnonymous]
@@ -33,5 +32,11 @@
                     {
                         Ids = await this.boughtProductService.TopBoughtProducts()
                     }));
+
+        [HttpGet]
+        [Route(nameof(TotalBoughtProducts))]
+        public async Task<IActionResult> TotalBoughtProducts()
+            => QueryResultExtensions.ToActionResult(
+                await this.boughtProductService.TotalBoughtProducts());
     }
 }

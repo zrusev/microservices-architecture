@@ -6,7 +6,6 @@
     using Microsoft.Extensions.Logging;
     using Models;
     using Statistics.Data;
-    using Statistics.Data.Models;
     using StoreApi.Services.Helpers;
     using System.Collections.Generic;
     using System.Linq;
@@ -36,7 +35,7 @@
                     .ToListAsync());
 
         public async Task<IEnumerable<BoughtProductOutputModel>> TopBoughtProducts()
-        => await this.db
+            => await this.db
                     .BoughtProducts
                     .GroupBy(p => p.ProductId)
                     .Select(c => new BoughtProductOutputModel
@@ -47,5 +46,16 @@
                     .OrderBy(p => p.Count)
                     .Take(100)
                     .ToListAsync();
+
+        public async Task<QueryResult> TotalBoughtProducts()
+            => QueryResult<BoughtProductsTotalOutputModel>.Suceeded(
+                await this.db
+                        .BoughtProducts
+                        .GroupBy(p => p.Id)
+                        .Select(m => new BoughtProductsTotalOutputModel
+                        {
+                            Total = m.Key
+                        })
+                        .FirstOrDefaultAsync());
     }
 }

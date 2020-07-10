@@ -7,7 +7,7 @@
 
     public interface ITopBoughtProductsService : IService
     {
-        [Get("/api/v1/BoughtProduct/TopBoughtProducts")]
+        [Get("/api/v1/BoughtProducts/TopBoughtProducts")]
         Task<TopBoughtProductOutputModel> TopBoughtProducts();
     }
 }

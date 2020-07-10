@@ -10,6 +10,8 @@
     {
         Task<QueryResult> GetBoughtProducts(int userId);
 
+        Task<QueryResult> TotalBoughtProducts();
+
         Task<IEnumerable<BoughtProductOutputModel>> TopBoughtProducts();
     }
 }
