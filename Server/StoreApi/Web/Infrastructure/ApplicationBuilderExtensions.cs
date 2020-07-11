@@ -15,13 +15,14 @@
             return app
                    .UseHttpsRedirection()
                    .UseRouting()
-                   .UseCors(x => x
+                   .UseCors(options => options
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader())
                    .UseAuthentication()
                    .UseAuthorization()
-                   .UseEndpoints(endpoints => endpoints.MapControllers());
+                   .UseEndpoints(endpoints => endpoints
+                        .MapControllers());
         }
 
         public static IApplicationBuilder UseInitializer(this IApplicationBuilder app, IWebHostEnvironment env)

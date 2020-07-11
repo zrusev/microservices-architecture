@@ -63,6 +63,10 @@ namespace Admin.Web
             }
 
             app
+                .UseCors(x => x
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader())
                 .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()

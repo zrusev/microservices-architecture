@@ -8,13 +8,13 @@
 
     public interface ICustomersService : IService
     {
-        [Get("/api/v1/Customers")]
+        [Get("/api/v1/Customers/All")]
         Task<IEnumerable<CustomerDetailsOutputModel>> All();
 
         [Get("/api/v1/Customers/{id}")]
-        Task<CustomerDetailsOutputModel> Details(int id);
+        Task<CustomerDetailsOutputModel> Details(string id);
 
         [Put("/api/v1/Customers/{id}")]
-        Task Edit(int id, CustomerInputModel Customer);
+        Task Edit(string id, CustomerInputModel Customer);
     }
 }

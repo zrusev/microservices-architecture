@@ -27,8 +27,20 @@
 
         [HttpGet]
         [Route(Id)]
-        public async Task<IActionResult> Get([FromQuery] string id)
+        public async Task<IActionResult> Get([FromRoute] string id)
             => QueryResultExtensions.ToActionResult(
                 await this.customerService.GetById(id));
+
+        [HttpPut]
+        [Route(Id)]
+        public async Task<IActionResult> Edit(string id, EditCustomerInputModel model)
+            => QueryResultExtensions.ToActionResult(
+                await this.customerService.EditCustomer(id, model));
+
+        [HttpGet]
+        [Route(nameof(All))]
+        public async Task<IActionResult> All()
+            => QueryResultExtensions.ToActionResult(
+                await this.customerService.GetAllCustomers());
     }
 }

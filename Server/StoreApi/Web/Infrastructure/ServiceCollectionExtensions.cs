@@ -70,15 +70,11 @@
         
         public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
             where TDbContext : DbContext
-        {
-            var r = configuration.GetConnectionString("DefaultConnection");
-
-            return services
+            => services
                     .AddScoped<DbContext, TDbContext>()
                     .AddDbContext<TDbContext>(options => options
                         .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-        }
-
+        
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, IConfigurationSection appSettingsSection)
         {
             services.Configure<AppSettings>(appSettingsSection);
@@ -87,28 +83,29 @@
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services
-                .AddAuthentication(x =>
+                .AddAuthentication(options =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(x =>
+                .AddJwtBearer(options =>
                 {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
+                        ValidateIssuerSigningKey = true,
                         ValidIssuer = appSettings.Issuer,
-                        ValidateAudience = false,
+                        ValidateIssuer = false,
                         ValidAudience = appSettings.Audience,
+                        ValidateAudience = false,
                         ValidateLifetime = true
                     };
                 });
 
+            services.AddHttpContextAccessor();
             return services;
         }
     }
-}
+}   

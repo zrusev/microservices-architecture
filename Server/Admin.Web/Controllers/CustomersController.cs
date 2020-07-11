@@ -22,17 +22,18 @@
             => View(await this.customers.All());
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var dealer = await this.customers.Details(id);
+            var customer = await this.customers.Details(id);
 
-            var dealerForm = this.mapper.Map<CustomerFormModel>(dealer);
+            var customerForm = this.mapper
+                .Map<CustomerFormModel>(customer);
 
-            return View(dealerForm);
+            return View(customerForm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, CustomerFormModel model)
+        public async Task<IActionResult> Edit(string id, CustomerFormModel model)
             => await this.Handle(
                 async () => await this.customers
                     .Edit(id, this.mapper.Map<CustomerInputModel>(model)),

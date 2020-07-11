@@ -2,7 +2,7 @@
 {
     using Services;
     
-    public interface ICurrentTokenService: IService
+    public interface ICurrentTokenService: IScopedService
     {
         string Get();
 
