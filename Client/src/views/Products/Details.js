@@ -10,6 +10,7 @@ import {
     Card,
     CardActions,
     Button,
+    Typography,
 } from '@material-ui/core';
 import { Spinner } from '../../components/index';
 import useStyles from '../../style/Landing/main';
@@ -19,12 +20,14 @@ export const Details = ({ match: { params } }) => {
 
     const dispatch = useDispatch();
     const card = useSelector(state => state.products.product);
+    const visits = useSelector(state => state.statistics.seenProduct);
 
-    const filter = params.name;
+    const nameFilter = params.name;
+    const idFilter = params.id;
 
     useEffect(() => {
-        dispatch(productsActions.getProduct(filter));
-    }, [dispatch, filter]);
+        dispatch(productsActions.getProduct(idFilter, nameFilter));
+    }, [dispatch, nameFilter, idFilter]);
 
     if(!card) {
         return <Spinner />
@@ -39,9 +42,12 @@ export const Details = ({ match: { params } }) => {
                     </Grid>
                     <Grid item xs={12} sm={6} md={6}>
                         <Card className={classes.card}>
+                            <Typography className={classes.seen} align="center" component="h5" color="textSecondary">
+                                Seen: {visits && visits.totalVisits} times
+                            </Typography>
                             <CardActions>
-                                <Link component={NavLink} to="/" color="textPrimary">
-                                    <Button size="small" color="primary">
+                                <Link className={classes.addToBasket} component={NavLink} to="/" color="textPrimary">
+                                    <Button size="small" color="primary" variant="contained">
                                         ADD TO BASKET
                                     </Button>
                                 </Link>

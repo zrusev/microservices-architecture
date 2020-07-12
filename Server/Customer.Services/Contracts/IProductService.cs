@@ -19,7 +19,7 @@
 
         Task<IEnumerable<ProductOutputModel>> GetListings(int page, string category, string manufacturer, string name);
 
-        Task<QueryResult> GetDetails(string name);
+        Task<QueryResult> GetDetails(int id, string name);
 
         Task<IEnumerable<ProductOutputListModel>> GetDetails(int[] ids);
 

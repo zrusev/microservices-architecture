@@ -18,5 +18,12 @@
         public async Task<IActionResult> TotalViews(int id)
             => QueryResultExtensions.ToActionResult(
                 await this.seenProductService.GetTotalVisits(id));
+
+
+        [HttpPut]
+        [Route(Id)]
+        public async Task<IActionResult> IncrementViews(int id)
+            => QueryResultExtensions.ToActionResult(
+                await this.seenProductService.AddVisits(id));
     }
 }

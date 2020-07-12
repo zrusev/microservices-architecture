@@ -6,3 +6,4 @@ export * from './service.constants';
 export * from './products.constants';
 export * from './categories.constants';
 export * from './manufacturers.constants';
+export * from './statistics.constants';

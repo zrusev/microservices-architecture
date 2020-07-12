@@ -61,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    seen: {
+      margin: theme.spacing(2),
+    },
+    addToBasket: {
+      margin: 'auto',
+    },
   }));
 
   export default useStyles;

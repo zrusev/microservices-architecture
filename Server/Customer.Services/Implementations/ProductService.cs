@@ -59,7 +59,7 @@
                     .Take(ProductsPerPage))
                 .ToListAsync();
 
-        public async Task<QueryResult> GetDetails(string name)
+        public async Task<QueryResult> GetDetails(int id, string name)
         {
             var match = name.Replace('-', ' ').ToLower();
 
@@ -68,7 +68,7 @@
                         .Products
                         .Include(c => c.Category)
                         .Include(m => m.Manufacturer)
-                        .Where(p => p.Name.ToLower() == match)
+                        .Where(p => p.Id == id && p.Name.ToLower() == match)
                         .Select(p => p))
                     .FirstOrDefaultAsync();
 

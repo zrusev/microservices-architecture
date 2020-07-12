@@ -25,7 +25,7 @@ export const Products = (props) => {
     const cards = useSelector(state => state.products.products);
 
     useEffect(() => {
-        dispatch(productsActions.get(page,
+        dispatch(productsActions.get(parseInt(page || 1),
             category,
             manufacturer,
             name));

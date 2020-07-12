@@ -5,6 +5,7 @@ import { products } from './products.reducer';
 import { topProducts } from './customer.gateway.reducer';
 import { categories } from './categories.reducer';
 import { manufacturers } from './manufacturers.reducer';
+import { statistics } from './statistics.reducer';
 
 import { alert } from './alert.reducer';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     topProducts,
     categories,
     manufacturers,
+    statistics,
   });
 
 export default rootReducer;

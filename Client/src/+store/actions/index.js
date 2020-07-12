@@ -5,3 +5,4 @@ export * from './customer.gateway.actions';
 export * from './products.actions';
 export * from './categories.actions';
 export * from './manufacturers.actions';
+export * from './statistics.actions';

@@ -22,8 +22,8 @@ export class ProductService {
         return get(url);
     }
 
-    getProductDetails(name) {
-        return get(`${this.detailsProductURL}/details?name=${name}`);
+    getProductDetails(id, name) {
+        return get(`${this.detailsProductURL}/details?id=${id}&name=${name}`);
     }
 
     createProduct(data) {

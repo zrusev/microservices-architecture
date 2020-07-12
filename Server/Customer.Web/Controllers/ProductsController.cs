@@ -61,9 +61,9 @@
         [HttpGet]
         [AllowAnonymous]
         [Route(nameof(Details))]
-        public async Task<IActionResult> Details([FromQuery] string name)
+        public async Task<IActionResult> Details([FromQuery] int id, string name)
             => QueryResultExtensions.ToActionResult(
-                await this.productService.GetDetails(name));
+                await this.productService.GetDetails(id, name));
 
         [HttpGet]
         [AllowAnonymous]
