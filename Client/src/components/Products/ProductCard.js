@@ -22,7 +22,7 @@ export const ProductCard = ({card, activeLink}) => {
                 <Link component={NavLink} to={`/products/details/${card.id}/${card.name.replace(/\s/g, '-').toLowerCase()}`} color="textPrimary">
                     <CardMedia
                         className={classes.cardMedia}
-                        image={card.image_url}
+                        image="https://source.unsplash.com/random"
                         title={`${card.name}-${card.id}`}
                     />
                 </Link> :

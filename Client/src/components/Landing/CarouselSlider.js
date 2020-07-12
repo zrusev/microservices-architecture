@@ -24,7 +24,7 @@ const Item = ({itemsSet}) => {
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image={item.image_url}
+                                    image="https://source.unsplash.com/random"
                                     title={item.name}
                                 />
                                 <div className={classes.overlay}>

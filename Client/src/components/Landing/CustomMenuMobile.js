@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -28,6 +28,13 @@ export const CustomMenuMobile = ({
     handleMenuClose
  }) => {
     const loggedIn = useSelector(state => state.authentication.loggedIn);
+    const notification = useSelector(state => state.notification.message);
+
+    const [notificationCount, setNotificationCount] = useState(0);
+
+    useEffect(() => {
+        setNotificationCount(1);
+    }, [notification])
 
     return (
         <Menu
@@ -48,8 +55,8 @@ export const CustomMenuMobile = ({
                 <p>Cart</p>
             </MenuItem>
             <MenuItem>
-                <IconButton aria-label="show 1 new notifications" color="inherit">
-                    <Badge badgeContent={1} color="secondary">
+                <IconButton aria-label="show {{notificationCount}} new notifications" color="inherit">
+                    <Badge badgeContent={notificationCount} color="secondary">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>

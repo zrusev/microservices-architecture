@@ -16,13 +16,16 @@ namespace Customer.Web
         private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-            => services
+        { 
+            services
                 .AddCors()
                 .AddDatabase<CustomerDbContext>(this.Configuration)
                 .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
+                .AddMessaging()
                 .AddControllers();
+        } 
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app

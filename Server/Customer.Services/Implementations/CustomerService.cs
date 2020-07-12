@@ -4,10 +4,12 @@
     using Contracts;
     using Customer.Data;
     using Customer.Data.Models;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
     using StoreApi.Services.Helpers;
+    using StoreApi.Web.Messages;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -17,14 +19,17 @@
         private readonly ILogger<CustomerService> logger;
         private readonly IMapper mapper;
         private readonly CustomerDbContext db;
+        private readonly IBus publisher;
 
         public CustomerService(ILogger<CustomerService> logger,
             CustomerDbContext db,
-            IMapper mapper)
+            IMapper mapper,
+            IBus publisher)
         {
             this.logger = logger;
             this.db = db;
             this.mapper = mapper;
+            this.publisher = publisher;
         }
 
         public async Task<QueryResult> CreateCustomer(CustomerCreateInputModel model, string userId, string email)
@@ -33,7 +38,7 @@
                     .Customers
                     .Where(v => v.UserId == userId)
                     .AnyAsync();
-
+ 
             if (exists)
             {
                 this.logger.LogInformation($"Customer with UserID: {userId} has already been created.");
@@ -55,6 +60,13 @@
                 .Add(customer);
 
             await this.db.SaveChangesAsync();
+
+            await this.publisher.Publish(new CustomerCreatedMessage
+            {
+                Message = $"Hello, {model.FirstName}, your account has been successfully created."
+            });
+
+            this.logger.LogInformation($"Customer with UserID: {userId} has been successfully created.");
 
             return QueryResult<Customer>.Suceeded(customer);
         }

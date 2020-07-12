@@ -1,6 +1,7 @@
 ﻿namespace StoreApi.Web.Infrastructure
 {
     using AutoMapper;
+    using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -75,7 +76,9 @@
                     .AddDbContext<TDbContext>(options => options
                         .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         
-        public static IServiceCollection AddTokenHandler(this IServiceCollection services, IConfigurationSection appSettingsSection)
+        public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
+            IConfigurationSection appSettingsSection, 
+            JwtBearerEvents events = null)
         {
             services.Configure<AppSettings>(appSettingsSection);
 
@@ -102,9 +105,38 @@
                         ValidateAudience = false,
                         ValidateLifetime = true
                     };
+
+                    if (events != null)
+                    {
+                        options.Events = events;
+                    }
                 });
 
             services.AddHttpContextAccessor();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMessaging(this IServiceCollection services,
+            params Type[] consumers)
+        {
+            services
+                .AddMassTransit(mt =>
+                {
+                    consumers.ForEach(consumer => mt.AddConsumer(consumer));
+
+                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                    {
+                        rmq.Host("localhost");
+
+                        consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
+                        {
+                            endpoint.ConfigureConsumer(bus, consumer);
+                        }));
+                    }));
+                })
+                .AddMassTransitHostedService();
+
             return services;
         }
     }

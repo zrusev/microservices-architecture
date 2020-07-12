@@ -6,3 +6,4 @@ export * from './products.actions';
 export * from './categories.actions';
 export * from './manufacturers.actions';
 export * from './statistics.actions';
+export * from './notifications.actions';

@@ -4,7 +4,7 @@ import { Badge } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import { CustomNotification } from './CustomNotification';
 import { CustomMenu, CustomMenuMobile, ThemeSwitch} from '../index';
 import useStyles from '../../style/Landing/sectionMobile';
 
@@ -65,11 +65,7 @@ export const SectionMobile = () => {
                       <ShoppingCartIcon />
                   </Badge>
                 </IconButton>
-                <IconButton aria-label="show 1 new notifications" color="inherit">
-                  <Badge badgeContent={1} color="secondary">
-                      <NotificationsIcon />
-                  </Badge>
-                </IconButton>
+                <CustomNotification />
                 <IconButton aria-label="show 1 new notifications" color="inherit">
                   <ThemeSwitch />
                 </IconButton>

@@ -67,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
     addToBasket: {
       margin: 'auto',
     },
+    notify: {
+      margin: theme.spacing(1),
+    },
   }));
 
   export default useStyles;
