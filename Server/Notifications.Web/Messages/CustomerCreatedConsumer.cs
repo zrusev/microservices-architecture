@@ -21,6 +21,5 @@
                    .Clients
                    .All
                    .SendAsync(ReceiveNotificationEndpoint, context.Message);
-        
     }
 }

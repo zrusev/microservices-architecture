@@ -8,7 +8,7 @@
     using Microsoft.Extensions.Options;
     using Services.Contracts.User;
     using StoreApi;
-    using StoreApi.Models;
+    using StoreApi.Data.Models;
     using StoreApi.Web.Controllers;
     using StoreApi.Web.Infrastructure;
     using System.Linq;

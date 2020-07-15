@@ -19,7 +19,7 @@ export const ProductCard = ({card, activeLink}) => {
         <Card className={classes.card}>
             {
                 activeLink ?
-                <Link component={NavLink} to={`/products/details/${card.id}/${card.name.replace(/\s/g, '-').toLowerCase()}`} color="textPrimary">
+                <Link component={NavLink} to={`/products/details/${card.id}/${card.name}`} color="textPrimary">
                     <CardMedia
                         className={classes.cardMedia}
                         image="https://source.unsplash.com/random"

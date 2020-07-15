@@ -22,10 +22,11 @@ export const Details = ({ match: { params } }) => {
     const card = useSelector(state => state.products.product);
     const visits = useSelector(state => state.statistics.seenProduct);
 
-    const nameFilter = params.name;
+    const nameFilter = params.name.replace(/\s/g, '%20').toLowerCase();
     const idFilter = params.id;
 
     useEffect(() => {
+        debugger
         dispatch(productsActions.getProduct(idFilter, nameFilter));
     }, [dispatch, nameFilter, idFilter]);
 

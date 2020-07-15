@@ -1,0 +1,128 @@
+version: "3.8"
+
+services:
+
+    data:
+        container_name: sqlserver
+        image: mcr.microsoft.com/mssql/server
+        ports: 
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=651651c1f028!@
+        volumes: 
+            - sqldata:/var/opt/mssql 
+        networks: 
+            - storeapi-network
+            
+    identity:
+        container_name: identity
+        build:
+            context: ./Server
+            dockerfile: ./Identity.Web/Dockerfile
+        ports: 
+            - "5001:80"
+        env_file: Server/StoreApi/.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppIdentityDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
+        restart: on-failure
+        volumes:
+            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - storeapi-network
+        depends_on:
+            - data
+            
+    customer:
+        container_name: customers
+        build:
+            context: ./Server
+            dockerfile: ./Customer.Web/Dockerfile
+        ports: 
+            - "5003:80"
+        env_file: Server/StoreApi/.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppCustomerDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
+        restart: on-failure
+        volumes:
+            - ./.aspnet/customers/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - storeapi-network
+        depends_on:
+            - data
+            
+    statistics:
+        container_name: statistics
+        build:
+            context: ./Server
+            dockerfile: ./Statistics.Web/Dockerfile
+        ports: 
+            - "5005:80"
+        env_file: Server/StoreApi/.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppStatisticsDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
+        restart: on-failure
+        volumes:
+            - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - storeapi-network
+        depends_on:
+            - data
+            
+    admin:
+        container_name: admin
+        build:
+            context: ./Server
+            dockerfile: ./Admin.Web/Dockerfile
+        ports: 
+            - "50400:80"
+        env_file: Server/StoreApi/.env
+        volumes:
+            - ./.aspnet/admin/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        restart: on-failure
+        networks: 
+            - storeapi-network            
+
+    customer_gateway:
+        container_name: customers_gateway
+        build:
+            context: ./Server
+            dockerfile: ./Customer.Gateway.Web/Dockerfile
+        ports: 
+            - "5007:80"
+        env_file: Server/StoreApi/.env
+        restart: on-failure
+        networks: 
+            - storeapi-network
+
+    notification:
+        container_name: notifications
+        build:
+            context: ./Server
+            dockerfile: ./Notifications.Web/Dockerfile
+        ports: 
+            - "5011:80"
+        env_file: Server/StoreApi/.env
+        restart: on-failure
+        networks: 
+            - storeapi-network
+
+    messages:
+        container_name: rabbitmq
+        image: rabbitmq:3-management
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        hostname: "rabbitmq"
+        environment:
+            - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
+            - RABBITMQ_DEFAULT_USER=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
+        networks: 
+            - storeapi-network
+           
+networks:
+    storeapi-network:
+
+volumes:
+    sqldata:

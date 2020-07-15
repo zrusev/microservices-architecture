@@ -1,13 +1,13 @@
 ﻿namespace StoreApi.Web.Infrastructure
 {
     using AutoMapper;
+    using Data.Models;
     using MassTransit;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using Models;
     using StoreApi.Services.Contracts.Services;
     using System;
     using System.Linq;
@@ -127,12 +127,17 @@
 
                     mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
                     {
-                        rmq.Host("localhost");
-
-                        consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName, endpoint =>
+                        rmq.Host("rabbitmq", host =>
                         {
-                            endpoint.ConfigureConsumer(bus, consumer);
-                        }));
+                            host.Username("rabbitmq");
+                            host.Password("rabbitmq");
+                        });
+
+                        consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName,
+                            endpoint =>
+                            {
+                                endpoint.ConfigureConsumer(bus, consumer);
+                            }));
                     }));
                 })
                 .AddMassTransitHostedService();

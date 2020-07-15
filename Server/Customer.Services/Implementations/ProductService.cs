@@ -16,6 +16,7 @@
     public class ProductService : IProductService
     {
         private const int ProductsPerPage = 10;
+        private const string SpaceUrlSeparator = "%20";
 
         private readonly ILogger<ProductService> logger;
         private readonly IMapper mapper;
@@ -34,11 +35,11 @@
             => await this.db
                 .Products
                 .WhereIf(!string.IsNullOrWhiteSpace(category), 
-                    c => c.Category.Name.ToLower() == category.Replace('-', ' ').ToLower())
+                    c => c.Category.Name.ToLower() == category.Replace(SpaceUrlSeparator, " ").ToLower())
                 .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                    m => m.Manufacturer.Name.ToLower() == manufacturer.Replace('-', ' ').ToLower())
+                    m => m.Manufacturer.Name.ToLower() == manufacturer.Replace(SpaceUrlSeparator, " ").ToLower())
                 .WhereIf(!string.IsNullOrWhiteSpace(name),
-                    n => n.Name.ToLower().Contains(name.Replace('-', ' ').ToLower()))
+                    n => n.Name.ToLower().Contains(name.Replace(SpaceUrlSeparator, " ").ToLower()))
                 .Select(v => v.Id)
                 .CountAsync();
 
@@ -49,11 +50,11 @@
                     .Include(c => c.Category)
                     .Include(m => m.Manufacturer)
                     .WhereIf(!string.IsNullOrWhiteSpace(category), 
-                        c => c.Category.Name == category.Replace('-', ' ').ToLower())
+                        c => c.Category.Name == category.Replace(SpaceUrlSeparator, " ").ToLower())
                     .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                        m => m.Manufacturer.Name == manufacturer.Replace('-', ' ').ToLower())
+                        m => m.Manufacturer.Name == manufacturer.Replace(SpaceUrlSeparator, " ").ToLower())
                     .WhereIf(!string.IsNullOrWhiteSpace(name),
-                        n => n.Name.ToLower().Contains(name.Replace('-', ' ').ToLower()))
+                        n => n.Name.ToLower().Contains(name.Replace(SpaceUrlSeparator, " ").ToLower()))
                     .Select(p => p)
                     .Skip((page - 1) * ProductsPerPage)
                     .Take(ProductsPerPage))
@@ -61,7 +62,7 @@
 
         public async Task<QueryResult> GetDetails(int id, string name)
         {
-            var match = name.Replace('-', ' ').ToLower();
+            var match = name.Replace(SpaceUrlSeparator, " ").ToLower();
 
             var result = await this.mapper
                     .ProjectTo<ProductOutputModel>(this.db

@@ -3,7 +3,7 @@
     using Identity.Data.Models.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
-    using StoreApi.Models;
+    using StoreApi.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
@@ -14,7 +14,9 @@
 
     public class Tokens
     {
-        public static async Task<TokenModel> GenerateJwtToken(ApplicationUser user, UserManager<ApplicationUser> userManager, AppSettings appSettings)
+        public static async Task<TokenModel> GenerateJwtToken(ApplicationUser user, 
+            UserManager<ApplicationUser> userManager, 
+            AppSettings appSettings)
         {
             var claims = new List<Claim>
             {

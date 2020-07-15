@@ -19,7 +19,6 @@
             => QueryResultExtensions.ToActionResult(
                 await this.seenProductService.GetTotalVisits(id));
 
-
         [HttpPut]
         [Route(Id)]
         public async Task<IActionResult> IncrementViews(int id)

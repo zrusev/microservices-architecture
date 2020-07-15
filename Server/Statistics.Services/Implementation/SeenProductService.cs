@@ -66,6 +66,5 @@
             return QueryResult<SeenProductOutputModel>.Suceeded(
                 this.mapper.Map<SeenProductOutputModel>(product));
         }
-
     }
 }

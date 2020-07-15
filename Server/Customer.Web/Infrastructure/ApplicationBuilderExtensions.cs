@@ -5,11 +5,13 @@
     using Customer.Data.Models.SeedModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
 
+    [ObsoleteAttribute("Custom xlm seeder is replaced by a sql file migration")]
     public static class ApplicationBuilderExtensions
     {
         private const string DATAPATH = @"../Customer.Data/products.xml";

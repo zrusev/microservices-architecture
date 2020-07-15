@@ -31,7 +31,6 @@ namespace Customer.Web
             => app
                .UseWebService(env)
                .UseSerilogRequestLogging()
-               .UseInitializer(env)
-               .UseDataSeed();
+               .UseInitializer(env);
     }
 }
