@@ -67,7 +67,6 @@ namespace Admin.Web
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader())
-                .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
                 .UseJwtCookieAuthentication()

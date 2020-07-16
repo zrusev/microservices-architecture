@@ -38,7 +38,8 @@
                         new CookieOptions
                         {
                             HttpOnly = true,
-                            Secure = true,
+                            IsEssential = true,
+                            Secure = false,
                             MaxAge = TimeSpan.FromDays(1)
                         });
                 },

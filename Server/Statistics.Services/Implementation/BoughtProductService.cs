@@ -48,14 +48,18 @@
                     .ToListAsync();
 
         public async Task<QueryResult> TotalBoughtProducts()
-            => QueryResult<BoughtProductsTotalOutputModel>.Suceeded(
-                await this.db
+        { 
+            var products = await this.db
                         .BoughtProducts
-                        .GroupBy(p => p.Id)
-                        .Select(m => new BoughtProductsTotalOutputModel
-                        {
-                            Total = m.Key
-                        })
-                        .FirstOrDefaultAsync());
+                        .Select(i => i.ProductId)
+                        .Distinct()
+                        .CountAsync();
+
+            return QueryResult<BoughtProductsTotalOutputModel>.Suceeded(
+                new BoughtProductsTotalOutputModel
+                {
+                    Total = products
+                });
+        }
     }
 }
