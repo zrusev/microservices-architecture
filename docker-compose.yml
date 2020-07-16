@@ -120,6 +120,23 @@ services:
             - RABBITMQ_DEFAULT_PASS=rabbitmq
         networks: 
             - storeapi-network
+            
+    client:
+        container_name: client
+        build:
+            context: ./Client
+            dockerfile: ./Dockerfile
+        ports:
+            - "3000:3000"
+        volumes:
+            - "./Client:/client/app"
+            - "/client/app/node_modules"
+        env_file: Client/.env
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        restart: on-failure
+        networks: 
+            - storeapi-network
            
 networks:
     storeapi-network:

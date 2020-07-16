@@ -9,6 +9,7 @@ namespace Notifications.Web
     using Microsoft.Extensions.Hosting;
     using Notifications.Web.Messages;
     using Serilog;
+    using StoreApi.Data.Models;
     using StoreApi.Web.Infrastructure;
 
     using static WebConstants;
@@ -34,11 +35,14 @@ namespace Notifications.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-            
+
             app
                 .UseRouting()
                 .UseCors(options => options
-                    .WithOrigins("http://localhost:3000")
+                    .WithOrigins(
+                        this.Configuration.GetSection("ClientSettings")
+                        .Get<ClientSettings>()
+                        .Address)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials())

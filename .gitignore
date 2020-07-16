@@ -305,9 +305,6 @@ __pycache__/
 **/mailsettings.uat.json
 **/mailsettings.production.json
 
-# client environment variables
-client/.env
-
 #serilog log files
 **/Logs
 
