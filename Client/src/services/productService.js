@@ -15,15 +15,15 @@ export class ProductService {
     getProducts(page, category, manufacturer, name) {
         const url = `${this.searchProductsURL}` +
             ((page || '') && `?page=${page}`) +
-            ((category || '') && `&category=${category}`) +
-            ((manufacturer || '') && `&manufacturer=${manufacturer}`) +
-            ((name || '') && `&name=${name}`);
+            ((category || '') && `&category=${encodeURIComponent(category)}`) +
+            ((manufacturer || '') && `&manufacturer=${encodeURIComponent(manufacturer)}`) +
+            ((name || '') && `&name=${encodeURIComponent(name)}`);
 
         return get(url);
     }
 
     getProductDetails(id, name) {
-        return get(`${this.detailsProductURL}/details?id=${id}&name=${name}`);
+        return get(`${this.detailsProductURL}/details?id=${id}&name=${encodeURIComponent(name)}`);
     }
 
     createProduct(data) {

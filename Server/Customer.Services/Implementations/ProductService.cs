@@ -4,11 +4,13 @@
     using Contracts;
     using Customer.Data;
     using Customer.Data.Models;
-    using Customer.Services.Models;
+    using MassTransit;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+    using Models;
     using StoreApi.Services.Helpers;
     using StoreApi.Services.Infrastructure;
+    using StoreApi.Web.Messages;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -16,30 +18,32 @@
     public class ProductService : IProductService
     {
         private const int ProductsPerPage = 10;
-        private const string SpaceUrlSeparator = "%20";
 
         private readonly ILogger<ProductService> logger;
         private readonly IMapper mapper;
+        private readonly IBus publisher;
         private readonly CustomerDbContext db;
 
         public ProductService(ILogger<ProductService> logger,
             CustomerDbContext db,
-            IMapper mapper)
+            IMapper mapper,
+            IBus publisher)
         {
             this.logger = logger;
             this.db = db;
             this.mapper = mapper;
+            this.publisher = publisher;
         }
 
         public async Task<int> Total(string category, string manufacturer, string name)
             => await this.db
                 .Products
                 .WhereIf(!string.IsNullOrWhiteSpace(category), 
-                    c => c.Category.Name.ToLower() == category.Replace(SpaceUrlSeparator, " ").ToLower())
+                    c => c.Category.Name.ToLower() == category.ToLower())
                 .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                    m => m.Manufacturer.Name.ToLower() == manufacturer.Replace(SpaceUrlSeparator, " ").ToLower())
+                    m => m.Manufacturer.Name.ToLower() == manufacturer.ToLower())
                 .WhereIf(!string.IsNullOrWhiteSpace(name),
-                    n => n.Name.ToLower().Contains(name.Replace(SpaceUrlSeparator, " ").ToLower()))
+                    n => n.Name.ToLower().Contains(name.ToLower()))
                 .Select(v => v.Id)
                 .CountAsync();
 
@@ -50,11 +54,11 @@
                     .Include(c => c.Category)
                     .Include(m => m.Manufacturer)
                     .WhereIf(!string.IsNullOrWhiteSpace(category), 
-                        c => c.Category.Name == category.Replace(SpaceUrlSeparator, " ").ToLower())
+                        c => c.Category.Name == category.ToLower())
                     .WhereIf(!string.IsNullOrWhiteSpace(manufacturer), 
-                        m => m.Manufacturer.Name == manufacturer.Replace(SpaceUrlSeparator, " ").ToLower())
+                        m => m.Manufacturer.Name == manufacturer.ToLower())
                     .WhereIf(!string.IsNullOrWhiteSpace(name),
-                        n => n.Name.ToLower().Contains(name.Replace(SpaceUrlSeparator, " ").ToLower()))
+                        n => n.Name.ToLower().Contains(name.ToLower()))
                     .Select(p => p)
                     .Skip((page - 1) * ProductsPerPage)
                     .Take(ProductsPerPage))
@@ -62,14 +66,12 @@
 
         public async Task<QueryResult> GetDetails(int id, string name)
         {
-            var match = name.Replace(SpaceUrlSeparator, " ").ToLower();
-
             var result = await this.mapper
                     .ProjectTo<ProductOutputModel>(this.db
                         .Products
                         .Include(c => c.Category)
                         .Include(m => m.Manufacturer)
-                        .Where(p => p.Id == id && p.Name.ToLower() == match)
+                        .Where(p => p.Id == id && p.Name.ToLower() == name.ToLower())
                         .Select(p => p))
                     .FirstOrDefaultAsync();
 
@@ -77,6 +79,11 @@
             {
                 return QueryResult.Failed(Errors.Log("MissingProduct", "This product is missing"));
             }
+
+            await this.publisher.Publish(new SeenProductMessage
+            {
+                Id = result.Id
+            });
 
             return QueryResult<ProductOutputModel>.Suceeded(result);
         }

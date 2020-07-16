@@ -1,5 +1,6 @@
 ﻿namespace Statistics.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Statistics.Services.Contracts;
     using StoreApi.Web.Controllers;
@@ -14,12 +15,14 @@
             => this.seenProductService = seenProductService;
 
         [HttpGet]
+        [AllowAnonymous]
         [Route(Id)]
         public async Task<IActionResult> TotalViews(int id)
             => QueryResultExtensions.ToActionResult(
                 await this.seenProductService.GetTotalVisits(id));
 
         [HttpPut]
+        [AllowAnonymous]
         [Route(Id)]
         public async Task<IActionResult> IncrementViews(int id)
             => QueryResultExtensions.ToActionResult(

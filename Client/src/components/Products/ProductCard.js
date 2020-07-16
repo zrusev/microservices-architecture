@@ -2,9 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import parse from 'html-react-parser';
 import {
-    Button,
     Card,
-    CardActions,
     CardContent,
     CardMedia,
     Typography,
@@ -19,10 +17,10 @@ export const ProductCard = ({card, activeLink}) => {
         <Card className={classes.card}>
             {
                 activeLink ?
-                <Link component={NavLink} to={`/products/details/${card.id}/${card.name}`} color="textPrimary">
+                <Link component={NavLink} to={`/products/details/${card.id}/${encodeURIComponent(card.name)}`} color="textPrimary">
                     <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
+                        image={card.image_url}
                         title={`${card.name}-${card.id}`}
                     />
                 </Link> :
@@ -42,13 +40,6 @@ export const ProductCard = ({card, activeLink}) => {
                 </Typography>
                 </div>
             </CardContent>
-            <CardActions>
-                <Link target="_blank" component={NavLink} to={`/${card.url.replace(/(^.+?\/)/g,'')}`} color="textPrimary">
-                    <Button size="small" color="primary">
-                        Link
-                    </Button>
-                </Link>
-            </CardActions>
         </Card>
     )
 }

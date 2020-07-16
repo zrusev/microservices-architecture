@@ -39,7 +39,9 @@ export const productsActions = {
                         dispatch(success(product));
 
                         dispatch(statisticsActions.getSeenProduct(id));
-                        dispatch(statisticsActions.incrementSeenProduct(id));
+
+                        // Obsolete. Done by an internal message broker call.
+                        // dispatch(statisticsActions.incrementSeenProduct(id));
                     },
                     error => {
                         dispatch(failure(error));

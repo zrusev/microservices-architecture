@@ -34,7 +34,7 @@ export const SidePanel = ({toggleDrawer, open}) => {
                   component={NavLink}
                   to={{
                     pathname: '/products',
-                    search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
+                    search: `?page=${1}&category=${item.name.toLowerCase()}`}
                   }
                 >
                   <ListItem button>
@@ -56,7 +56,7 @@ export const SidePanel = ({toggleDrawer, open}) => {
                   component={NavLink}
                   to={{
                     pathname: '/products',
-                    search: `?page=${1}&category=${item.name.replace(/\s/g, '-').toLowerCase()}`}
+                    search: `?page=${1}&manufacturer=${item.name.toLowerCase()}`}
                   }
                 >
                   <ListItem button>

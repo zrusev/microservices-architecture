@@ -15,7 +15,7 @@ const Item = ({item}) => {
     const classes = useStyles();
     const params = {
         page: 1,
-        category: item.name.replace(/\s/g, '-'),
+        category: item.name,
     }
 
     return (

@@ -1,12 +1,13 @@
 namespace Statistics.Web
 {
+    using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Notifications.Web.Messages;
     using Serilog;
     using Statistics.Data;
-    using Statistics.Web.Infrastructure;
     using StoreApi.Web.Infrastructure;
 
     public class Startup
@@ -22,6 +23,7 @@ namespace Statistics.Web
                 .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
+                .AddMessaging(typeof(SeenProductConsumer))
                 .AddControllers();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

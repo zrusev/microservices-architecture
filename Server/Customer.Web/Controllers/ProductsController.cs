@@ -10,6 +10,7 @@
     using StoreApi.Web.Infrastructure;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Web;
 
     public class ProductsController : ApplicationController
     {
@@ -39,14 +40,14 @@
             string manufacturer, 
             string name)
         {
-            var totalProducts = await this.productService.Total(category, 
-                manufacturer, 
-                name);
+            var totalProducts = await this.productService.Total(HttpUtility.UrlDecode(category),
+                HttpUtility.UrlDecode(manufacturer),
+                HttpUtility.UrlDecode(name));
 
-            var products = await this.productService.GetListings(page, 
-                category, 
-                manufacturer,
-                name);
+            var products = await this.productService.GetListings(page,
+                HttpUtility.UrlDecode(category),
+                HttpUtility.UrlDecode(manufacturer),
+                HttpUtility.UrlDecode(name));
 
             return QueryResultExtensions.ToActionResult(
                     QueryResult<ProductSearchOutputModel>.Suceeded(
@@ -63,7 +64,8 @@
         [Route(nameof(Details))]
         public async Task<IActionResult> Details([FromQuery] int id, string name)
             => QueryResultExtensions.ToActionResult(
-                await this.productService.GetDetails(id, name));
+                await this.productService.GetDetails(id, 
+                    HttpUtility.UrlDecode(name)));
 
         [HttpGet]
         [AllowAnonymous]
@@ -71,8 +73,7 @@
         public async Task<IActionResult> ByIds([FromQuery] int[] ids)
             => QueryResultExtensions.ToActionResult(
                 QueryResult<IEnumerable<ProductOutputListModel>>.Suceeded(
-                    await this.productService.GetDetails(ids)
-                ));
+                    await this.productService.GetDetails(ids)));
 
         [HttpPost]
         [Route(nameof(Create))]

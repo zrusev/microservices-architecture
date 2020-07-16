@@ -20,11 +20,11 @@ const Item = ({itemsSet}) => {
             {
                 itemsSet.map((item, i) =>
                     <Grid item md={12 / totalItems} key={`${item.name}-${i}`}>
-                        <Link component={NavLink} to={`/products/details/${item.id}/${item.name.replace(/\s/g, '%20').toLowerCase()}`} color="textPrimary">
+                        <Link component={NavLink} to={`/products/details/${item.id}/${item.name}`} color="textPrimary">
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
-                                    image="https://source.unsplash.com/random"
+                                    image={item.image_url}
                                     title={item.name}
                                 />
                                 <div className={classes.overlay}>
