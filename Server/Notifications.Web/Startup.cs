@@ -26,7 +26,9 @@ namespace Notifications.Web
                     this.Configuration.GetSection("AppSettings"),
                     JwtConfiguration.BearerEvents) 
                 .AddMappingServices()
-                .AddMessaging(typeof(CustomerCreatedConsumer))
+                .AddMessaging(
+                    this.Configuration.GetSection("MassTransitCredentials"), 
+                    typeof(CustomerCreatedConsumer))
                 .AddSignalR();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

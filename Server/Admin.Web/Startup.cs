@@ -28,7 +28,8 @@ namespace Admin.Web
 
             services
                 .AddCors()
-                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddTokenHandler(
+                    this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddTransient<JwtCookieAuthenticationMiddleware>()
                 .AddMappingServices()

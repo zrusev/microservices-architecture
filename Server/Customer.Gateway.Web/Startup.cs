@@ -24,7 +24,8 @@ namespace Customer.Gateway.Web
 
             services
                 .AddCors()
-                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddTokenHandler(
+                    this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
                 .AddControllers();

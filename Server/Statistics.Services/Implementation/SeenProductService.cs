@@ -36,8 +36,11 @@
 
             if (product == null)
             {
-                product = new SeenProduct();
-                product.ProductId = productId;
+                product = new SeenProduct()
+                {
+                    ProductId = productId,
+                    TotalVisits = 1
+                };
             }
 
             return QueryResult<SeenProductOutputModel>.Suceeded(

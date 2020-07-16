@@ -1,7 +1,6 @@
 namespace Customer.Web
 {
     using Customer.Data;
-    using Customer.Web.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -19,11 +18,14 @@ namespace Customer.Web
         { 
             services
                 .AddCors()
-                .AddDatabase<CustomerDbContext>(this.Configuration)
-                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddDatabase<CustomerDbContext>(
+                    this.Configuration.GetConnectionString("DefaultConnection"))
+                .AddTokenHandler(
+                    this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
-                .AddMessaging()
+                .AddMessaging(
+                    this.Configuration.GetSection("MassTransitCredentials"))
                 .AddControllers();
         } 
         

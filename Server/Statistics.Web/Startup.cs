@@ -19,11 +19,15 @@ namespace Statistics.Web
         public void ConfigureServices(IServiceCollection services)
             => services
                 .AddCors()
-                .AddDatabase<StatisticsDbContext>(this.Configuration)
-                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddDatabase<StatisticsDbContext>(
+                    this.Configuration.GetConnectionString("DefaultConnection"))
+                .AddTokenHandler(
+                    this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
-                .AddMessaging(typeof(SeenProductConsumer))
+                .AddMessaging(
+                    this.Configuration.GetSection("MassTransitCredentials"),
+                    typeof(SeenProductConsumer))
                 .AddControllers();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -69,12 +69,12 @@
                                     .AddProfile(new ConventionalMappingProfile()),
                                 Array.Empty<Assembly>());
         
-        public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, string connection)
             where TDbContext : DbContext
             => services
                     .AddScoped<DbContext, TDbContext>()
                     .AddDbContext<TDbContext>(options => options
-                        .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                        .UseSqlServer(connection));
         
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
             IConfigurationSection appSettingsSection, 
@@ -118,8 +118,11 @@
         }
 
         public static IServiceCollection AddMessaging(this IServiceCollection services,
+            IConfigurationSection appSettingsSection,
             params Type[] consumers)
         {
+            var settings = appSettingsSection.Get<MassTransitSettings>();
+
             services
                 .AddMassTransit(mt =>
                 {
@@ -127,11 +130,11 @@
 
                     mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
                     {
-                        rmq.Host("rabbitmq",
+                        rmq.Host(settings.HostName,
                             host =>
                             {
-                                host.Username("rabbitmq");
-                                host.Password("rabbitmq");
+                                host.Username(settings.User);
+                                host.Password(settings.Password);
                             });
 
                         consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName,

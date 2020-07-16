@@ -19,9 +19,11 @@ namespace Identity.Web
         public void ConfigureServices(IServiceCollection services)
             => services
                 .AddCors()
-                .AddDatabase<ApplicationDbContext>(this.Configuration)
+                .AddDatabase<ApplicationDbContext>(
+                    this.Configuration.GetConnectionString("DefaultConnection"))
                 .AddUserStorage()
-                .AddTokenHandler(this.Configuration.GetSection("AppSettings"))
+                .AddTokenHandler(
+                    this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
                 .AddControllers();
