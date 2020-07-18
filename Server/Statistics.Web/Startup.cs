@@ -33,6 +33,7 @@ namespace Statistics.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
                 .UseWebService(env)
+                .UseHealthChecksConfig()
                 .UseSerilogRequestLogging()
                 .UseInitializer(env)
                 .UseDataSeed().GetAwaiter().GetResult();

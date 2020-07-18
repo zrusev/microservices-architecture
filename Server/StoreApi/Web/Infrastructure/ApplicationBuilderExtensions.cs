@@ -1,10 +1,15 @@
 ﻿namespace StoreApi.Web.Infrastructure
 {
+    using HealthChecks.UI.Client;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System;
 
     public static class ApplicationBuilderExtensions
     {
@@ -23,6 +28,26 @@
                    .UseAuthorization()
                    .UseEndpoints(endpoints => endpoints
                         .MapControllers());
+        }
+
+        public static IApplicationBuilder UseHealthChecksConfig(this IApplicationBuilder app)
+            => app
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.UseHealthExtension();
+
+                    endpoints.MapControllers();
+                });
+
+        public static IEndpointRouteBuilder UseHealthExtension(this IEndpointRouteBuilder endpoints)
+        {
+            endpoints.MapHealthChecks("/health",
+                new HealthCheckOptions
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
+            return endpoints;
         }
 
         public static IApplicationBuilder UseInitializer(this IApplicationBuilder app, IWebHostEnvironment env)

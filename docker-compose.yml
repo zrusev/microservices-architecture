@@ -120,6 +120,18 @@ services:
             - RABBITMQ_DEFAULT_PASS=rabbitmq
         networks: 
             - storeapi-network
+
+    monitoring:
+        container_name: monitoring
+        build:
+            context: ./Server
+            dockerfile: ./Monitoring.Watchdog/Dockerfile
+        ports: 
+            - "5013:80"
+        env_file: Server/StoreApi/.env
+        restart: on-failure
+        networks: 
+            - storeapi-network
             
     client:
         container_name: client

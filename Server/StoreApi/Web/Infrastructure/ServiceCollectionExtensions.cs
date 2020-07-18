@@ -125,20 +125,22 @@
             return services;
         }
 
-        //public static IServiceCollection AddHealth(
-        //    this IServiceCollection services,
-        //    IConfiguration configuration)
-        //{
-        //    var healthChecks = services.AddHealthChecks();
+        public static IServiceCollection AddHealth(this IServiceCollection services,
+            IConfigurationSection appSettingsSection,
+            string connection)
+        {
+            var settings = appSettingsSection.Get<MassTransitSettings>();
 
-        //    healthChecks
-        //        .AddSqlServer(configuration.GetDefaultConnectionString());
+            var healthChecks = services.AddHealthChecks();
 
-        //    healthChecks
-        //        .AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmq:rabbitmq@rabbitmq/");
+            healthChecks
+                .AddSqlServer(connection);
 
-        //    return services;
-        //}
+            healthChecks
+                .AddRabbitMQ(rabbitConnectionString: $"amqp://{settings.User}:{settings.Password}@{settings.HostName}/");
+
+            return services;
+        }
 
         public static IServiceCollection AddMessaging(this IServiceCollection services,
             IConfigurationSection appSettingsSection,
@@ -151,7 +153,7 @@
                 {
                     consumers.ForEach(consumer => mt.AddConsumer(consumer));
 
-                    mt.AddBus(bus => Bus.Factory.CreateUsingRabbitMq(rmq =>
+                    mt.AddBus(context => Bus.Factory.CreateUsingRabbitMq(rmq =>
                     {
                         rmq.Host(settings.HostName,
                             host =>
@@ -160,13 +162,15 @@
                                 host.Password(settings.Password);
                             });
 
+                        rmq.UseHealthCheck(context);
+
                         consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName,
                             endpoint =>
                             {
                                 endpoint.PrefetchCount = 6;
                                 endpoint.UseMessageRetry(retry => retry.Interval(5, 100));
 
-                                endpoint.ConfigureConsumer(bus, consumer);
+                                endpoint.ConfigureConsumer(context, consumer);
                             }));
                     }));
                 })

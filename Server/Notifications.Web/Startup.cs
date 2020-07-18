@@ -49,8 +49,13 @@ namespace Notifications.Web
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseSerilogRequestLogging()
-                .UseEndpoints(endpoints => endpoints
-                .MapHub<NotificationsHub>(NotificationEndpoint));
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.UseHealthExtension();
+
+                    endpoints
+                        .MapHub<NotificationsHub>(NotificationEndpoint);
+                });
         }
     }
 }

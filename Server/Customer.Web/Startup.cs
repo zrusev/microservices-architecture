@@ -28,12 +28,16 @@ namespace Customer.Web
                     this.Configuration.GetSection("MassTransitCredentials"))
                 .AddMessagingWorker(
                     this.Configuration.GetConnectionString("DefaultConnection"))
+                .AddHealth(
+                    this.Configuration.GetSection("MassTransitCredentials"),
+                    this.Configuration.GetConnectionString("DefaultConnection"))
                 .AddControllers();
         } 
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             => app
                .UseWebService(env)
+               .UseHealthChecksConfig()
                .UseSerilogRequestLogging()
                .UseInitializer(env);
     }
