@@ -2,7 +2,10 @@
 {
     using AutoMapper;
     using Data.Models;
+    using GreenPipes;
+    using Hangfire;
     using MassTransit;
+    using Messages;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -74,7 +77,12 @@
             => services
                     .AddScoped<DbContext, TDbContext>()
                     .AddDbContext<TDbContext>(options => options
-                        .UseSqlServer(connection));
+                        .UseSqlServer(connection, 
+                            options => options
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null)));
         
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
             IConfigurationSection appSettingsSection, 
@@ -117,6 +125,21 @@
             return services;
         }
 
+        //public static IServiceCollection AddHealth(
+        //    this IServiceCollection services,
+        //    IConfiguration configuration)
+        //{
+        //    var healthChecks = services.AddHealthChecks();
+
+        //    healthChecks
+        //        .AddSqlServer(configuration.GetDefaultConnectionString());
+
+        //    healthChecks
+        //        .AddRabbitMQ(rabbitConnectionString: "amqp://rabbitmq:rabbitmq@rabbitmq/");
+
+        //    return services;
+        //}
+
         public static IServiceCollection AddMessaging(this IServiceCollection services,
             IConfigurationSection appSettingsSection,
             params Type[] consumers)
@@ -140,11 +163,31 @@
                         consumers.ForEach(consumer => rmq.ReceiveEndpoint(consumer.FullName,
                             endpoint =>
                             {
+                                endpoint.PrefetchCount = 6;
+                                endpoint.UseMessageRetry(retry => retry.Interval(5, 100));
+
                                 endpoint.ConfigureConsumer(bus, consumer);
                             }));
                     }));
                 })
                 .AddMassTransitHostedService();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMessagingWorker(this IServiceCollection services,
+            string connection)
+        {
+            services
+                .AddHangfire(config => config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(connection));
+
+            services.AddHangfireServer();
+
+            services.AddHostedService<MessagesHostedService>();
 
             return services;
         }

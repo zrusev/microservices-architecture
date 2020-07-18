@@ -26,6 +26,8 @@ namespace Customer.Web
                 .AddMappingServices()
                 .AddMessaging(
                     this.Configuration.GetSection("MassTransitCredentials"))
+                .AddMessagingWorker(
+                    this.Configuration.GetConnectionString("DefaultConnection"))
                 .AddControllers();
         } 
         

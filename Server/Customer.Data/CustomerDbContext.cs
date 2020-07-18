@@ -2,11 +2,12 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using StoreApi.Data;
     using System.Reflection;
 
-    public class CustomerDbContext : DbContext
+    public class CustomerDbContext : MessageDbContext
     {
-        public CustomerDbContext(DbContextOptions options)
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> options)
             : base(options)
         {
         }
@@ -19,11 +20,6 @@
 
         public DbSet<Product> Products { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            base.OnModelCreating(builder);
-        }
+        protected override Assembly ConfigurationsAssembly => Assembly.GetExecutingAssembly();
     }
 }

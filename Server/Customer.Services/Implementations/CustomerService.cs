@@ -8,13 +8,15 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Models;
+    using StoreApi.Data.Models;
     using StoreApi.Services.Helpers;
+    using StoreApi.Services.Implementations.Data;
     using StoreApi.Web.Messages;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class CustomerService: ICustomerService
+    public class CustomerService: DataService<Customer>, ICustomerService
     {
         private readonly ILogger<CustomerService> logger;
         private readonly IMapper mapper;
@@ -25,6 +27,7 @@
             CustomerDbContext db,
             IMapper mapper,
             IBus publisher)
+                :base(db)
         {
             this.logger = logger;
             this.db = db;
@@ -55,18 +58,17 @@
                 Email = email
             };
 
-            this.db
-                .Customers
-                .Add(customer);
+            var messageData = new CustomerCreatedMessage(
+                $"Hello, {model.FirstName}, your account has been successfully created.");
 
-            await this.db.SaveChangesAsync();
+            var message = new Message(messageData);
 
-            await this.publisher.Publish(new CustomerCreatedMessage
-            {
-                Message = $"Hello, {model.FirstName}, your account has been successfully created."
-            });
+            await this.AddEntity(customer, message);
+            await this.publisher.Publish(messageData);
+            await this.MarkMessageAsPublished(message);
 
-            this.logger.LogInformation($"Customer with UserID: {userId} has been successfully created.");
+            this.logger.LogInformation(
+                $"Customer with UserID: {userId} has been successfully created.");
 
             return QueryResult<Customer>.Suceeded(customer);
         }
