@@ -1,3 +1,5 @@
+ ![license](https://img.shields.io/github/license/zrusev/microservices-architecture.svg) ![size](https://img.shields.io/github/repo-size/zrusev/microservices-architecture.svg) ![last commit](https://img.shields.io/github/last-commit/zrusev/microservices-architecture.svg)
+
 # Microservices Architecture Project: My Store
 This is an online store build for selling of any products online.
 In this project I have mainly considered users registrations and products navigation.
@@ -5,9 +7,11 @@ The Project also uses push notifications to follow some user actions.
 All isolated services have been dockerized individually and combined using Docker Compose.
 
 ### Entrypoints:
-Client served @localhost:3000
-Admin panel served @localhost:50400
-Services monitoring served @localhost:5013/healthchecks-ui
+  > Client served @localhost:3000
+  >
+  > Admin panel served @localhost:50400
+  >
+  > Services monitoring served @localhost:5013/healthchecks-ui
 
 ### The users will get a push notification during:
 - New User Registration
@@ -15,7 +19,7 @@ Services monitoring served @localhost:5013/healthchecks-ui
 - The Item was not available in the store
 - Service error appears
 
-### The Technologies Used to build the Server are:-
+### The Technologies Used to build the Server are:
 - ASP.NET Core 3.1
 - EF Core 3.1
 - Automapper
@@ -27,7 +31,7 @@ Services monitoring served @localhost:5013/healthchecks-ui
 - HealthChecks.UI
 - JwtBearer
 
-### The Technologies Used to build the Client are:-
+### The Technologies Used to build the Client are:
 - Create React App
 - Redux
 - SignalR
