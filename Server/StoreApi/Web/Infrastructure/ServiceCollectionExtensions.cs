@@ -72,17 +72,18 @@
                                     .AddProfile(new ConventionalMappingProfile()),
                                 Array.Empty<Assembly>());
         
-        public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, string connection)
-            where TDbContext : DbContext
+        public static IServiceCollection AddDatabase<TDbContext>(this IServiceCollection services, 
+            string connection)
+                where TDbContext : DbContext
             => services
                     .AddScoped<DbContext, TDbContext>()
                     .AddDbContext<TDbContext>(options => options
                         .UseSqlServer(connection, 
                             options => options
-                        .EnableRetryOnFailure(
-                            maxRetryCount: 10,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null)));
+                                .EnableRetryOnFailure(
+                                    maxRetryCount: 10,
+                                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                                    errorNumbersToAdd: null)));
         
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
             IConfigurationSection appSettingsSection, 
@@ -182,18 +183,23 @@
         public static IServiceCollection AddMessagingWorker(this IServiceCollection services,
             string connection)
         {
-            services
-                .AddHangfire(config => config
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(connection));
-
-            services.AddHangfireServer();
-
-            services.AddHostedService<MessagesHostedService>();
-
+            //Ensure database creation before adding Hangfire objects
+             var db = services.BuildServiceProvider().GetRequiredService<DbContext>();
+             
+             db.Database.Migrate();
+             
+             services
+                 .AddHangfire(config => config
+                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                     .UseSimpleAssemblyNameTypeSerializer()
+                     .UseRecommendedSerializerSettings()
+                     .UseSqlServerStorage(connection));
+             
+             services.AddHangfireServer();
+             
+             services.AddHostedService<MessagesHostedService>();
+            
             return services;
         }
     }
-}   
+}
