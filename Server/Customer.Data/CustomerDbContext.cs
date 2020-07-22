@@ -20,6 +20,8 @@
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<ProductOrder> ProductOrders { get; set; }
+
         protected override Assembly ConfigurationsAssembly => Assembly.GetExecutingAssembly();
     }
 }

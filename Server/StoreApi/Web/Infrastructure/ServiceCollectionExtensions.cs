@@ -186,7 +186,7 @@
             //Ensure database creation before adding Hangfire objects
              var db = services.BuildServiceProvider().GetRequiredService<DbContext>();
              
-             db.Database.Migrate();
+             db.Database.Migrate(); 
              
              services
                  .AddHangfire(config => config

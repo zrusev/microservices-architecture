@@ -69,6 +69,23 @@ services:
         depends_on:
             - data
             
+    order:
+        container_name: orders
+        build:
+            context: ./Server
+            dockerfile: ./Order.Web/Dockerfile
+        ports: 
+            - "5014:80"
+        env_file: Server/StoreApi/.env
+        environment:
+            - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppOrdersDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
+        restart: on-failure
+        volumes:
+            - ./.aspnet/orders/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+        networks: 
+            - storeapi-network
+        depends_on:
+            - data        
     admin:
         container_name: admin
         build:

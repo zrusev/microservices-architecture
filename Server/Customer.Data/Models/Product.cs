@@ -1,7 +1,14 @@
-﻿namespace Customer.Data.Models
+﻿using System.Collections.Generic;
+
+namespace Customer.Data.Models
 {
     public class Product
     {
+        public Product()
+        {
+            this.Orders = new List<ProductOrder>();
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -21,5 +28,7 @@
         public Manufacturer Manufacturer { get; set; }
 
         public int ManufacturerId { get; set; }
+
+        public ICollection<ProductOrder> Orders { get; set; }
     }
 }
