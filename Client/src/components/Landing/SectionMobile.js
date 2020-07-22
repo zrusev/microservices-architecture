@@ -1,10 +1,9 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import { Badge } from '@material-ui/core';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { CustomNotification } from './CustomNotification';
+import { CustomShoppingCart } from './CustomShoppingCart';
 import { CustomMenu, CustomMenuMobile, ThemeSwitch} from '../index';
 import useStyles from '../../style/Landing/sectionMobile';
 
@@ -60,11 +59,7 @@ export const SectionMobile = () => {
         <React.Fragment>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={4} color="secondary">
-                      <ShoppingCartIcon />
-                  </Badge>
-                </IconButton>
+                <CustomShoppingCart />
                 <CustomNotification />
                 <IconButton aria-label="show 1 new notifications" color="inherit">
                   <ThemeSwitch />

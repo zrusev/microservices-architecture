@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { productsActions } from '../../+store/actions';
+import { productsActions, basketActions } from '../../+store/actions';
 import { ProductCard } from '../../components/index';
 import {
     Container,
     Grid,
-    Link,
     Card,
     CardActions,
     Button,
@@ -29,6 +27,10 @@ export const Details = ({ match: { params } }) => {
         dispatch(productsActions.getProduct(idFilter, nameFilter));
     }, [dispatch, nameFilter, idFilter]);
 
+    const handleAddClick = () => {
+        dispatch(basketActions.addToBasket({name: nameFilter, id: idFilter}));
+    };
+
     if(!card && visits !== 0) {
         return <Spinner />
     }
@@ -46,11 +48,15 @@ export const Details = ({ match: { params } }) => {
                                 Seen: {visits && visits.totalVisits} times
                             </Typography>
                             <CardActions>
-                                <Link className={classes.addToBasket} component={NavLink} to="/" color="textPrimary">
-                                    <Button size="small" color="primary" variant="contained">
-                                        ADD TO BASKET
-                                    </Button>
-                                </Link>
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                    variant="contained"
+                                    className={classes.addToBasket}
+                                    onClick={handleAddClick}
+                                >
+                                    ADD TO BASKET
+                                </Button>
                             </CardActions>
                         </Card>
                     </Grid>
