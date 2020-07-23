@@ -5,7 +5,7 @@ import useStyles from '../../style/shared/snackbar';
 
 const Alert = (props) => (<MuiAlert elevation={6} variant="filled" {...props} />);
 
-export const CustomSnackbar = ({message}) => {
+export const CustomSnackbar = ({message, severity}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -25,7 +25,7 @@ export const CustomSnackbar = ({message}) => {
                 onClose={handleClose}
                 anchorOrigin={{vertical: 'top', horizontal: 'center'}}
             >
-                <Alert onClose={handleClose} severity="error">
+                <Alert onClose={handleClose} severity={severity}>
                     {message}
                 </Alert>
             </Snackbar>

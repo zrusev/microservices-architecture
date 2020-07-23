@@ -6,4 +6,5 @@ export * from './categoryService';
 export * from './manufacturerService';
 export * from './statisticService';
 export * from './basketService';
+export * from './orderService';
 export * from '../helpers/crud';

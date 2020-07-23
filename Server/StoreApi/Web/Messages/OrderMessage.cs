@@ -5,9 +5,8 @@
     public class OrderMessage
     {
         public OrderMessage()
-        {
-            this.Order = new List<ProductOrderMessage>();
-        }
+            => this.Order = new List<ProductOrderMessage>();
+        
         public ICollection<ProductOrderMessage> Order { get; set; }
     }
 }

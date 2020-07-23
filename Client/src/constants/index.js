@@ -9,3 +9,4 @@ export * from './manufacturers.constants';
 export * from './statistics.constants';
 export * from './notifications.constants';
 export * from './basket.constants';
+export * from './order.constants';

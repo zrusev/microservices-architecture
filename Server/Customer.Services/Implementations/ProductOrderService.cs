@@ -36,6 +36,7 @@
                     ItemId = product.ItemId,
                     ProductId = product.ProductId,
                     Quantity = product.Quantity,
+
                     // Product = await this.db.Products.Where(p => p.Id == product.ProductId).Select(p => p).FirstOrDefaultAsync()
                 });
             }

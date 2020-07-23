@@ -8,6 +8,7 @@ import { topProducts } from './customer.gateway.reducer';
 import { categories } from './categories.reducer';
 import { manufacturers } from './manufacturers.reducer';
 import { statistics } from './statistics.reducer';
+import { order } from './order.reducer';
 import { basket } from './basket.reducer';
 
 const rootReducer = combineReducers({
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     manufacturers,
     statistics,
     basket,
+    order,
   });
 
 export default rootReducer;

@@ -8,6 +8,7 @@
     using Models;
     using Services.Contracts;
     using StoreApi.Data.Models;
+    using StoreApi.Services.Helpers;
     using StoreApi.Services.Implementations.Data;
     using StoreApi.Web.Messages;
     using System.Collections.Generic;
@@ -32,7 +33,7 @@
             this.publisher = publisher;
         }
 
-        public async Task AddOrder(OrderInputModel model)
+        public async Task<QueryResult> AddOrder(OrderInputModel model)
         {
             Order orderModel = new Order
             {
@@ -72,7 +73,11 @@
             this.logger.LogInformation(
                 $"Order with Id: {orderModel.Id} has been successfully created.");
 
-            await Task.CompletedTask;
+            return QueryResult<OrderOutputModel>.Suceeded(
+                new OrderOutputModel
+                {
+                    Id = orderModel.Id
+                });
         }
     }
 }

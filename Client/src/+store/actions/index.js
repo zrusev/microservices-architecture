@@ -7,4 +7,5 @@ export * from './categories.actions';
 export * from './manufacturers.actions';
 export * from './statistics.actions';
 export * from './notifications.actions';
+export * from './order.actions';
 export * from './basket.actions';

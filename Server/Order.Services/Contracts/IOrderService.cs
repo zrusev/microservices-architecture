@@ -2,10 +2,11 @@
 {
     using Models;
     using StoreApi.Services.Contracts.Services;
+    using StoreApi.Services.Helpers;
     using System.Threading.Tasks;
 
     public interface IOrderService : IService
     {
-        Task AddOrder(OrderInputModel model);
+        Task<QueryResult> AddOrder(OrderInputModel model);
     }
 }

@@ -37,7 +37,7 @@ const App = () => {
           {
             alert.message &&
             <div className={`alert ${Handler(alert).type}`}>
-              <CustomSnackbar message={Handler(alert).message} />
+              <CustomSnackbar message={Handler(alert).message} severity={Handler(alert).severity} />
             </div>
           }
         </div>

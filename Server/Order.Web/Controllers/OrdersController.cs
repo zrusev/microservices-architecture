@@ -18,7 +18,8 @@
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(Create))]
-        public async Task Create([FromBody] OrderInputModel model)
-            => await this.orderService.AddOrder(model);
+        public async Task<IActionResult> Create([FromBody] OrderInputModel model)
+            => QueryResultExtensions.ToActionResult(
+                await this.orderService.AddOrder(model));
     }
 }

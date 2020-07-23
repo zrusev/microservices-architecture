@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { basketActions } from '../../+store/actions';
+import { basketActions, orderActions, alertActions } from '../../+store/actions';
 import {
     Menu,
     IconButton,
@@ -25,6 +25,7 @@ export const CustomShoppingCart = () => {
 
     const notification = useSelector(state => state.basket.total);
     const items = useSelector(state => state.basket.items);
+    const loggedIn = useSelector(state => state.authentication.loggedIn);
 
     const [notificationCount, setNotificationCount] = useState(0);
     const [products, setProducts] = useState([]);
@@ -51,7 +52,13 @@ export const CustomShoppingCart = () => {
     };
 
     const handlePlaceOrderClick = () => {
-        // dispatch(basketActions.placeOrder());
+        if(!loggedIn) {
+            dispatch(alertActions.error({ message: 'Please login before placing an order' }));
+            return;
+        }
+
+        dispatch(orderActions.create(items));
+        dispatch(basketActions.clearBasket());
     };
 
     const handleRemoveClick = (event) => {
@@ -78,8 +85,8 @@ export const CustomShoppingCart = () => {
             <List>
             {
                 products &&
-                products.map(pr =>
-                        <ListItem key={pr.id}>
+                products.map((pr, ind) =>
+                        <ListItem key={`${pr.id}-${ind}`}>
                             <ListItemAvatar>
                                 <Avatar>
                                     <AddShoppingCartIcon />
@@ -103,12 +110,11 @@ export const CustomShoppingCart = () => {
                     )
             }
             {
-                notificationCount > 0 &&
+                products.length > 0 &&
                 <>
                     <Divider />
                     <ListItem
                         button
-                        onCLick={handleClearClick}
                     >
                         <Button
                             className={classes.addToBasket}
@@ -120,7 +126,6 @@ export const CustomShoppingCart = () => {
                     </ListItem>
                     <ListItem
                         button
-                        onCLick={handleClearClick}
                     >
                         <Button
                             className={classes.addToBasket}

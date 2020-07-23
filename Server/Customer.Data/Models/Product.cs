@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Customer.Data.Models
+﻿namespace Customer.Data.Models
 {
+    using System.Collections.Generic;
+    
     public class Product
     {
         public Product()

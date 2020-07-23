@@ -1,12 +1,12 @@
 namespace Customer.Web
 {
     using Customer.Data;
+    using Messages;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
-    using Customer.Web.Messages;
     using StoreApi.Web.Infrastructure;
 
     public class Startup
