@@ -2,7 +2,7 @@
 
 # Microservices Architecture Project: My Store
 This is an online store build for selling of any products online.
-In this project I have mainly considered users registrations and products navigation.
+In this project I have mainly considered users registrations, products navigation and placing orders.
 The Project also uses push notifications to follow some user actions.
 All isolated services have been dockerized individually and combined using Docker Compose.
 
@@ -11,7 +11,7 @@ All isolated services have been dockerized individually and combined using Docke
 - Service & Data Layers
 - Separate Administration Client
 - API Gateway which aggregates data from 2 microservices: top bought products per category
-- Message broker and event-driven messages: user registation & product seen counter
+- Message broker and event-driven messages: user registation & product seen counter; new order created
 - Push notifications using SignalR on user registrations
 - Docker setup and containers for every web application
 - Docker Compose for containers orchestration
@@ -24,6 +24,7 @@ All isolated services have been dockerized individually and combined using Docke
 ### The users will get a Toast Notification during:
 - The Item was not available in the store
 - Service error appears
+- New order has been created
 
 ### Entrypoints:
 - Client served @localhost:3000
@@ -40,6 +41,7 @@ All isolated services have been dockerized individually and combined using Docke
 - RabbitMQ
 - Handfire
 - HealthChecks.UI
+- SignalR
 - JwtBearer
 
 ### The Technologies Used to build the Client are:

@@ -16,7 +16,6 @@
             => this.orderService = orderService;
         
         [HttpPost]
-        [AllowAnonymous]
         [Route(nameof(Create))]
         public async Task<IActionResult> Create([FromBody] OrderInputModel model)
             => QueryResultExtensions.ToActionResult(
