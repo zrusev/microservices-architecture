@@ -4,7 +4,7 @@ services:
 
     data:
         container_name: sqlserver
-        image: mcr.microsoft.com/mssql/server
+        image: mcr.microsoft.com/mssql/server:2019-latest
         ports: 
             - "1433:1433"
         environment:
@@ -17,6 +17,7 @@ services:
             
     identity:
         container_name: identity
+        image: zlatkorusev/microservices-architecture-identity-service
         build:
             context: ./Server
             dockerfile: ./Identity.Web/Dockerfile
@@ -27,7 +28,7 @@ services:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppIdentityDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
         restart: on-failure
         volumes:
-            - ./.aspnet/identity/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks: 
             - storeapi-network
         depends_on:
@@ -35,6 +36,7 @@ services:
             
     customer:
         container_name: customers
+        image: zlatkorusev/microservices-architecture-customers-service
         build:
             context: ./Server
             dockerfile: ./Customer.Web/Dockerfile
@@ -45,7 +47,7 @@ services:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppCustomerDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
         restart: on-failure
         volumes:
-            - ./.aspnet/customers/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks: 
             - storeapi-network
         depends_on:
@@ -53,6 +55,7 @@ services:
             
     statistics:
         container_name: statistics
+        image: zlatkorusev/microservices-architecture-statistics-service
         build:
             context: ./Server
             dockerfile: ./Statistics.Web/Dockerfile
@@ -63,7 +66,7 @@ services:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppStatisticsDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
         restart: on-failure
         volumes:
-            - ./.aspnet/statistics/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks: 
             - storeapi-network
         depends_on:
@@ -71,6 +74,7 @@ services:
             
     order:
         container_name: orders
+        image: zlatkorusev/microservices-architecture-orders-service
         build:
             context: ./Server
             dockerfile: ./Order.Web/Dockerfile
@@ -81,13 +85,14 @@ services:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppOrdersDB;User Id=sa; Password=651651c1f028!@;MultipleActiveResultSets=true
         restart: on-failure
         volumes:
-            - ./.aspnet/orders/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         networks: 
             - storeapi-network
         depends_on:
             - data        
     admin:
         container_name: admin
+        image: zlatkorusev/microservices-architecture-admin-service
         build:
             context: ./Server
             dockerfile: ./Admin.Web/Dockerfile
@@ -95,13 +100,14 @@ services:
             - "50400:80"
         env_file: Server/StoreApi/.env
         volumes:
-            - ./.aspnet/admin/DataProtection-Keys:/root/.aspnet/DataProtection-Keys
+            - data-protection:/root/.aspnet/DataProtection-Keys
         restart: on-failure
         networks: 
             - storeapi-network            
 
     customer_gateway:
         container_name: customers_gateway
+        image: zlatkorusev/microservices-architecture-customers-gateway-service
         build:
             context: ./Server
             dockerfile: ./Customer.Gateway.Web/Dockerfile
@@ -114,6 +120,7 @@ services:
 
     notification:
         container_name: notifications
+        image: zlatkorusev/microservices-architecture-notifications-service
         build:
             context: ./Server
             dockerfile: ./Notifications.Web/Dockerfile
@@ -140,6 +147,7 @@ services:
 
     monitoring:
         container_name: monitoring
+        image: zlatkorusev/microservices-architecture-monitoring-service
         build:
             context: ./Server
             dockerfile: ./Monitoring.Watchdog/Dockerfile
@@ -152,6 +160,7 @@ services:
             
     client:
         container_name: client
+        image: zlatkorusev/microservices-architecture-client
         build:
             context: ./Client
             dockerfile: ./Dockerfile
@@ -166,9 +175,12 @@ services:
         restart: on-failure
         networks: 
             - storeapi-network
+        depends_on:
+            - data
            
 networks:
     storeapi-network:
 
 volumes:
     sqldata:
+    data-protection:
