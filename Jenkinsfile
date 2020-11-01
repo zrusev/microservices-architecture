@@ -6,6 +6,12 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
+	stage('Verify Webhook') {
+      steps {
+        echo 'Testing webhook'
+      }
+    }
+	
     // stage('Run Unit Tests') {
     //   steps {
     //     powershell(script: """ 
