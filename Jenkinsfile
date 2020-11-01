@@ -6,12 +6,6 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
-	stage('Verify Webhook') {
-      steps {
-        echo 'Testing webhook'
-      }
-    }
-	
     // stage('Run Unit Tests') {
     //   steps {
     //     powershell(script: """ 
@@ -21,12 +15,12 @@ pipeline {
     //     """)
     //   }
     // }
-    // stage('Docker Build') {
-    //   steps {
-    //     powershell(script: 'docker-compose build')     
-    //     powershell(script: 'docker images -a')
-    //   }
-    // }
+    stage('Docker Build') {
+      steps {
+        sh(script: 'docker-compose build')     
+        sh(script: 'docker images -a')
+      }
+    }
     // stage('Run Test Application') {
     //   steps {
     //     powershell(script: 'docker-compose up -d')    
