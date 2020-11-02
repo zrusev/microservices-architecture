@@ -28,7 +28,7 @@ pipeline {
     }
     stage('Run Integration Tests') {
       steps {
-        sh(script: "./Tests/ContainerTests.sh")
+        sh "bash ./Tests/ContainerTests.sh"
       }
     }
     stage('Stop Test Application') {
