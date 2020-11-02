@@ -163,7 +163,7 @@ services:
         image: zlatkorusev/microservices-architecture-client
         build:
             context: ./Client
-            dockerfile: ./Dockerfile
+            dockerfile: ./Dockerfile.prod
         ports:
             - "3000:3000"
         volumes:
