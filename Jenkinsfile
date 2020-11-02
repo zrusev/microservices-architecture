@@ -8,7 +8,7 @@ pipeline {
     }
     // stage('Run Unit Tests') {
     //   steps {
-    //     powershell(script: """
+    //     sh(script: """
     //       cd Server
     //       dotnet test
     //       cd ..
@@ -23,18 +23,18 @@ pipeline {
     }
     stage('Run Test Application') {
       steps {
-        powershell(script: 'docker-compose up -d')
+        sh(script: 'docker-compose up -d')
       }
     }
     stage('Run Integration Tests') {
       steps {
-        powershell(script: './Tests/ContainerTests.sh')
+        sh(script: './Tests/ContainerTests.sh')
       }
     }
     stage('Stop Test Application') {
       steps {
-        powershell(script: 'docker-compose down')
-        // powershell(script: 'docker volumes prune -f')
+        sh(script: 'docker-compose down')
+        // sh(script: 'docker volumes prune -f')
       }
       post {
         success {
