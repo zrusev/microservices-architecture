@@ -14,14 +14,14 @@ services:
             - sqldata:/var/opt/mssql
         networks:
             - storeapi-network
-            
+
     identity:
         container_name: identity
         image: zlatkorusev/microservices-architecture-identity-service
         build:
             context: ./Server
             dockerfile: ./Identity.Web/Dockerfile
-        ports: 
+        ports:
             - "5001:80"
         env_file: Server/StoreApi/.env
         environment:
@@ -29,18 +29,18 @@ services:
         restart: on-failure
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
-        networks: 
+        networks:
             - storeapi-network
         depends_on:
             - data
-            
+
     customer:
         container_name: customers
         image: zlatkorusev/microservices-architecture-customers-service
         build:
             context: ./Server
             dockerfile: ./Customer.Web/Dockerfile
-        ports: 
+        ports:
             - "5003:80"
         env_file: Server/StoreApi/.env
         environment:
@@ -48,18 +48,18 @@ services:
         restart: on-failure
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
-        networks: 
+        networks:
             - storeapi-network
         depends_on:
             - data
-            
+
     statistics:
         container_name: statistics
         image: zlatkorusev/microservices-architecture-statistics-service
         build:
             context: ./Server
             dockerfile: ./Statistics.Web/Dockerfile
-        ports: 
+        ports:
             - "5005:80"
         env_file: Server/StoreApi/.env
         environment:
@@ -67,18 +67,18 @@ services:
         restart: on-failure
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
-        networks: 
+        networks:
             - storeapi-network
         depends_on:
             - data
-            
+
     order:
         container_name: orders
         image: zlatkorusev/microservices-architecture-orders-service
         build:
             context: ./Server
             dockerfile: ./Order.Web/Dockerfile
-        ports: 
+        ports:
             - "5014:80"
         env_file: Server/StoreApi/.env
         environment:
@@ -86,24 +86,24 @@ services:
         restart: on-failure
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
-        networks: 
+        networks:
             - storeapi-network
         depends_on:
-            - data        
+            - data
     admin:
         container_name: admin
         image: zlatkorusev/microservices-architecture-admin-service
         build:
             context: ./Server
             dockerfile: ./Admin.Web/Dockerfile
-        ports: 
+        ports:
             - "50400:80"
         env_file: Server/StoreApi/.env
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
         restart: on-failure
-        networks: 
-            - storeapi-network            
+        networks:
+            - storeapi-network
 
     customer_gateway:
         container_name: customers_gateway
@@ -111,11 +111,11 @@ services:
         build:
             context: ./Server
             dockerfile: ./Customer.Gateway.Web/Dockerfile
-        ports: 
+        ports:
             - "5007:80"
         env_file: Server/StoreApi/.env
         restart: on-failure
-        networks: 
+        networks:
             - storeapi-network
 
     notification:
@@ -124,11 +124,11 @@ services:
         build:
             context: ./Server
             dockerfile: ./Notifications.Web/Dockerfile
-        ports: 
+        ports:
             - "5011:80"
         env_file: Server/StoreApi/.env
         restart: on-failure
-        networks: 
+        networks:
             - storeapi-network
 
     messages:
@@ -142,7 +142,7 @@ services:
             - RABBITMQ_ERLANG_COOKIE=Rand0mR4bbitMqCo0k1e
             - RABBITMQ_DEFAULT_USER=rabbitmq
             - RABBITMQ_DEFAULT_PASS=rabbitmq
-        networks: 
+        networks:
             - storeapi-network
 
     monitoring:
@@ -151,19 +151,19 @@ services:
         build:
             context: ./Server
             dockerfile: ./Monitoring.Watchdog/Dockerfile
-        ports: 
+        ports:
             - "5013:80"
         env_file: Server/StoreApi/.env
         restart: on-failure
-        networks: 
+        networks:
             - storeapi-network
-            
+
     client:
         container_name: client
         image: zlatkorusev/microservices-architecture-client
         build:
             context: ./Client
-            dockerfile: ./Dockerfile.prod
+            dockerfile: ./Dockerfile
         ports:
             - "3000:3000"
         volumes:
@@ -173,11 +173,11 @@ services:
         environment:
             - CHOKIDAR_USEPOLLING=true
         restart: on-failure
-        networks: 
+        networks:
             - storeapi-network
         depends_on:
             - data
-           
+
 networks:
     storeapi-network:
 
