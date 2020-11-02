@@ -5,14 +5,14 @@ services:
     data:
         container_name: sqlserver
         image: mcr.microsoft.com/mssql/server:2019-latest
-        ports: 
+        ports:
             - "1433:1433"
         environment:
             - ACCEPT_EULA=Y
             - SA_PASSWORD=651651c1f028!@
-        volumes: 
-            - sqldata:/var/opt/mssql 
-        networks: 
+        volumes:
+            - sqldata:/var/opt/mssql
+        networks:
             - storeapi-network
             
     identity:
@@ -163,7 +163,7 @@ services:
         image: zlatkorusev/microservices-architecture-client
         build:
             context: ./Client
-            dockerfile: ./Dockerfile
+            dockerfile: ./Dockerfile.prod
         ports:
             - "3000:3000"
         volumes:
