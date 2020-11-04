@@ -6,15 +6,15 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
-    // stage('Run Unit Tests') {
-    //   steps {
-    //     sh(script: """
-    //       cd Server
-    //       dotnet test
-    //       cd ..
-    //     """)
-    //   }
-    // }
+    stage('Run Unit Tests') {
+      steps {
+        sh(script: """
+          cd Server
+          dotnet test
+          cd ..
+        """)
+      }
+    }
     stage('Docker Build') {
       steps {
         sh(script: 'docker-compose build')
@@ -43,19 +43,19 @@ pipeline {
         failure {
           echo "Build failed! You should receive an e-mail! :("
         }
-       }
-     }
-    // stage('Push Images') {
-    //   when { branch 'main' }
-    //   steps {
-    //     script {
-    //       docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
-    //         def image = docker.image("ivaylokenov/carrentalsystem-identity-service")
-    //         image.push("1.0.${env.BUILD_ID}")
-    //         image.push('latest')
-    //       }
-    //     }
-    //   }
-    // }
+      }
+    }
+    //stage('Push Images') {
+    //  when { branch 'master' }
+    //  steps {
+    //    script {
+    //      docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
+    //        def image = docker.image("zlatkorusev/microservices-architecture-identity-service")
+    //        image.push("1.0.${env.BUILD_ID}")
+    //        image.push('latest')
+    //      }
+    //    }
+    //  }
+    //}
   }
 }
