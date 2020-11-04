@@ -45,17 +45,30 @@ pipeline {
         }
       }
     }
-    //stage('Push Images') {
-    //  when { branch 'master' }
-    //  steps {
-    //    script {
-    //      docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
-    //        def image = docker.image("zlatkorusev/microservices-architecture-identity-service")
-    //        image.push("1.0.${env.BUILD_ID}")
-    //        image.push('latest')
-    //      }
-    //    }
-    //  }
-    //}
+    stage('Push Images') {
+      when { branch 'master' }
+      steps {
+        script {
+          def images = [
+            'zlatkorusev/microservices-architecture-identity-service',
+            'zlatkorusev/microservices-architecture-customers-service',
+            'zlatkorusev/microservices-architecture-statistics-service',
+            'zlatkorusev/microservices-architecture-orders-service',
+            'zlatkorusev/microservices-architecture-admin-service',
+            'zlatkorusev/microservices-architecture-customers-gateway-service',
+            'zlatkorusev/microservices-architecture-notifications-service',
+            'zlatkorusev/microservices-architecture-monitoring-service',
+            'zlatkorusev/microservices-architecture-client']
+
+          for (int i = 0; i < images.size(); ++i) {
+            docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
+              def image = docker.image(images[i])
+              image.push("1.0.${env.BUILD_ID}")
+              image.push('latest')
+            }
+          }
+        }
+      }
+    }
   }
 }
