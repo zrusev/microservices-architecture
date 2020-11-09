@@ -36,7 +36,7 @@ pipeline {
               currentBuild.result = 'UNSTABLE'
             }
           }
-        },
+        }
         stage("stage Register") {
           steps {
             try {
@@ -45,7 +45,7 @@ pipeline {
               currentBuild.result = 'UNSTABLE'
             }
           }
-        },
+        }
         stage("stage Login") {
           steps {
             try {
@@ -54,7 +54,7 @@ pipeline {
               currentBuild.result = 'UNSTABLE'
             }
           }
-        },
+        }
         stage("stage TopProducts") {
           steps {
             try {
@@ -63,7 +63,7 @@ pipeline {
               currentBuild.result = 'UNSTABLE'
             }
           }
-        },
+        }
         stage("stage Statistics") {
           steps {
             try {
