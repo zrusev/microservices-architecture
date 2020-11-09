@@ -29,12 +29,13 @@ pipeline {
     stage('Run Integration Tests') {
       steps {
         script {
+          sleep 30
           try {
             sh "bash ./Tests/Startup.sh"
-            sh "bash ./Tests/TopProducts.sh"
-            sh "bash ./Tests/Statistics.sh"
             sh "bash ./Tests/Register.sh"
             sh "bash ./Tests/Login.sh"
+            sh "bash ./Tests/TopProducts.sh"
+            sh "bash ./Tests/Statistics.sh"
           } catch (Exception e) {
             currentBuild.result = 'UNSTABLE'
           }
