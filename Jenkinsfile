@@ -28,7 +28,17 @@ pipeline {
     }
     stage('Run Integration Tests') {
       steps {
-        sh "bash ./Tests/ContainerTests.sh"
+		parallel(
+			startup: {
+				sh "bash ./Tests/Startup.sh"
+			},
+			login: {
+				sh "bash ./Tests/Login.sh"
+			},
+			topProducts: {
+				sh "bash ./Tests/TopProducts.sh"
+			}			
+		)
       }
     }
     stage('Stop Test Application') {
