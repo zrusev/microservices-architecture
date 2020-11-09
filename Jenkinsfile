@@ -30,46 +30,56 @@ pipeline {
       parallel {
         stage("stage Startup") {
           steps {
-            try {
-				      sh "bash ./Tests/Startup.sh"
-            } catch (Exception e) {
-              currentBuild.result = 'UNSTABLE'
+            script {
+              try {
+                sh "bash ./Tests/Startup.sh"
+              } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+              }
             }
           }
         }
         stage("stage Register") {
           steps {
-            try {
-				      sh "bash ./Tests/Register.sh"
-            } catch (Exception e) {
-              currentBuild.result = 'UNSTABLE'
+            script {
+              try {
+                sh "bash ./Tests/Register.sh"
+              } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+              }
             }
           }
         }
         stage("stage Login") {
           steps {
-            try {
-				      sh "bash ./Tests/Login.sh"
-            } catch (Exception e) {
-              currentBuild.result = 'UNSTABLE'
+            script {
+              try {
+                sh "bash ./Tests/Login.sh"
+              } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+              }
             }
           }
         }
         stage("stage TopProducts") {
           steps {
-            try {
-				      sh "bash ./Tests/TopProducts.sh"
-            } catch (Exception e) {
-              currentBuild.result = 'UNSTABLE'
+            script {
+              try {
+                sh "bash ./Tests/TopProducts.sh"
+              } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+              }
             }
           }
         }
         stage("stage Statistics") {
           steps {
-            try {
-              sh "bash ./Tests/Statistics.sh"
-            } catch (Exception e) {
-              currentBuild.result = 'UNSTABLE'
+            script {
+              try {
+                sh "bash ./Tests/Statistics.sh"
+              } catch (Exception e) {
+                currentBuild.result = 'UNSTABLE'
+              }
             }
           }
         }
