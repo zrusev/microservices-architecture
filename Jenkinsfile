@@ -27,7 +27,7 @@ pipeline {
       }
     }
     stage('Run Integration Tests') {
-      parallel(
+      parallel {
         stage("stage Startup") {
           steps {
             try {
@@ -73,7 +73,7 @@ pipeline {
             }
           }
         }
-      )
+      }
     }
     stage('Stop Test Application') {
       steps {
