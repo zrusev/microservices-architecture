@@ -15,7 +15,7 @@ until [ "$started" = true ] || [[ ( "$count" == 3 ) ]]; do
   fi
 done
 
-if [ "$started" = false ]; then
+if [[ "$started" ]]; then
   echo "SeenProduct Failure"
   exit 1
 fi
