@@ -31,8 +31,9 @@ pipeline {
         script {
           try {
             sh "bash ./Tests/Startup.sh"
-            sh "bash ./Tests/Login.sh"
+            sleep 10
             sh "bash ./Tests/Register.sh"
+            sh "bash ./Tests/Login.sh"
             sh "bash ./Tests/TopProducts.sh"
             sh "bash ./Tests/Statistics.sh"
           } catch (Exception e) {
