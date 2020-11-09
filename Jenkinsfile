@@ -31,13 +31,9 @@ pipeline {
         script {
           try {
             sh "bash ./Tests/Startup.sh"
-            sleep 2
             sh "bash ./Tests/Register.sh"
-            sleep 2
             sh "bash ./Tests/Login.sh"
-            sleep 2
             sh "bash ./Tests/TopProducts.sh"
-            sleep 2
             sh "bash ./Tests/Statistics.sh"
           } catch (Exception e) {
             currentBuild.result = 'UNSTABLE'
