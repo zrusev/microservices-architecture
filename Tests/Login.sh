@@ -1,5 +1,6 @@
 #!/bin/bash
 count=0
+started=false
 
 until [ "$started" = true ] || [[ ( "$count" == 3 ) ]]; do
   count=$((count+1))
@@ -15,7 +16,7 @@ until [ "$started" = true ] || [[ ( "$count" == 3 ) ]]; do
   fi
 done
 
-if [[ "$started" ]]; then
+if [ "$started" = false ]; then
   echo "Login Failure"
   exit 1
 fi

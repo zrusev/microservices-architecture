@@ -1,5 +1,6 @@
 #!/bin/bash
 count=0
+started=false
 UUID=$(cat /proc/sys/kernel/random/uuid)
 
 until [ "$started" = true ] || [[ ( "$count" == 3 ) ]]; do
@@ -16,7 +17,7 @@ until [ "$started" = true ] || [[ ( "$count" == 3 ) ]]; do
   fi
 done
 
-if [[ "$started" ]]; then
+if [ "$started" = false ]; then
   echo "Registration Failure"
   exit 1
 fi

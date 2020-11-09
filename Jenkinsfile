@@ -27,60 +27,16 @@ pipeline {
       }
     }
     stage('Run Integration Tests') {
-      parallel {
-        stage("stage Startup") {
-          steps {
-            script {
-              try {
-                sh "bash ./Tests/Startup.sh"
-              } catch (Exception e) {
-                currentBuild.result = 'UNSTABLE'
-              }
-            }
-          }
-        }
-        stage("stage Register") {
-          steps {
-            script {
-              try {
-                sh "bash ./Tests/Register.sh"
-              } catch (Exception e) {
-                currentBuild.result = 'UNSTABLE'
-              }
-            }
-          }
-        }
-        stage("stage Login") {
-          steps {
-            script {
-              try {
-                sh "bash ./Tests/Login.sh"
-              } catch (Exception e) {
-                currentBuild.result = 'UNSTABLE'
-              }
-            }
-          }
-        }
-        stage("stage TopProducts") {
-          steps {
-            script {
-              try {
-                sh "bash ./Tests/TopProducts.sh"
-              } catch (Exception e) {
-                currentBuild.result = 'UNSTABLE'
-              }
-            }
-          }
-        }
-        stage("stage Statistics") {
-          steps {
-            script {
-              try {
-                sh "bash ./Tests/Statistics.sh"
-              } catch (Exception e) {
-                currentBuild.result = 'UNSTABLE'
-              }
-            }
+      steps {
+        script {
+          try {
+            sh "bash ./Tests/Startup.sh"
+            sh "bash ./Tests/Register.sh"
+            sh "bash ./Tests/Login.sh"
+            sh "bash ./Tests/TopProducts.sh"
+            sh "bash ./Tests/Statistics.sh"
+          } catch (Exception e) {
+            currentBuild.result = 'UNSTABLE'
           }
         }
       }
