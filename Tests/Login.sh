@@ -19,4 +19,3 @@ if [ "$started" = false ]; then
   echo "Login Failure"
   exit 1
 fi
-

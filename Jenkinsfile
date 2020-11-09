@@ -35,6 +35,9 @@ pipeline {
 			login: {
 				sh "bash ./Tests/Login.sh"
 			},
+      register: {
+				sh "bash ./Tests/Register.sh"
+			},
 			topProducts: {
 				sh "bash ./Tests/TopProducts.sh"
 			}
