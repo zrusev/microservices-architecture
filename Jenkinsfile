@@ -28,20 +28,11 @@ pipeline {
     }
     stage('Run Integration Tests') {
       steps {
-		parallel(
-			startup: {
 				sh "bash ./Tests/Startup.sh"
-			},
-			login: {
 				sh "bash ./Tests/Login.sh"
-			},
-      register: {
 				sh "bash ./Tests/Register.sh"
-			},
-			topProducts: {
 				sh "bash ./Tests/TopProducts.sh"
-			}
-		)
+        sh "bash ./Tests/Statistics.sh"
       }
     }
     stage('Stop Test Application') {
