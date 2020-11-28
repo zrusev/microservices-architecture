@@ -1,3 +1,31 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: identity-service-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5001
+    targetPort: 80
+  selector:
+    web-service: identity
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,8 +42,8 @@ spec:
     spec:
       containers:
       - name: identity-service
-        image: zlatkorusev/microservices-architecture-identity-service
-        imagePullPolicy: IfNotPresent
+        image: zlatkorusev/microservices-architecture-identity-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         resources:
@@ -28,27 +56,37 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: aspnetcore-environment
-        - name: ApplicationSettings__Secret
+        - name: AppSettings__Secret
           valueFrom:
             secretKeyRef:
               name: environment-secrets
               key: security-token-secret
-        - name: ApplicationSettings__SeedInitialData
+        - name: AppSettings__Issuer
           valueFrom:
-            configMapKeyRef:
-              name: environment-settings
-              key: seed-initial-data
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-issuer
+        - name: AppSettings__Audience
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-audience
+        - name: AppSettings__Expiration
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-expiration
         - name: ConnectionStrings__DefaultConnection
           valueFrom:
             secretKeyRef:
               name: environment-secrets
               key: identity-service-connection-string
-        - name: IdentitySettings__AdminEmail
+        - name: AdminCredentials__Email
           valueFrom:
             secretKeyRef:
               name: environment-secrets
               key: admin-credentials-email
-        - name: IdentitySettings__AdminPassword
+        - name: AdminCredentials__Password
           valueFrom:
             secretKeyRef:
               name: environment-secrets
