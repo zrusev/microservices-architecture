@@ -7,4 +7,6 @@ data:
   event-bus-user: rabbitmquser
   massTransit-credentials-hostName: event-bus
   massTransit-credentials-user: rabbitmquser
-  client-settings-address: http://localhost:3000
+  client-settings-address: http://localhost
+  service-endpoints-statistics: http://statistics-service:5005
+  service-endpoints-customers: http://customer-service:5003

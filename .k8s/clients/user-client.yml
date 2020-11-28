@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-client
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    web-client: user-client
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-client
+spec:
+  selector:
+    matchLabels:
+      web-client: user-client
+  template:
+    metadata:
+      labels:
+        web-client: user-client
+        system: client
+    spec:
+      containers:
+      - name: user-client
+        image: zlatkorusev/microservices-architecture-client:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
