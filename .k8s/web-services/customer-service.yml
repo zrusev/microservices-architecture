@@ -93,13 +93,13 @@ spec:
               key: admin-credentials-password
         - name: MassTransitCredentials__HostName
           valueFrom:
-            secretKeyRef:
-              name: environment-secrets
+            configMapKeyRef:
+              name: environment-settings
               key: massTransit-credentials-hostName
         - name: MassTransitCredentials__User
           valueFrom:
-            secretKeyRef:
-              name: environment-secrets
+            configMapKeyRef:
+              name: environment-settings
               key: massTransit-credentials-user
         - name: MassTransitCredentials__Password
           valueFrom:

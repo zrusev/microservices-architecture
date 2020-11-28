@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: statistics-service-data
+  name: notifications-service-data
 spec:
   accessModes:
   - ReadWriteOnce
@@ -15,34 +15,34 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: statistics-service
+  name: notifications-service
 spec:
   type: LoadBalancer
   ports:
-  - port: 5005
+  - port: 5011
     targetPort: 80
   selector:
-    web-service: statistics
+    web-service: notifications
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: statistics-service
+  name: notifications-service
 spec:
   selector:
     matchLabels:
-      web-service: statistics
+      web-service: notifications
   template:
     metadata:
       labels:
-        web-service: statistics
+        web-service: notifications
         system: server
     spec:
       containers:
-      - name: statistics-service
-        image: zlatkorusev/microservices-architecture-statistics-service:latest
+      - name: notifications-service
+        image: zlatkorusev/microservices-architecture-notifications-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -76,21 +76,11 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: security-token-expiration
-        - name: ConnectionStrings__DefaultConnection
+        - name: ClientSettings__Address
           valueFrom:
-            secretKeyRef:
-              name: environment-secrets
-              key: statistics-service-connection-string
-        - name: AdminCredentials__Email
-          valueFrom:
-            secretKeyRef:
-              name: environment-secrets
-              key: admin-credentials-email
-        - name: AdminCredentials__Password
-          valueFrom:
-            secretKeyRef:
-              name: environment-secrets
-              key: admin-credentials-password
+            configMapKeyRef:
+              name: environment-settings
+              key: client-settings-address
         - name: MassTransitCredentials__HostName
           valueFrom:
             configMapKeyRef:
@@ -107,9 +97,9 @@ spec:
               name: environment-secrets
               key: massTransit-credentials-password
         volumeMounts:
-        - name: statistics-service-data
+        - name: notifications-service-data
           mountPath: /root/.aspnet/DataProtection-Keys
       volumes:
-      - name: statistics-service-data
+      - name: notifications-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #statistics-database-data
+          claimName: notifications-service-data
