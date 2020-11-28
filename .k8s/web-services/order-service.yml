@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: order-service-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5014
+    targetPort: 80
+  selector:
+    web-service: order
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  selector:
+    matchLabels:
+      web-service: order
+  template:
+    metadata:
+      labels:
+        web-service: order
+        system: server
+    spec:
+      containers:
+      - name: order-service
+        image: zlatkorusev/microservices-architecture-orders-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: aspnetcore-environment
+        - name: AppSettings__Secret
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-secret
+        - name: AppSettings__Issuer
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-issuer
+        - name: AppSettings__Audience
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-audience
+        - name: AppSettings__Expiration
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: security-token-expiration
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: order-service-connection-string
+        - name: AdminCredentials__Email
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: admin-credentials-email
+        - name: AdminCredentials__Password
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: admin-credentials-password
+        - name: MassTransitCredentials__HostName
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-hostName
+        - name: MassTransitCredentials__User
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-user
+        - name: MassTransitCredentials__Password
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-password
+        volumeMounts:
+        - name: order-service-data
+          mountPath: /root/.aspnet/DataProtection-Keys
+      volumes:
+      - name: order-service-data
+        persistentVolumeClaim:
+          claimName: identity-database-data #order-database-data

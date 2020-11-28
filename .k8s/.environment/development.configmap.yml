@@ -10,3 +10,9 @@ data:
   client-settings-address: http://localhost
   service-endpoints-statistics: http://statistics-service:5005
   service-endpoints-customers: http://customer-service:5003
+  service-endpoints-identity: http://identity-service:5001
+  watchdog-identity-health: http://identity-service:5001/health
+  watchdog-customers-health: http://customer-service:5003/health
+  watchdog-statistics-health: http://statistics-service:5005/health
+  watchdog-notifications-health: http://notifications-service:5011/health
+  watchdog-admin-health: http://admin-client:50400/health
