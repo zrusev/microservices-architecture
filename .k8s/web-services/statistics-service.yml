@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: identity-service-data
+  name: statistics-service-data
 spec:
   accessModes:
   - ReadWriteOnce
@@ -15,34 +15,34 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: identity-service
+  name: statistics-service
 spec:
   type: LoadBalancer
   ports:
-  - port: 5001
+  - port: 5005
     targetPort: 80
   selector:
-    web-service: identity
+    web-service: statistics
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: identity-service
+  name: statistics-service
 spec:
   selector:
     matchLabels:
-      web-service: identity
+      web-service: statistics
   template:
     metadata:
       labels:
-        web-service: identity
+        web-service: statistics
         system: server
     spec:
       containers:
-      - name: identity-service
-        image: zlatkorusev/microservices-architecture-identity-service:latest
+      - name: statistics-service
+        image: zlatkorusev/microservices-architecture-statistics-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -80,7 +80,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: environment-secrets
-              key: identity-service-connection-string
+              key: statistics-service-connection-string
         - name: AdminCredentials__Email
           valueFrom:
             secretKeyRef:
@@ -91,10 +91,25 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: admin-credentials-password
+        - name: MassTransitCredentials__HostName
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-hostName
+        - name: MassTransitCredentials__User
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-user
+        - name: MassTransitCredentials__Password
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-password
         volumeMounts:
-        - name: identity-service-data
+        - name: statistics-service-data
           mountPath: /root/.aspnet/DataProtection-Keys
       volumes:
-      - name: identity-service-data
+      - name: statistics-service-data
         persistentVolumeClaim:
-          claimName: identity-service-data
+          claimName: identity-database-data #statistics-database-data

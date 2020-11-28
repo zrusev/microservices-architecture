@@ -1,3 +1,30 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: customer-database-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-database
+spec:
+  clusterIP: None
+  ports:
+  - port: 1433
+    targetPort: 1433
+  selector:
+    database: customer
+
+---
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -25,7 +52,7 @@ spec:
         resources:
           limits:
             memory: "2Gi"
-            cpu: "250m"
+            cpu: "1000m"
         env:
         - name: ACCEPT_EULA
           value: "Y"
