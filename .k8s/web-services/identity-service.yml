@@ -91,6 +91,21 @@ spec:
             secretKeyRef:
               name: environment-secrets
               key: admin-credentials-password
+        - name: MassTransitCredentials__HostName
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-hostName
+        - name: MassTransitCredentials__User
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-user
+        - name: MassTransitCredentials__Password
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-password
         volumeMounts:
         - name: identity-service-data
           mountPath: /root/.aspnet/DataProtection-Keys
