@@ -26,11 +26,15 @@ namespace Identity.Web
                     this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
                 .AddMappingServices()
+                .AddHealth(
+                    this.Configuration.GetSection("MassTransitCredentials"),
+                    this.Configuration.GetConnectionString("DefaultConnection"))
                 .AddControllers();
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
             => app
                .UseWebService(env)
+               .UseHealthChecksConfig()
                .UseSerilogRequestLogging()
                .UseInitializer(env)
                .UseDataSeed(services, this.Configuration).GetAwaiter().GetResult();
