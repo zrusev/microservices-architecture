@@ -21,6 +21,13 @@ pipeline {
         sh(script: 'docker images -a')
       }
     }
+    stage('Docker Build For Production') {
+      when { branch 'master' }
+      steps {
+        sh(script: 'docker-compose -f docker-compose.yml -f production.yml build')
+        sh(script: 'docker images -a')
+      }
+    }
     stage('Run Test Application') {
       steps {
         sh(script: 'docker-compose up -d')

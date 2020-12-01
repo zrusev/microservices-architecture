@@ -40,6 +40,13 @@ spec:
         web-service: order
         system: server
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                web-service: order
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: order-service
         image: zlatkorusev/microservices-architecture-orders-service:latest

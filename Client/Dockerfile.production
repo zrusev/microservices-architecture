@@ -3,7 +3,7 @@ WORKDIR /client/app
 COPY package*.json ./
 RUN npm install --silent
 COPY . ./
-RUN npm run build
+RUN npm run build:production
 
 FROM nginx:latest
 COPY --from=builder /client/app/build /usr/share/nginx/html
