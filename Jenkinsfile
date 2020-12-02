@@ -64,7 +64,7 @@ pipeline {
       }
     }
     stage('Push Images') {
-      when { branch 'master' }
+      when { branch 'development' }
       steps {
         script {
           def images = [
@@ -76,7 +76,7 @@ pipeline {
             'zlatkorusev/microservices-architecture-customers-gateway-service',
             'zlatkorusev/microservices-architecture-notifications-service',
             'zlatkorusev/microservices-architecture-monitoring-service',
-            'zlatkorusev/microservices-architecture-client']
+            'zlatkorusev/microservices-architecture-client-development']
 
           for (int i = 0; i < images.size(); ++i) {
             docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
@@ -85,6 +85,19 @@ pipeline {
               image.push('latest')
             }
           }
+        }
+      }
+    }
+    stage('Deploy Development') {
+      when { branch 'development' }
+      steps {
+        withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+		       powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml')
+		       powershell(script: 'kubectl apply -f ./.k8s/databases')
+		       powershell(script: 'kubectl apply -f ./.k8s/event-bus')
+		       powershell(script: 'kubectl apply -f ./.k8s/web-services')
+           powershell(script: 'kubectl apply -f ./.k8s/clients')
+           powershell(script: 'kubectl set image deployments/user-client user-client=zlatkorusev/microservices-architecture-client-development:latest')
         }
       }
     }

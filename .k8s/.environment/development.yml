@@ -7,7 +7,7 @@ data:
   event-bus-user: rabbitmquser
   massTransit-credentials-hostName: event-bus
   massTransit-credentials-user: rabbitmquser
-  client-settings-address: http://localhost
+  client-settings-address: http://a82afe3dd9dec48a0aeab42196bbad40-1606138627.eu-south-1.elb.amazonaws.com
   service-endpoints-statistics: http://statistics-service:5005
   service-endpoints-customers: http://customer-service:5003
   service-endpoints-identity: http://identity-service:5001
