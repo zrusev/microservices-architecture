@@ -92,12 +92,12 @@ pipeline {
       when { branch 'development' }
       steps {
         withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
-		       powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml')
-		       powershell(script: 'kubectl apply -f ./.k8s/databases')
-		       powershell(script: 'kubectl apply -f ./.k8s/event-bus')
-		       powershell(script: 'kubectl apply -f ./.k8s/web-services')
-           powershell(script: 'kubectl apply -f ./.k8s/clients')
-           powershell(script: 'kubectl set image deployments/user-client user-client=zlatkorusev/microservices-architecture-client-development:latest')
+		       sh(script: 'kubectl apply -f ./.k8s/.environment/development.yml')
+		       sh(script: 'kubectl apply -f ./.k8s/databases')
+		       sh(script: 'kubectl apply -f ./.k8s/event-bus')
+		       sh(script: 'kubectl apply -f ./.k8s/web-services')
+           sh(script: 'kubectl apply -f ./.k8s/clients')
+           sh(script: 'kubectl set image deployments/user-client user-client=zlatkorusev/microservices-architecture-client-development:latest')
         }
       }
     }
