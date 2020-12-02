@@ -118,4 +118,4 @@ spec:
       volumes:
       - name: order-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #order-database-data
+          claimName: order-database-data

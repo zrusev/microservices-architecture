@@ -118,4 +118,4 @@ spec:
       volumes:
       - name: statistics-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #statistics-database-data
+          claimName: statistics-database-data

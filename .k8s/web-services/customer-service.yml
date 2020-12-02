@@ -118,4 +118,4 @@ spec:
       volumes:
       - name: customer-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #customer-database-data
+          claimName: customer-database-data
