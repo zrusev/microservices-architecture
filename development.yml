@@ -2,6 +2,19 @@ version: "3.8"
 
 services:
 
+    notification:
+        container_name: notifications
+        image: zlatkorusev/microservices-architecture-notifications-service
+        build:
+            context: ./Server
+            dockerfile: ./Notifications.Web/Dockerfile
+        ports:
+            - "5011:80"
+        env_file: Server/StoreApi/.development.env
+        restart: on-failure
+        networks:
+            - storeapi-network
+
     client:
         container_name: client
         image: zlatkorusev/microservices-architecture-client-development
