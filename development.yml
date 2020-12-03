@@ -10,17 +10,17 @@ services:
             dockerfile: ./Notifications.Web/Dockerfile
         ports:
             - "5011:80"
-        env_file: Server/StoreApi/.production.env
+        env_file: Server/StoreApi/.development.env
         restart: on-failure
         networks:
             - storeapi-network
 
     client:
         container_name: client
-        image: zlatkorusev/microservices-architecture-client
+        image: zlatkorusev/microservices-architecture-client-development
         build:
             context: ./Client
-            dockerfile: ./Dockerfile.production
+            dockerfile: ./Dockerfile.development
         ports:
             - "3000:3000"
         volumes:

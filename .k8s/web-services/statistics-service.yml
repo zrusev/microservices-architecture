@@ -5,7 +5,6 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  - ReadOnlyMany
   resources:
     requests:
       storage: 10Mi
@@ -119,4 +118,4 @@ spec:
       volumes:
       - name: statistics-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #statistics-database-data
+          claimName: statistics-database-data

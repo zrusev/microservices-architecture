@@ -5,7 +5,6 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  - ReadOnlyMany
   resources:
     requests:
       storage: 10Mi
@@ -119,4 +118,4 @@ spec:
       volumes:
       - name: customer-service-data
         persistentVolumeClaim:
-          claimName: identity-database-data #customer-database-data
+          claimName: customer-database-data

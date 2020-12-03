@@ -15,9 +15,10 @@ pipeline {
         """)
       }
     }
-    stage('Docker Build') {
+    stage('Docker Build For Development') {
+      when { branch 'development' }
       steps {
-        sh(script: 'docker-compose build')
+        sh(script: 'docker-compose -f docker-compose.yml -f development.yml build')
         sh(script: 'docker images -a')
       }
     }
@@ -59,12 +60,25 @@ pipeline {
           echo "Build successfull! You should deploy! :)"
         }
         failure {
-          echo "Build failed! You should receive an e-mail! :("
+          script {
+              emailext (
+                subject: "UNSUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>UNSUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                  <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
+                recipientProviders: [
+                  [$class: 'DevelopersRecipientProvider']
+                ],
+                replyTo: '$DEFAULT_REPLYTO',
+                to: '$DEFAULT_RECIPIENTS'
+              )
+          }
         }
       }
     }
     stage('Push Images') {
-      when { branch 'master' }
+      when {
+        expression { env.BRANCH_NAME ==~ /(master|development)/ }
+      }
       steps {
         script {
           def images = [
@@ -78,11 +92,80 @@ pipeline {
             'zlatkorusev/microservices-architecture-monitoring-service',
             'zlatkorusev/microservices-architecture-client']
 
+          if(env.BRANCH_NAME == 'development') {
+            images.pop();
+            images.push('zlatkorusev/microservices-architecture-client-development');
+          }
+
           for (int i = 0; i < images.size(); ++i) {
             docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
               def image = docker.image(images[i])
               image.push("1.0.${env.BUILD_ID}")
               image.push('latest')
+            }
+          }
+        }
+      }
+    }
+    stage('Deploy Development') {
+      when { branch 'development' }
+      steps {
+        withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+		       sh(script: 'kubectl apply -f ./.k8s/.environment/development.yml')
+		       sh(script: 'kubectl apply -f ./.k8s/databases')
+		       sh(script: 'kubectl apply -f ./.k8s/event-bus')
+		       sh(script: 'kubectl apply -f ./.k8s/web-services')
+           sh(script: 'kubectl apply -f ./.k8s/clients')
+           sh(script: 'kubectl set image deployments/user-client user-client=zlatkorusev/microservices-architecture-client-development:latest')
+        }
+      }
+    }
+    stage('Deploy Production') {
+      when { branch 'master' }
+      steps {
+        script {
+          def USER_INPUT = input(
+                    message: 'Would you like to deploy on production?',
+                    parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: ['No','Yes'].join('\n'),
+                             name: 'input',
+                             description: 'Menu - select box option']
+                    ])
+
+          if( "${USER_INPUT}" == "yes"){
+
+          contentReplace(
+              configs: [
+                  fileContentReplaceConfig(
+                      configs: [
+                          fileContentReplaceItemConfig(
+                              search: 'latest',
+                              replace: "1.0.${env.BUILD_ID}",
+                              matchCount: 0)
+                          ],
+                      fileEncoding: 'UTF-8',
+                      filePath: './.k8s/clients/*.yml')
+                  ])
+
+          contentReplace(
+              configs: [
+                  fileContentReplaceConfig(
+                      configs: [
+                          fileContentReplaceItemConfig(
+                              search: 'latest',
+                              replace: "1.0.${env.BUILD_ID}",
+                              matchCount: 0)
+                          ],
+                      fileEncoding: 'UTF-8',
+                      filePath: './.k8s/web-services/*.yml')
+                  ])
+
+            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+              sh(script: 'kubectl apply -f ./.k8s/databases')
+              sh(script: 'kubectl apply -f ./.k8s/event-bus')
+              sh(script: 'kubectl apply -f ./.k8s/web-services')
+              sh(script: 'kubectl apply -f ./.k8s/clients')
             }
           }
         }
