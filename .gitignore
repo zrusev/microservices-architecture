@@ -310,3 +310,6 @@ __pycache__/
 
 #data seeders
 /Server/Customer.Data/products.xml
+
+#.k8s production config
+.k8s/.environment/production.yml
