@@ -77,11 +77,8 @@ pipeline {
     }
     stage('Push Images') {
       when {
-        anyOf {
-          branch 'master',
-          branch 'development'
-        }
-       }
+        expression { env.BRANCH_NAME ==~ /(master|development)/ }
+      }
       steps {
         script {
           def images = [
