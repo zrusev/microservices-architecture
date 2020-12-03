@@ -15,9 +15,10 @@ pipeline {
         """)
       }
     }
-    stage('Docker Build') {
+    stage('Docker Build For Development') {
+      when { branch 'development' }
       steps {
-        sh(script: 'docker-compose build')
+        sh(script: 'docker-compose -f docker-compose.yml -f development.yml build')
         sh(script: 'docker images -a')
       }
     }
@@ -59,12 +60,28 @@ pipeline {
           echo "Build successfull! You should deploy! :)"
         }
         failure {
-          echo "Build failed! You should receive an e-mail! :("
+          script {
+              emailext (
+                subject: "UNSUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p>UNSUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                  <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
+                recipientProviders: [
+                  [$class: 'DevelopersRecipientProvider']
+                ],
+                replyTo: '$DEFAULT_REPLYTO',
+                to: '$DEFAULT_RECIPIENTS'
+              )
+          }
         }
       }
     }
     stage('Push Images') {
-      when { branch 'development' }
+      when {
+        anyOf {
+          branch 'master',
+          branch 'development'
+        }
+       }
       steps {
         script {
           def images = [
@@ -76,7 +93,12 @@ pipeline {
             'zlatkorusev/microservices-architecture-customers-gateway-service',
             'zlatkorusev/microservices-architecture-notifications-service',
             'zlatkorusev/microservices-architecture-monitoring-service',
-            'zlatkorusev/microservices-architecture-client-development']
+            'zlatkorusev/microservices-architecture-client']
+
+          if(env.BRANCH_NAME == 'development') {
+            images.pop();
+            images.push('zlatkorusev/microservices-architecture-client-development');
+          }
 
           for (int i = 0; i < images.size(); ++i) {
             docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {

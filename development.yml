@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+
+    client:
+        container_name: client
+        image: zlatkorusev/microservices-architecture-client-development
+        build:
+            context: ./Client
+            dockerfile: ./Dockerfile.development
+        ports:
+            - "3000:3000"
+        volumes:
+            - "./Client:/client/app"
+            - "/client/app/node_modules"
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        restart: on-failure
+        networks:
+            - storeapi-network
+        depends_on:
+            - data
