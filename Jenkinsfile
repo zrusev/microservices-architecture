@@ -123,6 +123,30 @@ pipeline {
     stage('Deploy Production') {
       when { branch 'master' }
       steps {
+        contentReplace(
+            configs: [
+                fileContentReplaceConfig(
+                    configs: [
+                        fileContentReplaceItemConfig(
+                            search: 'latest',
+                            replace: "1.0.${env.BUILD_ID}",
+                            matchCount: 0)
+                        ],
+                    fileEncoding: 'UTF-8',
+                    filePath: './.k8s/clients/*.yml')
+                ])
+        contentReplace(
+            configs: [
+                fileContentReplaceConfig(
+                    configs: [
+                        fileContentReplaceItemConfig(
+                            search: 'latest',
+                            replace: "1.0.${env.BUILD_ID}",
+                            matchCount: 0)
+                        ],
+                    fileEncoding: 'UTF-8',
+                    filePath: './.k8s/web-services/*.yml')
+                ])
         script {
           def USER_INPUT = input(
                     message: 'Would you like to deploy on production?',
@@ -134,33 +158,6 @@ pipeline {
                     ])
 
           if( "${USER_INPUT}" == "yes"){
-
-          contentReplace(
-              configs: [
-                  fileContentReplaceConfig(
-                      configs: [
-                          fileContentReplaceItemConfig(
-                              search: 'latest',
-                              replace: "1.0.${env.BUILD_ID}",
-                              matchCount: 0)
-                          ],
-                      fileEncoding: 'UTF-8',
-                      filePath: './.k8s/clients/*.yml')
-                  ])
-
-          contentReplace(
-              configs: [
-                  fileContentReplaceConfig(
-                      configs: [
-                          fileContentReplaceItemConfig(
-                              search: 'latest',
-                              replace: "1.0.${env.BUILD_ID}",
-                              matchCount: 0)
-                          ],
-                      fileEncoding: 'UTF-8',
-                      filePath: './.k8s/web-services/*.yml')
-                  ])
-
             withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
               sh(script: 'kubectl apply -f ./.k8s/databases')
               sh(script: 'kubectl apply -f ./.k8s/event-bus')
