@@ -34,7 +34,7 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: "128Mi"
+            memory: "250Mi"
             cpu: "250m"
         env:
         - name: HealthChecks-UI__HealthChecks__0__Name

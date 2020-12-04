@@ -47,7 +47,7 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: "128Mi"
+            memory: "250Mi"
             cpu: "250m"
         env:
         - name: ASPNETCORE_ENVIRONMENT

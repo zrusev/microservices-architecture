@@ -54,7 +54,7 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: "128Mi"
+            memory: "250Mi"
             cpu: "250m"
         env:
         - name: ASPNETCORE_ENVIRONMENT
@@ -119,3 +119,4 @@ spec:
       - name: order-service-data
         persistentVolumeClaim:
           claimName: order-database-data
+          #claimName: identity-database-data #local env pvc
