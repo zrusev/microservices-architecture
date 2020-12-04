@@ -16,7 +16,7 @@ data:
   watchdog-statistics-health: http://statistics-service:5005/health
   watchdog-notifications-health: http://notifications-service:5011/health
   watchdog-admin-health: http://admin-client:50400/health
-
+  
 ---
 
 apiVersion: v1
