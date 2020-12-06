@@ -74,4 +74,10 @@ All isolated services have been dockerized individually and combined using Docke
 - Production deploy is done only after a manual configuration in the pipeline
 - "CNAME" records attached in an external domain registrar to all load balancers external endpoints
 - Metrics server
-- Drawbacks: Default's Elastic Block Storage (EBS) PV provides only ReadWriteOnce access mode. In order to persist the ASP.NET data-protection keys to multiple replicas you have to use AWS Elastic File System (EFS), which supports ReadWriteMany mode and persists data across all availability zones, or use a different persistence mechanism as described [here](https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers?view=aspnetcore-5.0&tabs=visual-studio). In this case I was able to mount an NFS shared storage with EFS.
+- Drawbacks: Default's Elastic Block Storage (EBS) PV provides only ReadWriteOnce access mode. In order to persist the ASP.NET data-protection keys to multiple replicas you have to use AWS Elastic File System (EFS) which supports ReadWriteMany mode and persists data across all availability zones or use a different persistence mechanism as described [here](https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers?view=aspnetcore-5.0&tabs=visual-studio). In this case I was able to create an external EFS provisioner and mount an NFS shared storage which persists the same data across all nodes and zones.
+- Development Cluster:
+> http://development.client.microservices.zrusev.me/
+>
+> http://development.admin.microservices.zrusev.me:50400/
+>
+> http://development.monitoring.microservices.zrusev.me:5013/healthchecks-ui
