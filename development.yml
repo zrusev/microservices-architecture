@@ -15,6 +15,21 @@ services:
         networks:
             - storeapi-network
 
+    admin:
+        container_name: admin
+        image: zlatkorusev/microservices-architecture-admin-service
+        build:
+            context: ./Server
+            dockerfile: ./Admin.Web/Dockerfile
+        ports:
+            - "50400:80"
+        env_file: Server/StoreApi/.development.env
+        volumes:
+            - data-protection:/root/.aspnet/DataProtection-Keys
+        restart: on-failure
+        networks:
+            - storeapi-network
+
     client:
         container_name: client
         image: zlatkorusev/microservices-architecture-client-development
