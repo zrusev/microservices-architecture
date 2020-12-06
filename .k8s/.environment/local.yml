@@ -8,6 +8,7 @@ data:
   massTransit-credentials-hostName: event-bus
   massTransit-credentials-user: rabbitmquser
   client-settings-address: http://localhost
+  monitoring-settings-address: http://localhost:5013/healthchecks-ui
   service-endpoints-statistics: http://statistics-service:5005
   service-endpoints-customers: http://customer-service:5003
   service-endpoints-identity: http://identity-service:5001
@@ -16,7 +17,7 @@ data:
   watchdog-statistics-health: http://statistics-service:5005/health
   watchdog-notifications-health: http://notifications-service:5011/health
   watchdog-admin-health: http://admin-client:50400/health
-  
+
 ---
 
 apiVersion: v1
