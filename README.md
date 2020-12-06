@@ -81,3 +81,9 @@ All isolated services have been dockerized individually and combined using Docke
 > http://development.admin.microservices.zrusev.me:50400/
 >
 > http://development.monitoring.microservices.zrusev.me:5013/healthchecks-ui
+- Production Cluster:
+> http://client.microservices.zrusev.me/
+>
+> http://admin.microservices.zrusev.me:50400/
+>
+> http://monitoring.microservices.zrusev.me:5013/healthchecks-ui
