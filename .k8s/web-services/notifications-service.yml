@@ -111,4 +111,3 @@ spec:
       - name: notifications-service-data
         persistentVolumeClaim:
           claimName: notifications-service-data
-          #claimName: identity-database-data #local env pvc

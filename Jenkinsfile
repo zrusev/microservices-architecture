@@ -158,7 +158,7 @@ pipeline {
                     ])
 
           if( "${USER_INPUT}" == "Yes"){
-            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://C4DCEBD4B5FA9251AAAEDDFFBB01F043.sk1.eu-south-1.eks.amazonaws.com']) {
               sh(script: 'kubectl apply -f ./.k8s/databases')
               sh(script: 'kubectl apply -f ./.k8s/event-bus')
               sh(script: 'kubectl apply -f ./.k8s/web-services')

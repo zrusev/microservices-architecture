@@ -120,5 +120,4 @@ spec:
       volumes:
       - name: statistics-service-data
         persistentVolumeClaim:
-          claimName: statistics-database-data
-          #claimName: identity-database-data #local env pvc
+          claimName: statistics-service-data
