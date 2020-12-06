@@ -51,7 +51,7 @@ All isolated services have been dockerized individually and combined using Docke
 - Material UI
 
 ## Continuous Integration & Continuous Delivery with Jenkins
-- [Jenkins](https://www.jenkins.io/), [Docker CLI](https://docs.docker.com/engine/reference/commandline/docker/), [Docker-compose](https://docs.docker.com/compose/), [Kubectl CLI](https://kubernetes.io/docs/reference/kubectl/overview/), [GIT](https://git-scm.com/) are installed on a EC2 [t3.medium] (https://aws.amazon.com/ec2/instance-types/t3) linux instance in eu-south-1 region.
+- [Jenkins](https://www.jenkins.io/), [Docker CLI](https://docs.docker.com/engine/reference/commandline/docker/), [Docker-compose](https://docs.docker.com/compose/), [Kubectl CLI](https://kubernetes.io/docs/reference/kubectl/overview/), [GIT](https://git-scm.com/) are installed on a EC2 [t3.medium](https://aws.amazon.com/ec2/instance-types/t3) linux instance in eu-south-1 region.
 - Security group is created which exposes only 80/433 ports for http/https requests from anywhere. SSH is reserved to my personal IP address.
 - Jenkins is listening on default 8080/8443 ports. Iptables port forwarding is used on port 80->8080/433->8443 as Jenkins is running its own user.
 - Elastic IPv4 is allocated and assinged to instance. "A" record is provisioned to an external domain registrar.
