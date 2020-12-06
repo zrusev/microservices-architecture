@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: user-client
-        image: zlatkorusev/microservices-architecture-client:latest
+        image: zlatkorusev/microservices-architecture-client-development:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

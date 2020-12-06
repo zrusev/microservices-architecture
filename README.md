@@ -6,8 +6,6 @@ In this project I have mainly considered users registrations, products navigatio
 The Project also uses push notifications to follow some user actions.
 All isolated services have been dockerized individually and combined using Docker Compose.
 
----
-
 ## Architecture:
 - Bounded Contexts and Multiple Web Applications
 - Service & Data Layers
@@ -52,8 +50,6 @@ All isolated services have been dockerized individually and combined using Docke
 - SignalR
 - Material UI
 
----
-
 ## Continuous Integration & Continuous Delivery with Jenkins
 - [Jenkins](https://www.jenkins.io/), [Docker CLI](https://docs.docker.com/engine/reference/commandline/docker/), [Docker-compose](https://docs.docker.com/compose/), [Kubectl CLI](https://kubernetes.io/docs/reference/kubectl/overview/), [GIT](https://git-scm.com/) are installed on a EC2 [t3.medium] (https://aws.amazon.com/ec2/instance-types/t3) linux instance in eu-south-1 region.
 - Security group is created which exposes only 80/433 ports for http/https requests from anywhere. SSH is reserved to my personal IP address.
@@ -63,14 +59,12 @@ All isolated services have been dockerized individually and combined using Docke
 - GitHub webhooks deliver tasks to a multi-branch pipeline.
 - E-mail notifications on job completion/failure.
 - Pipeline tasks - running unit tests, integration tests, docker builds, docker hub images push, deployment to kubernetes
-- Demo - you can take a look on Jenkins configuration here:
+- Demo - you can take a look at Jenkins configuration here:
 > address: [http://jenkins.microservices.zrusev.me/](http://jenkins.microservices.zrusev.me/)
 >
 > username: **ivaylokenov**
 >
 > password: **same as Code It Up videos password**
-
----
 
 ## Clusterization with Kubernetes
 - Cloud-ready Kubernetes is using AWS EKS

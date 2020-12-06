@@ -90,6 +90,26 @@ spec:
             configMapKeyRef:
               name: environment-settings
               key:  service-endpoints-identity
+        - name: Monitoring_Address
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key:  monitoring-settings-address
+        - name: MassTransitCredentials__HostName
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-hostName
+        - name: MassTransitCredentials__User
+          valueFrom:
+            configMapKeyRef:
+              name: environment-settings
+              key: massTransit-credentials-user
+        - name: MassTransitCredentials__Password
+          valueFrom:
+            secretKeyRef:
+              name: environment-secrets
+              key: massTransit-credentials-password
         volumeMounts:
         - name: admin-client-data
           mountPath: /root/.aspnet/DataProtection-Keys

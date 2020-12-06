@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    string monitoring = Configuration["Monitoring_Address"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,7 +20,7 @@
                 @if (this.User.IsAdministrator())
                 {
                     <a class="navbar-brand" asp-area="" asp-controller="Statistics" asp-action="Index">My Store Administration</a>
-                    <a class="float-left" href="http://localhost:5013/healthchecks-ui#/healthchecks" >Monitoring</a>
+                    <a class="float-left" href="@($"{monitoring}/healthchecks-ui#/healthchecks")">Monitoring</a>
                     <a class="float-left" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
                     <a class="float-right" asp-area="" asp-controller="Identity" asp-action="Logout">Logout</a>
                 }
