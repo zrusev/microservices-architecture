@@ -110,7 +110,7 @@ pipeline {
     stage('Deploy Development') {
       when { branch 'development' }
       steps {
-        withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+        withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://0B31E5854BC45F8F19DCAA146E072E31.gr7.eu-south-1.eks.amazonaws.com']) {
 		       sh(script: 'kubectl apply -f ./.k8s/.environment/development.yml')
 		       sh(script: 'kubectl apply -f ./.k8s/databases')
 		       sh(script: 'kubectl apply -f ./.k8s/event-bus')
@@ -158,7 +158,7 @@ pipeline {
                     ])
 
           if( "${USER_INPUT}" == "Yes"){
-            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://EDC1391CAE9537B6F3D2163A7BAA4767.yl4.eu-south-1.eks.amazonaws.com']) {
+            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://C4DCEBD4B5FA9251AAAEDDFFBB01F043.sk1.eu-south-1.eks.amazonaws.com']) {
               sh(script: 'kubectl apply -f ./.k8s/databases')
               sh(script: 'kubectl apply -f ./.k8s/event-bus')
               sh(script: 'kubectl apply -f ./.k8s/web-services')

@@ -47,6 +47,11 @@ namespace Admin.Web
             services
                 .AddRefitClient<IStatisticsService>()
                 .WithConfiguration(serviceEndpoints.Statistics);
+
+            services
+                .AddHealth(
+                    this.Configuration.GetSection("MassTransitCredentials"),
+                    this.Configuration.GetConnectionString("DefaultConnection"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,8 +77,12 @@ namespace Admin.Web
                 .UseRouting()
                 .UseJwtCookieAuthentication()
                 .UseAuthorization()
-                .UseEndpoints(endpoints => endpoints
-                    .MapDefaultControllerRoute());
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints
+                        .UseHealthExtension()
+                        .MapDefaultControllerRoute();
+                });
         }
     }
 }
