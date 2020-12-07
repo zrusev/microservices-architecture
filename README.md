@@ -87,3 +87,6 @@ All isolated services have been dockerized individually and combined using Docke
 > http://admin.microservices.zrusev.me:50400/
 >
 > http://monitoring.microservices.zrusev.me:5013/healthchecks-ui
+
+#### Final Notes
+- Both clusters of this demo app have been shut down due to resource heavy and costy clusterization on AWS which for the past three days took around $50. Jenkins instance is alive for flow reference.
