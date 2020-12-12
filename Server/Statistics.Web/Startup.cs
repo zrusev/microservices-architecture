@@ -28,6 +28,7 @@ namespace Statistics.Web
                 .AddMessaging(
                     this.Configuration.GetSection("MassTransitCredentials"),
                     typeof(SeenProductConsumer))
+                .AddMemoryDatabase(this.Configuration.GetConnectionString("RedisConnection"));
                 .AddControllers();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

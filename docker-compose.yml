@@ -2,6 +2,19 @@ version: "3.8"
 
 services:
 
+    redis:
+        container_name: redis
+        image: redis:alpine
+        command: redis-server
+            --requirepass 651651c1F028!@
+            --appendonly yes
+        ports:
+            - "6379:6379"
+        volumes:
+            - redisdata:/code
+        networks:
+            - storeapi-network
+
     data:
         container_name: sqlserver
         image: mcr.microsoft.com/mssql/server:2019-latest
@@ -64,6 +77,7 @@ services:
         env_file: Server/StoreApi/.env
         environment:
             - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=StoreAppStatisticsDB;User Id=sa; Password=651651c1F028!@;MultipleActiveResultSets=true
+            - ConnectionStrings__RedisConnection=redis:6379,password=651651c1F028!@
         restart: on-failure
         volumes:
             - data-protection:/root/.aspnet/DataProtection-Keys
@@ -181,5 +195,6 @@ networks:
     storeapi-network:
 
 volumes:
+    redisdata:
     sqldata:
     data-protection:
