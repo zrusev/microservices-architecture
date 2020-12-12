@@ -1,9 +1,10 @@
 ﻿namespace StoreApi.Services.Contracts.Data
 {
+    using Services;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IMemoryDatabase
+    public interface IMemoryDatabase : ISingletonService
     {
         Task<long> Increment(string key);
 

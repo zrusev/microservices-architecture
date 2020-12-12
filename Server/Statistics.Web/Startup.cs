@@ -21,6 +21,8 @@ namespace Statistics.Web
                 .AddCors()
                 .AddDatabase<StatisticsDbContext>(
                     this.Configuration.GetConnectionString("DefaultConnection"))
+                .AddMemoryDatabase(
+                    this.Configuration.GetConnectionString("RedisConnection"))
                 .AddTokenHandler(
                     this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()
@@ -28,7 +30,6 @@ namespace Statistics.Web
                 .AddMessaging(
                     this.Configuration.GetSection("MassTransitCredentials"),
                     typeof(SeenProductConsumer))
-                .AddMemoryDatabase(this.Configuration.GetConnectionString("RedisConnection"));
                 .AddControllers();
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

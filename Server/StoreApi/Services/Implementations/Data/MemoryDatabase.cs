@@ -19,7 +19,9 @@
 
         public Task<long> Increment(string key)
         {
-            throw new System.NotImplementedException();
+            var database = this.connection.GetDatabase();
+
+            return database.StringIncrementAsync(key);
         }
 
         public Task<double> IncrementSortedSet(string sortedSetKey, int value)
