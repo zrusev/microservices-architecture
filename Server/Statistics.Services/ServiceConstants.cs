@@ -4,7 +4,7 @@
     {
         public class MemoryDatabaseKeys
         {
-            public const string StatisticsTotalVisitsKey = "statistics:totalvisits";
+            public const string StatisticsProductVisitsKey = "statistics:productvisits";
         }
     }
 }

@@ -93,7 +93,8 @@
             string connection)
             => services
                 .AddSingleton<IConnectionMultiplexer>(
-                    ConnectionMultiplexer.Connect(connection));
+                    ConnectionMultiplexer.Connect(connection))
+                .AddTransient<IMemoryDatabase, MemoryDatabase>();
 
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
             IConfigurationSection appSettingsSection, 
