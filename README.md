@@ -61,10 +61,6 @@ All isolated services have been dockerized individually and combined using Docke
 - Pipeline tasks - running unit tests, integration tests, docker builds, docker hub images push, deployment to kubernetes
 - Demo - you can take a look at Jenkins configuration here:
 > address: [http://jenkins.microservices.zrusev.me/](http://jenkins.microservices.zrusev.me/)
->
-> username: **ivaylokenov**
->
-> password: **same as Code It Up videos password**
 
 ## Clusterization with Kubernetes
 - Cloud-ready Kubernetes is using AWS EKS
@@ -89,4 +85,4 @@ All isolated services have been dockerized individually and combined using Docke
 > http://monitoring.microservices.zrusev.me:5013/healthchecks-ui
 
 #### Final Notes
-- Both clusters of this demo app have been shut down due to resource heavy and costly clusterization on AWS which for the past three days billed around $50. Jenkins instance is alive for flow reference.
+- Both clusters of this demo app have been shut down due to resource heavy and costly clusterization on AWS.
