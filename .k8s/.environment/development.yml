@@ -26,6 +26,7 @@ metadata:
   name: environment-secrets
 data:
   aspnetcore-environment: RGV2ZWxvcG1lbnQ=
+  redis-database-sa-password: NjUxNjUxYzFGMDI4IUA=
   identity-database-sa-password: NjUxNjUxYzFGMDI4IUA=
   customer-database-sa-password: NjUxNjUxYzFGMDI4IUA=
   statistics-database-sa-password: NjUxNjUxYzFGMDI4IUA=
@@ -38,7 +39,8 @@ data:
   admin-credentials-password: YWRtaW4xMw==
   identity-service-connection-string: U2VydmVyPWlkZW50aXR5LWRhdGFiYXNlO0RhdGFiYXNlPVN0b3JlQXBwSWRlbnRpdHlEQjtVc2VyIElkPXNhO1Bhc3N3b3JkPTY1MTY1MWMxRjAyOCFAO011bHRpcGxlQWN0aXZlUmVzdWx0U2V0cz10cnVl
   customer-service-connection-string: U2VydmVyPWN1c3RvbWVyLWRhdGFiYXNlO0RhdGFiYXNlPVN0b3JlQXBwQ3VzdG9tZXJEQjtVc2VyIElkPXNhOyBQYXNzd29yZD02NTE2NTFjMUYwMjghQDtNdWx0aXBsZUFjdGl2ZVJlc3VsdFNldHM9dHJ1ZQ==
-  statistics-service-connection-string: U2VydmVyPXN0YXRpc3RpY3MtZGF0YWJhc2U7RGF0YWJhc2U9U3RvcmVBcHBTdGF0aXN0aWNzREI7VXNlciBJZD1zYTsgUGFzc3dvcmQ9NjUxNjUxYzFGMDI4IUA7TXVsdGlwbGVBY3RpdmVSZXN1bHRTZXRzPXRydWU=
+  # statistics-service-connection-string: U2VydmVyPXN0YXRpc3RpY3MtZGF0YWJhc2U7RGF0YWJhc2U9U3RvcmVBcHBTdGF0aXN0aWNzREI7VXNlciBJZD1zYTsgUGFzc3dvcmQ9NjUxNjUxYzFGMDI4IUA7TXVsdGlwbGVBY3RpdmVSZXN1bHRTZXRzPXRydWU=
+  statistics-service-connection-string: cmVkaXM6NjM3OSxwYXNzd29yZD02NTE2NTFjMUYwMjghQA==
   order-service-connection-string: U2VydmVyPW9yZGVyLWRhdGFiYXNlO0RhdGFiYXNlPVN0b3JlQXBwT3JkZXJzREI7VXNlciBJZD1zYTsgUGFzc3dvcmQ9NjUxNjUxYzFGMDI4IUA7TXVsdGlwbGVBY3RpdmVSZXN1bHRTZXRzPXRydWU=
   event-bus-erlang-cookie: UmFuZDBtUjRiYml0TXFDbzBrMWU=
   event-bus-password: cmFiYml0bXFQYXNzd29yZDEyIQ==

@@ -21,6 +21,8 @@ namespace Statistics.Web
                 .AddCors()
                 .AddDatabase<StatisticsDbContext>(
                     this.Configuration.GetConnectionString("DefaultConnection"))
+                .AddMemoryDatabase(
+                    this.Configuration.GetConnectionString("RedisConnection"))
                 .AddTokenHandler(
                     this.Configuration.GetSection("AppSettings"))
                 .AddConventionalServices()

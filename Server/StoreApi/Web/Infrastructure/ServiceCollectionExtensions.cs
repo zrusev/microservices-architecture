@@ -11,7 +11,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using StackExchange.Redis;
+    using StoreApi.Services.Contracts.Data;
     using StoreApi.Services.Contracts.Services;
+    using StoreApi.Services.Implementations.Data;
     using System;
     using System.Linq;
     using System.Reflection;
@@ -84,7 +87,15 @@
                                     maxRetryCount: 10,
                                     maxRetryDelay: TimeSpan.FromSeconds(30),
                                     errorNumbersToAdd: null)));
-        
+
+        public static IServiceCollection AddMemoryDatabase(
+            this IServiceCollection services,
+            string connection)
+            => services
+                .AddSingleton<IConnectionMultiplexer>(
+                    ConnectionMultiplexer.Connect(connection))
+                .AddTransient<IMemoryDatabase, MemoryDatabase>();
+
         public static IServiceCollection AddTokenHandler(this IServiceCollection services, 
             IConfigurationSection appSettingsSection, 
             JwtBearerEvents events = null)
