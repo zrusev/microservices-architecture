@@ -60,7 +60,7 @@ All isolated services have been dockerized individually and combined using Docke
 - E-mail notifications on job completion/failure.
 - Pipeline tasks - running unit tests, integration tests, docker builds, docker hub images push, deployment to kubernetes
 - Demo - you can take a look at Jenkins configuration here:
-> address: [http://jenkins.microservices.zrusev.me/](http://jenkins.microservices.zrusev.me/)
+> [http://jenkins.microservices.zrusev.me/](http://jenkins.microservices.zrusev.me/)
 
 ## Clusterization with Kubernetes
 - Cloud-ready Kubernetes is using AWS EKS
